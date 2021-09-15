@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Southern Ryes</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <div id='app'>
+      <div class='app-header'>
+        <h1>Stat Trax</h1>
+        <p>To enter a scorecard, please choose your team.</p>
+        <select name='active-team' id='active-team-select' v-model='activeTeam'>
+          <option value=''>--Select a team--</option>
+          <option v-for='team in teams' :value='team'> {{ team.nickname }} </option>
+        </select>
+      </div>
+      
+      <div class='scorecard' v-if='visibility.scorecardSeen'>
+        <h2 class='scorecard'>{{activeTeam.nickname}} Scorecard Entry</h2>
+        <div class='scorecard-header'>
+          <label>Date:</label>
+          <input 
+          type="date"
+          v-on:change='createGameID'>
+          <label>Opponent:</label>
+          <select name='opponents' id='opponent-select'>
+            <option value=''>--Team--</option>
+            <option v-for='opponent in activeTeam.opponents' :value='opponent'>{{ opponent }}</option>
+          </select>
+          <label>Game Time:</label>
+          <select 
+          name='gametime' 
+          id='gametime-select'
+          v-on:change='updateGameID'>
+            <option value=''>--Select--</option>
+            <option v-for='gametime in scorecardEntry.gametimes' :value='gametime'>{{ gametime }}</option>
+          </select>
+          <label>Weather:</label>
+          <select name='weather' id='weather-select'>
+            <option value=''>--Select--</option>
+            <option v-for='weather in scorecardEntry.weathers' :value='weather'>{{ weather }}</option>
+          </select>
+        </div>
+
+        <div class='scorecard-columns'>
+          <div class='player-selects-head'>
+            <h4>#</h4>
+            <h4>Player</h4>
+            <h4>Pos</h4>
+          </div>
+          <button v-on:click='toggleInningRangeDown'> <<< </button>
+          <h4 
+          v-for='index in 10' 
+          v-if='checkInningRange(index)' 
+          id='inning-columns'> {{ index }} </h4>
+          <button v-on:click='toggleInningRangeUp'> >>> </button>
+        </div>
+
+        <div class='scorecard-row' v-for='row_index in 10'>
+          <div class='player-selects'>
+            <label>{{row_index}}.</label>
+            <select 
+            name='player' 
+            v-model='currentGameData.player[row_index-1].player'>
+              <option value=''>--Player--</option>
+              <option v-for='player in activeTeam.players' :value='player'>{{ player }}</option>
+            </select>
+            <select name='position' v-model='currentGameData.player[row_index-1].position'>
+              <option value=''>-Pos-</option>
+              <option v-for='position in scorecardEntry.positions' :value='position'>{{ position }}</option>
+            </select>
+          </div>
+          
+
+          <div class='diamond' v-for='inning_index in 10' v-if='checkInningRange(inning_index)'> 
+            <div class='rbi'>
+              <select 
+              name='RBI' 
+              id='RBI-select'
+              v-model='currentGameData.player[row_index-1].atbats[inning_index-1].rbi'>
+                <option :value='0'>-</option>
+                <option v-for='index in 4' :value='index'>{{ index }}</option>
+              </select>
+              <label>RBI</label>
+            </div>
+
+            <div class='sb'>
+              <select 
+              name='SB' 
+              id='SB-select'
+              v-model='currentGameData.player[row_index-1].atbats[inning_index-1].sb'>
+                <option value='0'>-</option>
+                <option v-for='index in 3' :value='index'>{{ index }}</option>
+              </select>
+              <label>SB</label>
+            </div>
+
+            <div class='result'>
+              <select 
+              name='result' 
+              id='result-select'
+              v-model='currentGameData.player[row_index-1].atbats[inning_index-1].result'>
+                <option value=''>-Result-</option>
+                <option v-for='result in scorecardEntry.results' :value='result'>{{ result }}</option>
+              </select>
+            </div>
+
+            <div class='out-count'>
+              <select 
+              name='out-count' 
+              id='out-count-select'
+              v-model='currentGameData.player[row_index-1].atbats[inning_index-1].out'>
+                <option value=''>-</option>
+                <option v-for='index in 3' :value='index'>{{ index }}</option>
+              </select>
+              <label>Out</label>
+            </div>
+            <button 
+              class='base-button' 
+              id='first-base' 
+              :style='checkButtonStyle(0, row_index, inning_index)'
+              v-on:click='updateRunner(1, row_index, inning_index)'>
+            </button>
+            <button 
+              class='base-button' 
+              id='second-base'
+              :style='checkButtonStyle(1, row_index, inning_index)'
+              v-on:click='updateRunner(2, row_index, inning_index)'>
+            </button>
+            <button 
+              class='base-button' 
+              id='third-base'
+              :style='checkButtonStyle(2, row_index, inning_index)'
+              v-on:click='updateRunner(3, row_index, inning_index)'>
+            </button>
+            <button 
+              class='home-plate-button' 
+              id='home-plate'
+              :style='checkButtonStyle(3, row_index, inning_index)'
+              v-on:click='updateRunner(4, row_index, inning_index)'>
+            </button>
+            
+          </div>
+          <div class='tally'>
+            <div class='tally-child'>
+              <h5>AB</h5>
+              <p>{{ currentGameData.player[row_index-1].ABs }}</p>
+            </div>
+            <div class='tally-child'>
+              <h5>H</h5>
+              <p>{{ currentGameData.player[row_index-1].hits }}</p>
+            </div>
+            <div class = 'tally-child'>
+              <h5>R</h5>
+              <p>{{ currentGameData.player[row_index-1].runs }}</p>
+            </div>
+            <div class = 'tally-child'>
+              <h5>RBI</h5>
+              <p>{{ currentGameData.player[row_index-1].rbi }}</p>
+            </div>
+            
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="index.js"></script>
+  </body>
+</html>

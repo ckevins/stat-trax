@@ -1,0 +1,109 @@
+body {
+    width: 90%;
+    margin: auto
+}
+
+h1, h2, .app-header {
+    text-align: center;
+    color: navy;
+}
+
+.scorecard-header, .scorecard-columns, .scorecard-row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.scorecard-header {
+    padding: 40px;
+    margin: 5px 20% 20px 20%;
+    border: 2px solid navy;
+    background-color: rgb(0, 210, 238);
+}
+
+.scorecard-columns {
+    padding-right: 7.5%;
+}
+
+.player-selects, .player-selects-head {
+    width: 15%;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.diamond {
+    position: relative;
+    border: 1px solid navy;
+    width: 200px;
+    height: 150px;
+    background-image: url('/Users/codyevins/Documents/Code/personal-projects/baseball-scorecard/diamond.jpg');
+    background-repeat: no-repeat;
+    background-size: 150px 150px;
+    background-position: center;
+}
+
+.rbi {
+    padding: 5px;
+}
+
+.sb {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 5px;
+}
+
+.result {
+    position: absolute;
+    top: 30%;
+    left: 30%;
+}
+
+.out-count {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    padding: 5px;
+}
+
+.base-button {
+    height: 15px;
+    width: 15px;
+    transform: rotate(45deg)
+}
+
+#first-base {
+    position: absolute;
+    top: 45%;
+    right: 19%;
+}
+
+#second-base {
+    position: absolute;
+    top: 9.5%;
+    left: 46%;
+}
+
+#third-base {
+    position: absolute;
+    top: 45%;
+    left: 19%;
+}
+
+.home-plate-button {
+    height: 15px;
+    width: 15px;
+    position: absolute;
+    bottom: 9.5%;
+    left: 46%;
+}
+
+.tally {
+    display: flex;
+    justify-content: space-evenly;
+    width: 10%;
+}
+
+.tally-child {
+    border: 1px solid navy;
+    padding: 5px;
+}
