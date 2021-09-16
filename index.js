@@ -119,14 +119,21 @@ var app = new Vue({
                 opponents: ['Red Wings', 'Giants', 'Southern Ryes']
             }
         ],
-        activeTeam: 'Southern Ryes',
+        activeTeam: '',
         visibility: {
+            help: false,
             scorecardSeen: true,
             inningRange: 0
         },
         scorecardEntry: {
-            weathers: ['Sunny', 'Overcast', 'Rain'],
-            gametimes: ['1:00pm', '4:00pm', '7:00pm'],
+            weathers: [
+                'Sunny', 
+                'Overcast', 
+                'Rain'],
+            gametimes: [
+                '1:00pm', 
+                '4:00pm', 
+                '7:00pm'],
             positions: [
                 'P', 
                 'C', 
@@ -170,33 +177,43 @@ var app = new Vue({
         },
         currentGameData: {
             gameID: null,
+            opponent: '',
+            weather: '',
+            startersCount: 9,
             player: [
-                new playerGameData(),
-                new playerGameData(),
-                new playerGameData(),
-                new playerGameData(),
-                new playerGameData(),
-                new playerGameData(),
-                new playerGameData(),
-                new playerGameData(),
-                new playerGameData(),
-                new playerGameData()
+                new playerGameData('',''),
+                new playerGameData('',''),
+                new playerGameData('',''),
+                new playerGameData('',''),
+                new playerGameData('',''),
+                new playerGameData('',''),
+                new playerGameData('',''),
+                new playerGameData('',''),
+                new playerGameData('',''),
+                new playerGameData('','')
             ],
             sub: [
-                new playerGameData(),
-                new playerGameData(),
-                new playerGameData(),
-                new playerGameData(),
-                new playerGameData(),
-                new playerGameData(),
-                new playerGameData(),
-                new playerGameData(),
-                new playerGameData(),
-                new playerGameData()
+                new playerGameData('Sub',''),
+                new playerGameData('Sub',''),
+                new playerGameData('Sub',''),
+                new playerGameData('Sub',''),
+                new playerGameData('Sub',''),
+                new playerGameData('Sub',''),
+                new playerGameData('Sub',''),
+                new playerGameData('Sub',''),
+                new playerGameData('Sub',''),
+                new playerGameData('Sub','')
             ]
         }
     },
     methods: {
+        toggleHelp: function () {
+            if (this.visibility.help === false) {
+                this.visibility.help = true;
+            } else {
+                this.visibility.help = false;
+            }
+        },
         createGameID: function (event) {
             this.currentGameData.gameID = `${this.activeTeam.nickname.toLowerCase().replace(' ', '')}${event.target.value.replace(/-/gi,'')}`;
             console.log(this.currentGameData.gameID);
@@ -245,6 +262,25 @@ var app = new Vue({
                 this.currentGameData.player[row-1].atbats[inning-1].runner = base;
             }
             
+        },
+        resultUpdateRunner: function (event, row, inning) {
+            console.log(event.target.value);
+            if(event.target.value === '1B' ||
+            event.target.value === 'BB' ||
+            event.target.value === 'HBP') {
+                this.currentGameData.player[row-1].atbats[inning-1].runner = 1
+            } else if (event.target.value === '2B') {
+                this.currentGameData.player[row-1].atbats[inning-1].runner = 2
+            } else if (event.target.value === '3B') {
+                this.currentGameData.player[row-1].atbats[inning-1].runner = 3
+            } else if (event.target.value === 'HR') {
+                this.currentGameData.player[row-1].atbats[inning-1].runner = 4
+            }
+        }
+    },
+    computed: {
+        starters: function () {
+            return new Array(this.currentGameData.startersCount)
         }
     }
 })

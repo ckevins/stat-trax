@@ -10,11 +10,35 @@
   <body>
     <div id='app'>
       <div class='app-header'>
+        <button v-on:click='toggleHelp' id='help-button'>Help</button>
+        <div v-if='visibility.help' class='help'>
+          <h2 style='color:white'>Help:</h2>
+          <h3>Getting Started:</h3>
+          <ul>
+            <li>To begin, select the team that you are entering a scorecard for at the top of the page.</li>
+            <li>Next, select how many players will be starting (or how many will be hitting in your batting order).</li>
+            <li>Then, select this game's date, time, opponent, and weather conditions.</li>
+          </ul>
+        </div>
         <h1>Stat Trax</h1>
         <p>To enter a scorecard, please choose your team.</p>
+        <label>Team:</label>
         <select name='active-team' id='active-team-select' v-model='activeTeam'>
           <option value=''>--Select a team--</option>
           <option v-for='team in teams' :value='team'> {{ team.nickname }} </option>
+        </select>
+        <br>
+        <label># of starters:</label>
+        <select
+        name='starters-count'
+        id='starters-count-select'
+        v-model='currentGameData.startersCount'>
+          <option value=9>9</option>
+          <option value=10>10</option>
+          <option value=11>11</option>
+          <option value=12>12</option>
+          <option value=13>13</option>
+          <option value=14>14</option>
         </select>
       </div>
       
@@ -25,11 +49,6 @@
           <input 
           type="date"
           v-on:change='createGameID'>
-          <label>Opponent:</label>
-          <select name='opponents' id='opponent-select'>
-            <option value=''>--Team--</option>
-            <option v-for='opponent in activeTeam.opponents' :value='opponent'>{{ opponent }}</option>
-          </select>
           <label>Game Time:</label>
           <select 
           name='gametime' 
@@ -37,6 +56,11 @@
           v-on:change='updateGameID'>
             <option value=''>--Select--</option>
             <option v-for='gametime in scorecardEntry.gametimes' :value='gametime'>{{ gametime }}</option>
+          </select>
+          <label>Opponent:</label>
+          <select name='opponents' id='opponent-select'>
+            <option value=''>--Team--</option>
+            <option v-for='opponent in activeTeam.opponents' :value='opponent'>{{ opponent }}</option>
           </select>
           <label>Weather:</label>
           <select name='weather' id='weather-select'>
@@ -82,8 +106,8 @@
               <div class='sub'>
                 <select 
                 name='player' 
-                v-model='currentGameData.player[row_index-1].sub'>
-                  <option value=''>--Sub--</option>
+                v-model='currentGameData.sub[row_index-1].player'>
+                  <option value='Sub'>--Sub--</option>
                   <option v-for='player in activeTeam.players' :value='player'>{{ player }}</option>
                 </select>
               </div>
@@ -118,7 +142,8 @@
               <select 
               name='result' 
               id='result-select'
-              v-model='currentGameData.player[row_index-1].atbats[inning_index-1].result'>
+              v-model='currentGameData.player[row_index-1].atbats[inning_index-1].result'
+              v-on:change='resultUpdateRunner($event, row_index, inning_index)'>
                 <option value=''>-Result-</option>
                 <option v-for='result in scorecardEntry.results' :value='result'>{{ result }}</option>
               </select>
