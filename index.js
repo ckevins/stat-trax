@@ -139,8 +139,7 @@ var app = new Vue({
                     'Cody Evins', 
                     'Ryan Silver',
                     'Tomo Yamahara',
-                    'Andrew Daniels'],
-                opponents: ['Red Sox', 'Red Wings', 'Giants']
+                    'Andrew Daniels']
             },
             {
                 nickname: 'Red Sox',
@@ -154,11 +153,15 @@ var app = new Vue({
                     'Michael Nicholson',
                     'Oscar Pena',
                     'Quinn Rothschild'
-                ],
-                opponents: ['Red Wings', 'Giants', 'Southern Ryes']
+                ]
             }
         ],
         activeTeam: '',
+        homeTeam: '',
+        awayTeam: '',
+        date: '',
+        time: '',
+        weather: '',
         visibility: {
             help: false,
             scorecardSeen: true,
@@ -214,11 +217,7 @@ var app = new Vue({
                 'SF',
                 'SH']
         },
-        currentGameData: {
-            gameID: null,
-            opponent: '',
-            weather: '',
-            startersCount: 9,
+        homeTeamData: {
             player: [
                 new playerGameData(),
                 new playerGameData(),
@@ -241,24 +240,11 @@ var app = new Vue({
                 this.visibility.help = false;
             }
         },
-        createGameID: function (event) {
-            this.currentGameData.gameID = `${this.activeTeam.nickname.toLowerCase().replace(' ', '')}${event.target.value.replace(/-/gi,'')}`;
-            console.log(this.currentGameData.gameID);
+        updateDate: function (event) {
+            this.date = event.target.value.replace(/-/gi,'')
         },
-        updateGameID: function (event) {
-            let timeString = event.target.value.replace(':', '').replace('pm', '');
-            let id = this.currentGameData.gameID;
-            if (id !== null && id.slice(-2) !== '00') {
-                console.log('block 1 ran');
-                console.log(id);
-                this.currentGameData.gameID = id.concat(timeString)
-            } else if (id !== null && id.slice(-2) === '00') {
-                console.log('block 2 ran');
-                this.currentGameData.gameID = id.slice(0,-3).concat(timeString)
-            } else {
-                console.log('block 3 ran');
-                this.currentGameData.gameID = timeString;
-            }
+        updateTime: function (event) {
+            this.time = event.target.value.replace(':', '').replace('pm', '');
         },
         checkInningRange: function (index) {
             if (this.visibility.inningRange < index && index < this.visibility.inningRange + 6){
@@ -277,13 +263,13 @@ var app = new Vue({
             this.visibility.inningRange += 1;
         },
         checkButtonStyle: function (base, row, inning) {
-            let color= this.currentGameData.player[row-1].atbats[inning-1].baseColors[base];
+            let color= this.homeTeamData.player[row-1].atbats[inning-1].baseColors[base];
             return {
                 backgroundColor: color
             }
         },
         updateRunner: function (base, row, inning) {
-            let atbat = this.currentGameData.player[row-1].atbats[inning-1];
+            let atbat = this.homeTeamData.player[row-1].atbats[inning-1];
             if (atbat.runner === base) {
                 atbat.runner = 0;
             } else {
@@ -294,7 +280,7 @@ var app = new Vue({
         resultUpdateRunnerNote: function (event, row, inning) {
             console.log(event.target.value);
             let result = event.target.value;
-            let atbat = this.currentGameData.player[row-1].atbats[inning-1];
+            let atbat = this.homeTeamData.player[row-1].atbats[inning-1];
             if(result === '1B' ||
             result === 'BB' ||
             result === 'HBP') {
@@ -321,21 +307,23 @@ var app = new Vue({
         },
         updateNote: function (event, row, inning) {
             console.log(event.target.value);
-            this.currentGameData.player[row-1].atbats[inning-1].note = event.target.value;
+            this.homeTeamData.player[row-1].atbats[inning-1].note = event.target.value;
         },
         toggleSub: function (row, inning) {
             console.log('Toggle Sub!')
-            let subStatus = this.currentGameData.player[row-1].atbats[inning-1].sub;
+            let subStatus = this.homeTeamData.player[row-1].atbats[inning-1].sub;
             if (subStatus) {
-                this.currentGameData.player[row-1].atbats[inning-1].sub = false
+                this.homeTeamData.player[row-1].atbats[inning-1].sub = false
             } else {
-                this.currentGameData.player[row-1].atbats[inning-1].sub = true
+                this.homeTeamData.player[row-1].atbats[inning-1].sub = true
             }
         }
     },
     computed: {
-        starters: function () {
-            return new Array(this.currentGameData.startersCount)
+        gameId: function () {
+            let awayTeamString = this.awayTeam.nickname.toLowerCase().replace(' ', '');
+            let homeTeamString = this.homeTeam.nickname.toLowerCase().replace(' ','');
+            return awayTeamString + '@' + homeTeamString + this.date + this.time;
         }
     }
 })

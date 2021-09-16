@@ -57,12 +57,9 @@ p {
     margin: 10px auto 20px auto;
 }
 
-.scorecard-header, .scorecard-columns {
+.scorecard-header{
     display: flex;
     justify-content: space-between;
-}
-
-.scorecard-header {
     padding: 40px;
     width: 90%;
     margin: 5px auto 20px auto;
@@ -72,7 +69,21 @@ p {
 }
 
 .scorecard-columns {
-    padding-right: 7.5%;
+    display: flex;
+    width: 75%;
+    margin-left: 5%;
+}
+
+
+.player-selects-head {
+    width: 15%;
+    display: flex;
+}
+
+.inning-heads {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
 }
 
 .scorecard-row {
@@ -81,7 +92,7 @@ p {
     display: flex;
 }
 
-.player-selects, .player-selects-head{
+.player-selects{
     width: 15%;
     display: flex;
     justify-content: space-evenly;
