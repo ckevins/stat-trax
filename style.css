@@ -21,13 +21,15 @@ h1, h2, .app-header {
 
 .help {
     color: white;
+    text-align: left;
     position: fixed;
-    height: 50%; 
+    height: 75%; 
     width: 50%;
     background-color: rgba(0, 0, 0, 0.904);
     border: 5px solid white;
+    padding: 0 10px 0 10px;
     margin-left:  25% ;
-    margin-top: 10%;
+    margin-top: 5%;
     z-index: 100;
 }
 
