@@ -107,15 +107,15 @@ var app = new Vue({
             {
                 nickname: 'Red Sox',
                 players: [
-                    'John Smith',
-                    'Tommy Johnson',
-                    'Brad Hunlker',
-                    'Blake Warren',
-                    'Tim Jordan',
-                    'Daniel Isaacs',
-                    'John Adams',
-                    'George Washington',
-                    'Thomas Jefferson'
+                    'Alan Benes',
+                    'Christopher Douglas',
+                    'Evan Franklin',
+                    'Gregory Hughes',
+                    'Ian Jackson',
+                    'Kenneth Lewis',
+                    'Michael Nicholson',
+                    'Oscar Pena',
+                    'Quinn Rothschild'
                 ],
                 opponents: ['Red Wings', 'Giants', 'Southern Ryes']
             }
@@ -257,39 +257,40 @@ var app = new Vue({
             }
         },
         updateRunner: function (base, row, inning) {
-            if (this.currentGameData.player[row-1].atbats[inning-1].runner === base) {
-                this.currentGameData.player[row-1].atbats[inning-1].runner = 0;
+            let atbat = this.currentGameData.player[row-1].atbats[inning-1];
+            if (atbat.runner === base) {
+                atbat.runner = 0;
             } else {
-                this.currentGameData.player[row-1].atbats[inning-1].runner = base;
+                atbat.runner = base;
             }
             
         },
         resultUpdateRunnerNote: function (event, row, inning) {
             console.log(event.target.value);
             let result = event.target.value;
+            let atbat = this.currentGameData.player[row-1].atbats[inning-1];
             if(result === '1B' ||
             result === 'BB' ||
             result === 'HBP') {
-                this.currentGameData.player[row-1].atbats[inning-1].runner = 1;
-                this.currentGameData.player[row-1].atbats[inning-1].noteVisibility = false
+                atbat.runner = 1;
+                atbat.noteVisibility = false
             } else if (result === '2B') {
-                this.currentGameData.player[row-1].atbats[inning-1].runner = 2;
-                this.currentGameData.player[row-1].atbats[inning-1].noteVisibility = false
+                atbat.runner = 2;
+                atbat.noteVisibility = false
             } else if (result === '3B') {
-                this.currentGameData.player[row-1].atbats[inning-1].runner = 3;
-                this.currentGameData.player[row-1].atbats[inning-1].noteVisibility = false
+                atbat.runner = 3;
+                atbat.noteVisibility = false
             } else if (result === 'HR') {
-                this.currentGameData.player[row-1].atbats[inning-1].runner = 4;
-                this.currentGameData.player[row-1].atbats[inning-1].noteVisibility = false
+                atbat.runner = 4;
+                atbat.noteVisibility = false
             } else if (result === 'K' ||
-            result === 'Kc') {
-                this.currentGameData.player[row-1].atbats[inning-1].runner = 0;
-                this.currentGameData.player[row-1].atbats[inning-1].noteVisibility = false
-            } else if (result === '') {
-                this.currentGameData.player[row-1].atbats[inning-1].noteVisibility = false
+            result === 'Kc' ||
+            result === '') {
+                atbat.runner = 0;
+                atbat.noteVisibility = false
             } else {
-                this.currentGameData.player[row-1].atbats[inning-1].runner = 0;
-                this.currentGameData.player[row-1].atbats[inning-1].noteVisibility = true
+                atbat.runner = 0;
+                atbat.noteVisibility = true
             }
         },
         updateNote: function (event, row, inning) {
