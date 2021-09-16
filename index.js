@@ -7,6 +7,7 @@ class ABData {
         this.noteVisibility = false;
         this.out = 0;
         this.runner = 0;
+        this.sub = false;
     }
     get baseColors() {
         if (this.runner === 0) {
@@ -23,10 +24,77 @@ class ABData {
     }
 }
 
+const getAtBats = (atbats, subBool) => {
+    abs = 0;
+    atbats.forEach(element => {
+        if (element.sub === subBool) {
+            if (element.result !== null && 
+                element.result !== '' &&
+                element.result !== 'BB' && 
+                element.result !== 'HBP' && 
+                element.result !== 'SF' &&
+                element.result !== 'SH') {
+                    abs += 1;
+                }
+        }
+    })
+    return abs;
+}
+
+const getResults = (atbats, subBool) => {
+    hits = 0;
+    bbs = 0;
+    hbps = 0;
+    ks = 0;
+    atbats.forEach(element => {
+        if (element.sub === subBool) {
+            if (element.result === '1B' ||
+            element.result === '2B' || 
+            element.result === '3B' || 
+            element.result === 'HR') {
+                hits += 1;
+            } else if (element.result === 'BB') {
+                bbs += 1;
+            } else if (element.result === 'K' || element.result === 'Kc') {
+                ks += 1;
+            } else if (element.result === 'HBP') {
+                hbps += 1;
+            }
+        }
+    });
+    return [hits, bbs, hbps, ks]
+}
+
+const getRuns = (atbats, subBool) => {
+    runs = 0;
+    atbats.forEach(element => {
+        if (element.sub === subBool) {
+            if (element.runner === 4) {
+                runs += 1
+            }
+        }
+    });
+    return runs
+}
+
+const getRbis = (atbats, subBool) => {
+    rbis = 0;
+    atbats.forEach(element => {
+        if (element.sub === subBool) {
+            if (element.rbi !== '0') {
+                rbis += element.rbi
+            }
+        }
+    })
+    return rbis;
+}
+
+
 class playerGameData {
-    constructor (player, pos) {
-        this.player = player;
-        this.position = pos;
+    constructor () {
+        this.player = '';
+        this.position = '';
+        this.sub = '';
         this.atbats = [
             new ABData(),
             new ABData(),
@@ -40,49 +108,19 @@ class playerGameData {
             new ABData()
         ];
     }
-    get tally () {
-        let abs = 0;
-        this.atbats.forEach(element => {
-            if (element.result !== null && 
-                element.result !== '' &&
-                element.result !== 'BB' && 
-                element.result !== 'HBP' && 
-                element.result !== 'SF' &&
-                element.result !== 'SH') {
-                abs += 1;
-            }
-        });
-        let hits = 0;
-        let bbs = 0;
-        let ks = 0;
-        let hbp = 0;
-        this.atbats.forEach(element => {
-            if (element.result === '1B' ||
-                element.result === '2B' || 
-                element.result === '3B' || 
-                element.result === 'HR') {
-                hits += 1;
-            } else if (element.result === 'BB') {
-                bbs += 1;
-            } else if (element.result === 'K' || element.result === 'Kc') {
-                ks += 1;
-            } else if (element.result === 'HBP') {
-                hbp += 1;
-            }
-        });
-        let runs = 0;
-        this.atbats.forEach(element => {
-            if (element.runner === 4) {
-                runs += 1
-            }
-        });
-        let rbis = 0;
-        this.atbats.forEach(element => {
-            if (element.rbi !== '0') {
-                rbis += element.rbi
-            }
-        });
-        return [abs, hits, runs, rbis, bbs, hbp, ks]
+    get starterTally () {
+        let abs = getAtBats(this.atbats, false);
+        let [hits, bbs, hbps, ks] = getResults(this.atbats, false);
+        let runs = getRuns(this.atbats, false);
+        let rbis = getRbis(this.atbats, false);
+        return [abs, hits, runs, rbis, bbs, hbps, ks]
+    }
+    get subTally () {
+        let abs = getAtBats(this.atbats, true);
+        let [hits, bbs, hbps, ks] = getResults(this.atbats, true);
+        let runs = getRuns(this.atbats, true);
+        let rbis = getRbis(this.atbats, true);
+        return [abs, hits, runs, rbis, bbs, hbps, ks]
     }
 
 }
@@ -182,28 +220,16 @@ var app = new Vue({
             weather: '',
             startersCount: 9,
             player: [
-                new playerGameData('',''),
-                new playerGameData('',''),
-                new playerGameData('',''),
-                new playerGameData('',''),
-                new playerGameData('',''),
-                new playerGameData('',''),
-                new playerGameData('',''),
-                new playerGameData('',''),
-                new playerGameData('',''),
-                new playerGameData('','')
-            ],
-            sub: [
-                new playerGameData('Sub',''),
-                new playerGameData('Sub',''),
-                new playerGameData('Sub',''),
-                new playerGameData('Sub',''),
-                new playerGameData('Sub',''),
-                new playerGameData('Sub',''),
-                new playerGameData('Sub',''),
-                new playerGameData('Sub',''),
-                new playerGameData('Sub',''),
-                new playerGameData('Sub','')
+                new playerGameData(),
+                new playerGameData(),
+                new playerGameData(),
+                new playerGameData(),
+                new playerGameData(),
+                new playerGameData(),
+                new playerGameData(),
+                new playerGameData(),
+                new playerGameData(),
+                new playerGameData()
             ]
         }
     },
@@ -296,6 +322,15 @@ var app = new Vue({
         updateNote: function (event, row, inning) {
             console.log(event.target.value);
             this.currentGameData.player[row-1].atbats[inning-1].note = event.target.value;
+        },
+        toggleSub: function (row, inning) {
+            console.log('Toggle Sub!')
+            let subStatus = this.currentGameData.player[row-1].atbats[inning-1].sub;
+            if (subStatus) {
+                this.currentGameData.player[row-1].atbats[inning-1].sub = false
+            } else {
+                this.currentGameData.player[row-1].atbats[inning-1].sub = true
+            }
         }
     },
     computed: {

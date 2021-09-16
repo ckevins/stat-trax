@@ -127,9 +127,9 @@
               </div>
               <div class='sub'>
                 <select 
-                name='player' 
-                v-model='currentGameData.sub[row_index-1].player'>
-                  <option value='Sub'>--Sub--</option>
+                name='sub' 
+                v-model='currentGameData.player[row_index-1].sub'>
+                  <option value=''>--Sub--</option>
                   <option v-for='player in activeTeam.players' :value='player'>{{ player }}</option>
                 </select>
               </div>
@@ -210,15 +210,34 @@
               :style='checkButtonStyle(3, row_index, inning_index)'
               v-on:click='updateRunner(4, row_index, inning_index)'>
             </button>
-            
-          </div>
-          <div class='tally'>
-            <div 
-            v-for='(tally,index) in scorecardEntry.tallies'
-            class='tally-child'>
-              <h5>{{ tally }}</h5>
-              <p>{{ currentGameData.player[row_index-1].tally[index] }}</p>
+            <div class='sub-box'>
+              <label for='sub-box'>Sub:</label>
+              <input type="checkbox" id="sub-box"
+              v-on:click='toggleSub(row_index, inning_index)'
+              v-model='currentGameData.player[row_index-1].atbats[inning_index-1].sub'>
             </div>
+          </div>
+          <div class= 'tally-container'>
+            <div class='tally-parent'>
+              <div 
+              v-for='(tally,index) in scorecardEntry.tallies'
+              class='tally-child'
+              id='starter-tally'>
+                <h5>{{ tally }}</h5>
+                <p>{{ currentGameData.player[row_index-1].starterTally[index] }}</p>
+              </div>
+            </div>
+            <div class='tally-parent'>
+              <div
+              v-if='currentGameData.player[row_index-1].sub'
+              v-for='(tally,index) in scorecardEntry.tallies'
+              class='tally-child'
+              id='sub-tally'>
+                <h5>{{ tally }}</h5>
+                <p>{{ currentGameData.player[row_index-1].subTally[index] }}</p>
+              </div>
+            </div>
+            
           </div>
 
         </div>

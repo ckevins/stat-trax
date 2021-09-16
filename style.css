@@ -7,6 +7,15 @@ h1, h2, .app-header {
     text-align: center;
 }
 
+h5 {
+    padding: 5px;
+    margin: 0;
+}
+
+p {
+    margin: 0;
+}
+
 .scorecard {
     position: relative;
 }
@@ -127,6 +136,13 @@ h1, h2, .app-header {
     padding: 5px;
 }
 
+.sub-box {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 5px;
+}
+
 .base-button {
     height: 15px;
     width: 15px;
@@ -163,17 +179,20 @@ h1, h2, .app-header {
     width: 70px;
 }
 
-.tally {
-    display: flex;
-    justify-content: space-evenly;
+.tally-container {
     width: 10%;
+    display: block;
+}
+
+.tally-parent {
+    display: flex;
+    height: 50%;
     margin: auto;
 }
 
 .tally-child {
     border: 1px solid navy;
     background-color: white;
-    padding: 5%;
-    margin: auto;
     text-align: center;
+    padding: 0 5%;
 }
