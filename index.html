@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Southern Ryes</title>
+    <title>Stat Trax</title>
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
@@ -165,10 +165,15 @@
               name='result' 
               id='result-select'
               v-model='currentGameData.player[row_index-1].atbats[inning_index-1].result'
-              v-on:change='resultUpdateRunner($event, row_index, inning_index)'>
+              v-on:change='resultUpdateRunnerNote($event, row_index, inning_index)'>
                 <option value=''>-Result-</option>
                 <option v-for='result in scorecardEntry.results' :value='result'>{{ result }}</option>
-              </select>
+              </select><br>
+              <input 
+              v-if='currentGameData.player[row_index-1].atbats[inning_index-1].noteVisibility'
+              placeholder="Note"
+              id='note-input'
+              v-on:change='updateNote($event, row_index, inning_index)'>
             </div>
 
             <div class='out-count'>

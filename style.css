@@ -159,6 +159,10 @@ h1, h2, .app-header {
     left: 46%;
 }
 
+#note-input {
+    width: 70px;
+}
+
 .tally {
     display: flex;
     justify-content: space-evenly;

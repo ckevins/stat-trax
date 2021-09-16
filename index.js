@@ -4,6 +4,7 @@ class ABData {
         this.sb = 0;
         this.result = '';
         this.note = null;
+        this.noteVisibility = false;
         this.out = 0;
         this.runner = 0;
     }
@@ -263,19 +264,37 @@ var app = new Vue({
             }
             
         },
-        resultUpdateRunner: function (event, row, inning) {
+        resultUpdateRunnerNote: function (event, row, inning) {
             console.log(event.target.value);
-            if(event.target.value === '1B' ||
-            event.target.value === 'BB' ||
-            event.target.value === 'HBP') {
-                this.currentGameData.player[row-1].atbats[inning-1].runner = 1
-            } else if (event.target.value === '2B') {
-                this.currentGameData.player[row-1].atbats[inning-1].runner = 2
-            } else if (event.target.value === '3B') {
-                this.currentGameData.player[row-1].atbats[inning-1].runner = 3
-            } else if (event.target.value === 'HR') {
-                this.currentGameData.player[row-1].atbats[inning-1].runner = 4
+            let result = event.target.value;
+            if(result === '1B' ||
+            result === 'BB' ||
+            result === 'HBP') {
+                this.currentGameData.player[row-1].atbats[inning-1].runner = 1;
+                this.currentGameData.player[row-1].atbats[inning-1].noteVisibility = false
+            } else if (result === '2B') {
+                this.currentGameData.player[row-1].atbats[inning-1].runner = 2;
+                this.currentGameData.player[row-1].atbats[inning-1].noteVisibility = false
+            } else if (result === '3B') {
+                this.currentGameData.player[row-1].atbats[inning-1].runner = 3;
+                this.currentGameData.player[row-1].atbats[inning-1].noteVisibility = false
+            } else if (result === 'HR') {
+                this.currentGameData.player[row-1].atbats[inning-1].runner = 4;
+                this.currentGameData.player[row-1].atbats[inning-1].noteVisibility = false
+            } else if (result === 'K' ||
+            result === 'Kc') {
+                this.currentGameData.player[row-1].atbats[inning-1].runner = 0;
+                this.currentGameData.player[row-1].atbats[inning-1].noteVisibility = false
+            } else if (result === '') {
+                this.currentGameData.player[row-1].atbats[inning-1].noteVisibility = false
+            } else {
+                this.currentGameData.player[row-1].atbats[inning-1].runner = 0;
+                this.currentGameData.player[row-1].atbats[inning-1].noteVisibility = true
             }
+        },
+        updateNote: function (event, row, inning) {
+            console.log(event.target.value);
+            this.currentGameData.player[row-1].atbats[inning-1].note = event.target.value;
         }
     },
     computed: {
