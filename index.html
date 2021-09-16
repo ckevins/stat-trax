@@ -10,8 +10,8 @@
   <body>
     <div id='app'>
       <div class='app-header'>
-        <button v-on:click='toggleHelp' id='help-button'>Help</button>
         <div v-if='visibility.help' class='help'>
+          <button v-on:click='toggleHelp' id='help-x'> X </button>
           <h2 style='color:white'>Help:</h2>
           <h3>Getting Started:</h3>
           <ul>
@@ -21,30 +21,31 @@
           </ul>
         </div>
         <h1>Stat Trax</h1>
-        <p>To enter a scorecard, please choose your team.</p>
-        <label>Team:</label>
-        <select name='active-team' id='active-team-select' v-model='activeTeam'>
-          <option value=''>--Select a team--</option>
-          <option v-for='team in teams' :value='team'> {{ team.nickname }} </option>
-        </select>
-        <br>
-        <label># of starters:</label>
-        <select
-        name='starters-count'
-        id='starters-count-select'
-        v-model='currentGameData.startersCount'>
-          <option value=9>9</option>
-          <option value=10>10</option>
-          <option value=11>11</option>
-          <option value=12>12</option>
-          <option value=13>13</option>
-          <option value=14>14</option>
-        </select>
       </div>
       
       <div class='scorecard' v-if='visibility.scorecardSeen'>
+
         <h2>{{activeTeam.nickname}} Scorecard Entry</h2>
+        <button v-on:click='toggleHelp' id='help-button'>Help</button>
         <div class='scorecard-header'>
+          <label>Team:</label>
+          <select name='active-team' id='active-team-select' v-model='activeTeam'>
+            <option value=''>--Select a team--</option>
+            <option v-for='team in teams' :value='team'> {{ team.nickname }} </option>
+          </select>
+          <br>
+          <label># of Starters:</label>
+          <select
+          name='starters-count'
+          id='starters-count-select'
+          v-model='currentGameData.startersCount'>
+            <option value=9>9</option>
+            <option value=10>10</option>
+            <option value=11>11</option>
+            <option value=12>12</option>
+            <option value=13>13</option>
+            <option value=14>14</option>
+          </select>
           <label>Date:</label>
           <input 
           type="date"
@@ -71,7 +72,6 @@
 
         <div class='scorecard-columns'>
           <div class='player-selects-head'>
-            <h2>#</h2>
             <h2>Player</h2>
             <h2>Pos</h2>
           </div>
