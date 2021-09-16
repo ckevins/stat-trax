@@ -1,5 +1,5 @@
 body {
-    width: 90%;
+    width: 98%;
     margin: auto
 }
 
@@ -8,7 +8,14 @@ h1, h2, .app-header {
     color: navy;
 }
 
-.scorecard-header, .scorecard-columns, .scorecard-row {
+.scorecard {
+    background-color: darkgray;
+    padding-top: 10px;
+    border: 5px solid navy;
+    margin: 10px auto 20px auto;
+}
+
+.scorecard-header, .scorecard-columns {
     display: flex;
     justify-content: space-between;
 }
@@ -24,14 +31,34 @@ h1, h2, .app-header {
     padding-right: 7.5%;
 }
 
-.player-selects, .player-selects-head {
+.scorecard-row {
+    margin: auto;
+    width: 95%;
+    display: flex;
+}
+
+.player-selects, .player-selects-head{
     width: 15%;
     display: flex;
     justify-content: space-evenly;
 }
 
+.player-selects {
+    background-color: white;
+    border: 1px solid navy;
+}
+
+.player-selects-children {
+    padding-top: 20%;
+}
+
+.batting-order {
+    padding-top: 15%;
+}
+
 .diamond {
     position: relative;
+    background-color: white;
     border: 1px solid navy;
     width: 200px;
     height: 150px;
@@ -101,9 +128,13 @@ h1, h2, .app-header {
     display: flex;
     justify-content: space-evenly;
     width: 10%;
+    margin: auto;
 }
 
 .tally-child {
     border: 1px solid navy;
-    padding: 5px;
+    background-color: white;
+    padding: 5%;
+    margin: auto;
+    text-align: center;
 }

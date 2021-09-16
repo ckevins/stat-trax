@@ -1,10 +1,10 @@
 class ABData {
     constructor () {
         this.rbi = 0;
-        this.sb = null;
+        this.sb = 0;
         this.result = '';
         this.note = null;
-        this.out = null;
+        this.out = 0;
         this.runner = 0;
     }
     get baseColors() {
@@ -39,8 +39,8 @@ class playerGameData {
             new ABData()
         ];
     }
-    get ABs () {
-        let count = 0;
+    get tally () {
+        let abs = 0;
         this.atbats.forEach(element => {
             if (element.result !== null && 
                 element.result !== '' &&
@@ -48,53 +48,43 @@ class playerGameData {
                 element.result !== 'HBP' && 
                 element.result !== 'SF' &&
                 element.result !== 'SH') {
-                count += 1;
+                abs += 1;
             }
         });
-        return count;
-    }
-    get hits () {
-        let count = 0;
+        let hits = 0;
+        let bbs = 0;
+        let ks = 0;
+        let hbp = 0;
         this.atbats.forEach(element => {
             if (element.result === '1B' ||
                 element.result === '2B' || 
                 element.result === '3B' || 
                 element.result === 'HR') {
-                count += 1;
+                hits += 1;
+            } else if (element.result === 'BB') {
+                bbs += 1;
+            } else if (element.result === 'K' || element.result === 'Kc') {
+                ks += 1;
+            } else if (element.result === 'HBP') {
+                hbp += 1;
             }
         });
-        return count;
-    }
-    get runs () {
-        let count = 0;
+        let runs = 0;
         this.atbats.forEach(element => {
             if (element.runner === 4) {
-                count += 1
+                runs += 1
             }
-        })
-        return count
-    }
-    get rbi () {
-        let count = 0;
+        });
+        let rbis = 0;
         this.atbats.forEach(element => {
             if (element.rbi !== '0') {
-                count += element.rbi
+                rbis += element.rbi
             }
-        })
-        return count
+        });
+        return [abs, hits, runs, rbis, bbs, hbp, ks]
     }
-}
 
-var player1 = new playerGameData();
-var player2 = new playerGameData();
-var player3 = new playerGameData();
-var player4 = new playerGameData();
-var player5 = new playerGameData();
-var player6 = new playerGameData();
-var player7 = new playerGameData();
-var player8 = new playerGameData();
-var player9 = new playerGameData();
-var player10 = new playerGameData();
+}
 
 var app = new Vue({
     el: '#app',
@@ -147,21 +137,17 @@ var app = new Vue({
                 'RF', 
                 'CF', 
                 'LF', 
-                'DH', 
-                'Sub'],
-            statLines: 
+                'DH'
+            ],
+            tallies: 
                 ['AB', 
-                'H', 
-                '1B', 
-                '2B', 
-                '3B', 
-                'HR', 
-                'RBI', 
-                'SO', 
-                'BB', 
-                'HBP', 
-                'R', 
-                'E'],
+                'H',
+                'R',
+                'RBI',
+                'BB',
+                'HBP',
+                'K'
+                ],
             results: [
                 '1B',
                 '2B',
@@ -185,16 +171,28 @@ var app = new Vue({
         currentGameData: {
             gameID: null,
             player: [
-                player1, 
-                player2, 
-                player3, 
-                player4, 
-                player5,
-                player6,
-                player7,
-                player8,
-                player9,
-                player10
+                new playerGameData(),
+                new playerGameData(),
+                new playerGameData(),
+                new playerGameData(),
+                new playerGameData(),
+                new playerGameData(),
+                new playerGameData(),
+                new playerGameData(),
+                new playerGameData(),
+                new playerGameData()
+            ],
+            sub: [
+                new playerGameData(),
+                new playerGameData(),
+                new playerGameData(),
+                new playerGameData(),
+                new playerGameData(),
+                new playerGameData(),
+                new playerGameData(),
+                new playerGameData(),
+                new playerGameData(),
+                new playerGameData()
             ]
         }
     },

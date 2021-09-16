@@ -19,7 +19,7 @@
       </div>
       
       <div class='scorecard' v-if='visibility.scorecardSeen'>
-        <h2 class='scorecard'>{{activeTeam.nickname}} Scorecard Entry</h2>
+        <h2>{{activeTeam.nickname}} Scorecard Entry</h2>
         <div class='scorecard-header'>
           <label>Date:</label>
           <input 
@@ -47,31 +47,47 @@
 
         <div class='scorecard-columns'>
           <div class='player-selects-head'>
-            <h4>#</h4>
-            <h4>Player</h4>
-            <h4>Pos</h4>
+            <h2>#</h2>
+            <h2>Player</h2>
+            <h2>Pos</h2>
           </div>
           <button v-on:click='toggleInningRangeDown'> <<< </button>
-          <h4 
+          <h2 
           v-for='index in 10' 
           v-if='checkInningRange(index)' 
-          id='inning-columns'> {{ index }} </h4>
+          id='inning-columns'> {{ index }} </h2>
           <button v-on:click='toggleInningRangeUp'> >>> </button>
         </div>
 
         <div class='scorecard-row' v-for='row_index in 10'>
           <div class='player-selects'>
-            <label>{{row_index}}.</label>
-            <select 
-            name='player' 
-            v-model='currentGameData.player[row_index-1].player'>
-              <option value=''>--Player--</option>
-              <option v-for='player in activeTeam.players' :value='player'>{{ player }}</option>
-            </select>
-            <select name='position' v-model='currentGameData.player[row_index-1].position'>
-              <option value=''>-Pos-</option>
-              <option v-for='position in scorecardEntry.positions' :value='position'>{{ position }}</option>
-            </select>
+            <div class='batting-order'>
+              <h5>{{row_index}}.</h5>
+            </div>
+            <div class='player-selects-children'>
+              <div class='starter'>
+                <select 
+                name='player' 
+                v-model='currentGameData.player[row_index-1].player'>
+                  <option value=''>--Player--</option>
+                  <option v-for='player in activeTeam.players' :value='player'>{{ player }}</option>
+                </select>
+                <select 
+                name='position' 
+                v-model='currentGameData.player[row_index-1].position'>
+                  <option value=''>-Pos-</option>
+                  <option v-for='position in scorecardEntry.positions' :value='position'>{{ position }}</option>
+                </select>
+              </div>
+              <div class='sub'>
+                <select 
+                name='player' 
+                v-model='currentGameData.player[row_index-1].sub'>
+                  <option value=''>--Sub--</option>
+                  <option v-for='player in activeTeam.players' :value='player'>{{ player }}</option>
+                </select>
+              </div>
+            </div>
           </div>
           
 
@@ -113,7 +129,7 @@
               name='out-count' 
               id='out-count-select'
               v-model='currentGameData.player[row_index-1].atbats[inning_index-1].out'>
-                <option value=''>-</option>
+                <option value='0'>-</option>
                 <option v-for='index in 3' :value='index'>{{ index }}</option>
               </select>
               <label>Out</label>
@@ -145,23 +161,12 @@
             
           </div>
           <div class='tally'>
-            <div class='tally-child'>
-              <h5>AB</h5>
-              <p>{{ currentGameData.player[row_index-1].ABs }}</p>
+            <div 
+            v-for='(tally,index) in scorecardEntry.tallies'
+            class='tally-child'>
+              <h5>{{ tally }}</h5>
+              <p>{{ currentGameData.player[row_index-1].tally[index] }}</p>
             </div>
-            <div class='tally-child'>
-              <h5>H</h5>
-              <p>{{ currentGameData.player[row_index-1].hits }}</p>
-            </div>
-            <div class = 'tally-child'>
-              <h5>R</h5>
-              <p>{{ currentGameData.player[row_index-1].runs }}</p>
-            </div>
-            <div class = 'tally-child'>
-              <h5>RBI</h5>
-              <p>{{ currentGameData.player[row_index-1].rbi }}</p>
-            </div>
-            
           </div>
 
         </div>
