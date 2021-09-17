@@ -95,18 +95,7 @@ class playerGameData {
         this.player = '';
         this.position = '';
         this.sub = '';
-        this.atbats = [
-            new ABData(),
-            new ABData(),
-            new ABData(),
-            new ABData(),
-            new ABData(),
-            new ABData(),
-            new ABData(),
-            new ABData(),
-            new ABData(),
-            new ABData()
-        ];
+        this.atbats = Array.from({ length: 10 }, () => new ABData());
     }
     get starterTally () {
         let abs = getAtBats(this.atbats, false);
