@@ -47,12 +47,12 @@
       
       <div class='scorecard' v-if='visibility.scorecardSeen'>
 
-        <h2>{{activeTeam.nickname}} Scorecard</h2>
+        <h2>Scorecard</h2>
         <button v-on:click='toggleHelp' id='help-button'>Help</button>
         <div class='scorecard-header'>
           <label>Home Team:</label>
           <select name='home-team' id='home-team-select' v-model='homeTeam'>
-            <option value=''>--Select a team--</option>
+            <option value=''>--Team--</option>
             <option v-for='team in teams' :value='team'> {{ team.nickname }} </option>
           </select>
           <label>Away Team:</label>
@@ -84,11 +84,33 @@
           <button class='team-button' v-on:click='homeButton'>Home</button>
           <button class='team-button' v-on:click='awayButton'>Away</button>
         </div>
+        <div>
+          <table class='score-board' v-if='homeTeam && awayTeam'>
+            <tr>
+              <th>Box Score</th>
+              <th v-for='index in 10'>{{ index }}</th>
+              <th>R</th>
+              <th>H</th>
+            </tr>
+            <tr>
+              <th> {{ awayTeam.nickname }} </th>
+              <td v-for='score in awayTeamBoxscore.inningScore'> {{score}} </td>
+              <td> {{ awayTeamBoxscore.score }} </td>
+              <td> {{ awayTeamBoxscore.hits }} </td>
+            </tr>
+            <tr>
+              <th> {{ homeTeam.nickname }} </th>
+              <td v-for='score in homeTeamBoxscore.inningScore'> {{score}} </td>
+              <td> {{ homeTeamBoxscore.score }} </td>
+              <td> {{ homeTeamBoxscore.hits }}</td>
+            </tr>
+          </table>
+        </div>
         
 
 
         <div class='chart' id='home-team-chart' v-if="activeTeam === 'home'">
-          <h2>{{ homeTeam.nickname }}</h2>
+          <h2>{{ homeTeam.nickname }}:</h2>
           <div class='scorecard-columns'>
             <div class='player-selects-head'>
               <h2>Player</h2>
@@ -241,7 +263,7 @@
 
 
         <div class='chart' id='away-team-chart' v-if="activeTeam === 'away'">
-          <h2>{{ awayTeam.nickname }}</h2>
+          <h2>{{ awayTeam.nickname }}:</h2>
           <div class='scorecard-columns'>
             <div class='player-selects-head'>
               <h2>Player</h2>

@@ -154,9 +154,23 @@ var app = new Vue({
                     'Oscar Pena',
                     'Quinn Rothschild'
                 ]
+            },
+            {
+                nickname: 'Giants',
+                players: [
+                    'Austin Blackwell',
+                    'Colby Donaldson',
+                    'Elijah Figs', 
+                    'Gene Holmes',
+                    'Ignacio Juarez',
+                    'Kent Longbottom',
+                    'Mitch Newell',
+                    'Oliver Perez',
+                    'Quentin Rollins'
+                ]
             }
         ],
-        activeTeam: 'home',
+        activeTeam: 'away',
         homeTeam: '',
         awayTeam: '',
         date: '',
@@ -374,6 +388,45 @@ var app = new Vue({
             let awayTeamString = this.awayTeam.nickname.toLowerCase().replace(' ', '');
             let homeTeamString = this.homeTeam.nickname.toLowerCase().replace(' ','');
             return awayTeamString + '@' + homeTeamString + this.date + this.time;
+        },
+        homeTeamBoxscore: function () {
+            let inningScore = new Array(10).fill(0);
+            let score = 0;
+            let hits = 0
+            this.homeTeamData.player.forEach(player => {
+                score += (player.starterTally[2] + player.subTally[2]);
+                hits += (player.starterTally[1] + player.subTally[1]);
+                player.atbats.forEach((atbat, index) => {
+                    if (atbat.runner === 4) {
+                        inningScore[index] += 1;
+                    }
+                })
+            });
+            return {
+                score,
+                hits,
+                inningScore
+            };
+        },
+        awayTeamBoxscore: function () {
+            let inningScore = new Array(10).fill(0);
+            let score = 0;
+            let hits = 0;
+            this.awayTeamData.player.forEach(player => {
+                score += (player.starterTally[2] + player.subTally[2]);
+                hits += (player.starterTally[1] + player.subTally[1]);
+                player.atbats.forEach((atbat, index) => {
+                    if (atbat.runner === 4) {
+                        console.log('box score if ran!')
+                        inningScore[index] += 1;
+                    }
+                })
+            });
+            return {
+                score,
+                hits,
+                inningScore
+            }
         }
     }
 })

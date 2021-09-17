@@ -80,6 +80,22 @@ p {
     padding: 10px 0 10px 0;
 }
 
+.score-board {
+    text-align: center;
+    border: 1px solid black;
+}
+
+table {
+    width: 50%;
+    margin: 10px auto 10px auto;
+    background-color: white;
+}
+
+th, td {
+    border: 1px solid black;
+    padding: 5px;
+}
+
 .scorecard-columns {
     display: flex;
     width: 75%;
