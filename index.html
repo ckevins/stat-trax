@@ -80,158 +80,319 @@
           </select>
         </div>
 
-        <div class='scorecard-columns'>
-          <div class='player-selects-head'>
-            <h2>Player</h2>
-            <h2>Pos</h2>
-          </div>
-          <div class='inning-heads'>
-            <button v-on:click='toggleInningRangeDown'> <<< </button>
-            <h2 
-            v-for='index in 10' 
-            v-if='checkInningRange(index)' 
-            id='inning-columns'> {{ index }} </h2>
-            <button v-on:click='toggleInningRangeUp'> >>> </button>
-          </div>
+        <div class='team-select-buttons'>
+          <button class='team-button' v-on:click='homeButton'>Home</button>
+          <button class='team-button' v-on:click='awayButton'>Away</button>
         </div>
+        
 
-        <div class='scorecard-row' v-for='row_index in 10'>
-          <div class='player-selects'>
-            <div class='batting-order'>
-              <h5>{{row_index}}.</h5>
+
+        <div class='chart' id='home-team-chart' v-if="activeTeam === 'home'">
+          <h2>{{ homeTeam.nickname }}</h2>
+          <div class='scorecard-columns'>
+            <div class='player-selects-head'>
+              <h2>Player</h2>
+              <h2>Pos</h2>
             </div>
-            <div class='player-selects-children'>
-              <div class='starter'>
-                <select 
-                name='player' 
-                v-model='homeTeamData.player[row_index-1].player'>
-                  <option value=''>--Player--</option>
-                  <option v-for='player in activeTeam.players' :value='player'>{{ player }}</option>
-                </select>
-                <select 
-                name='position' 
-                v-model='homeTeamData.player[row_index-1].position'>
-                  <option value=''>-Pos-</option>
-                  <option v-for='position in scorecardEntry.positions' :value='position'>{{ position }}</option>
-                </select>
-              </div>
-              <div class='sub'>
-                <select 
-                name='sub' 
-                v-model='homeTeamData.player[row_index-1].sub'>
-                  <option value=''>--Sub--</option>
-                  <option v-for='player in activeTeam.players' :value='player'>{{ player }}</option>
-                </select>
-              </div>
+            <div class='inning-heads'>
+              <button v-on:click='toggleInningRangeDown'> <<< </button>
+              <h2 
+              v-for='index in 10' 
+              v-if='checkInningRange(index)' 
+              id='inning-columns'> {{ index }} </h2>
+              <button v-on:click='toggleInningRangeUp'> >>> </button>
             </div>
           </div>
-          
-
-          <div class='diamond' v-for='inning_index in 10' v-if='checkInningRange(inning_index)'> 
-            <div class='rbi'>
-              <select 
-              name='RBI' 
-              id='RBI-select'
-              v-model='homeTeamData.player[row_index-1].atbats[inning_index-1].rbi'>
-                <option :value='0'>-</option>
-                <option v-for='index in 4' :value='index'>{{ index }}</option>
-              </select>
-              <label>RBI</label>
-            </div>
-
-            <div class='sb'>
-              <select 
-              name='SB' 
-              id='SB-select'
-              v-model='homeTeamData.player[row_index-1].atbats[inning_index-1].sb'>
-                <option value='0'>-</option>
-                <option v-for='index in 3' :value='index'>{{ index }}</option>
-              </select>
-              <label>SB</label>
-            </div>
-
-            <div class='result'>
-              <select 
-              name='result' 
-              id='result-select'
-              v-model='homeTeamData.player[row_index-1].atbats[inning_index-1].result'
-              v-on:change='resultUpdateRunnerNote($event, row_index, inning_index)'>
-                <option value=''>-Result-</option>
-                <option v-for='result in scorecardEntry.results' :value='result'>{{ result }}</option>
-              </select><br>
-              <input 
-              v-if='homeTeamData.player[row_index-1].atbats[inning_index-1].noteVisibility'
-              placeholder="Note"
-              id='note-input'
-              v-on:change='updateNote($event, row_index, inning_index)'>
-            </div>
-
-            <div class='out-count'>
-              <select 
-              name='out-count' 
-              id='out-count-select'
-              v-model='homeTeamData.player[row_index-1].atbats[inning_index-1].out'>
-                <option value='0'>-</option>
-                <option v-for='index in 3' :value='index'>{{ index }}</option>
-              </select>
-              <label>Out</label>
-            </div>
-            <button 
-              class='base-button' 
-              id='first-base' 
-              :style='checkButtonStyle(0, row_index, inning_index)'
-              v-on:click='updateRunner(1, row_index, inning_index)'>
-            </button>
-            <button 
-              class='base-button' 
-              id='second-base'
-              :style='checkButtonStyle(1, row_index, inning_index)'
-              v-on:click='updateRunner(2, row_index, inning_index)'>
-            </button>
-            <button 
-              class='base-button' 
-              id='third-base'
-              :style='checkButtonStyle(2, row_index, inning_index)'
-              v-on:click='updateRunner(3, row_index, inning_index)'>
-            </button>
-            <button 
-              class='home-plate-button' 
-              id='home-plate'
-              :style='checkButtonStyle(3, row_index, inning_index)'
-              v-on:click='updateRunner(4, row_index, inning_index)'>
-            </button>
-            <div class='sub-box'>
-              <label for='sub-box'>Sub:</label>
-              <input type="checkbox" id="sub-box"
-              v-on:click='toggleSub(row_index, inning_index)'
-              v-model='homeTeamData.player[row_index-1].atbats[inning_index-1].sub'>
-            </div>
-          </div>
-          <div class= 'tally-container'>
-            <div class='tally-parent'>
-              <div 
-              v-for='(tally,index) in scorecardEntry.tallies'
-              class='tally-child'
-              id='starter-tally'>
-                <h5>{{ tally }}</h5>
-                <p>{{ homeTeamData.player[row_index-1].starterTally[index] }}</p>
+          <div class='scorecard-row' v-for='row_index in 10'>
+            <div class='player-selects'>
+              <div class='batting-order'>
+                <h5>{{row_index}}.</h5>
               </div>
-            </div>
-            <div class='tally-parent'>
-              <div
-              v-if='homeTeamData.player[row_index-1].sub'
-              v-for='(tally,index) in scorecardEntry.tallies'
-              class='tally-child'
-              id='sub-tally'>
-                <h5>{{ tally }}</h5>
-                <p>{{ homeTeamData.player[row_index-1].subTally[index] }}</p>
+              <div class='player-selects-children'>
+                <div class='starter'>
+                  <select 
+                  name='player' 
+                  v-model='homeTeamData.player[row_index-1].player'>
+                    <option value=''>--Player--</option>
+                    <option v-for='player in homeTeam.players' :value='player'>{{ player }}</option>
+                  </select>
+                  <select 
+                  name='position' 
+                  v-model='homeTeamData.player[row_index-1].position'>
+                    <option value=''>-Pos-</option>
+                    <option v-for='position in scorecardEntry.positions' :value='position'>{{ position }}</option>
+                  </select>
+                </div>
+                <div class='sub'>
+                  <select 
+                  name='sub' 
+                  v-model='homeTeamData.player[row_index-1].sub'>
+                    <option value=''>--Sub--</option>
+                    <option v-for='player in homeTeam.players' :value='player'>{{ player }}</option>
+                  </select>
+                </div>
               </div>
             </div>
             
-          </div>
+  
+            <div class='diamond' v-for='inning_index in 10' v-if='checkInningRange(inning_index)'> 
+              <div class='rbi'>
+                <select 
+                name='RBI' 
+                id='RBI-select'
+                v-model='homeTeamData.player[row_index-1].atbats[inning_index-1].rbi'>
+                  <option :value='0'>-</option>
+                  <option v-for='index in 4' :value='index'>{{ index }}</option>
+                </select>
+                <label>RBI</label>
+              </div>
+              <div class='sb'>
+                <select 
+                name='SB' 
+                id='SB-select'
+                v-model='homeTeamData.player[row_index-1].atbats[inning_index-1].sb'>
+                  <option value='0'>-</option>
+                  <option v-for='index in 3' :value='index'>{{ index }}</option>
+                </select>
+                <label>SB</label>
+              </div>
+              <div class='result'>
+                <select 
+                name='result' 
+                id='result-select'
+                v-model='homeTeamData.player[row_index-1].atbats[inning_index-1].result'
+                v-on:change='resultUpdateRunnerNote($event, row_index, inning_index, "home")'>
+                  <option value=''>-Result-</option>
+                  <option v-for='result in scorecardEntry.results' :value='result'>{{ result }}</option>
+                </select><br>
+                <input 
+                v-if='homeTeamData.player[row_index-1].atbats[inning_index-1].noteVisibility'
+                placeholder="Note"
+                id='note-input'
+                v-on:change='updateNote($event, row_index, inning_index, "home")'>
+              </div>
+              <div class='out-count'>
+                <select 
+                name='out-count' 
+                id='out-count-select'
+                v-model='homeTeamData.player[row_index-1].atbats[inning_index-1].out'>
+                  <option value='0'>-</option>
+                  <option v-for='index in 3' :value='index'>{{ index }}</option>
+                </select>
+                <label>Out</label>
+              </div>
+              <button 
+                class='base-button' 
+                id='first-base' 
+                :style='checkButtonStyle(0, row_index, inning_index, "home")'
+                v-on:click='updateRunner(1, row_index, inning_index, "home")'>
+              </button>
+              <button 
+                class='base-button' 
+                id='second-base'
+                :style='checkButtonStyle(1, row_index, inning_index, "home")'
+                v-on:click='updateRunner(2, row_index, inning_index, "home")'>
+              </button>
+              <button 
+                class='base-button' 
+                id='third-base'
+                :style='checkButtonStyle(2, row_index, inning_index, "home")'
+                v-on:click='updateRunner(3, row_index, inning_index, "home")'>
+              </button>
+              <button 
+                class='home-plate-button' 
+                id='home-plate'
+                :style='checkButtonStyle(3, row_index, inning_index, "home")'
+                v-on:click='updateRunner(4, row_index, inning_index, "home")'>
+              </button>
+              <div class='sub-box'>
+                <label for='sub-box'>Sub:</label>
+                <input type="checkbox" id="sub-box"
+                v-on:click='toggleSub(row_index, inning_index, "home")'
+                v-model='homeTeamData.player[row_index-1].atbats[inning_index-1].sub'>
+              </div>
+            </div>
 
+            <div class= 'tally-container'>
+              <div class='tally-parent'>
+                <div 
+                v-for='(tally,index) in scorecardEntry.tallies'
+                class='tally-child'
+                id='starter-tally'>
+                  <h5>{{ tally }}</h5>
+                  <p>{{ homeTeamData.player[row_index-1].starterTally[index] }}</p>
+                </div>
+              </div>
+              <div class='tally-parent'>
+                <div
+                v-if='homeTeamData.player[row_index-1].sub'
+                v-for='(tally,index) in scorecardEntry.tallies'
+                class='tally-child'
+                id='sub-tally'>
+                  <h5>{{ tally }}</h5>
+                  <p>{{ homeTeamData.player[row_index-1].subTally[index] }}</p>
+                </div>
+              </div>
+              
+            </div>
+  
+          </div>
         </div>
 
+
+        <div class='chart' id='away-team-chart' v-if="activeTeam === 'away'">
+          <h2>{{ awayTeam.nickname }}</h2>
+          <div class='scorecard-columns'>
+            <div class='player-selects-head'>
+              <h2>Player</h2>
+              <h2>Pos</h2>
+            </div>
+            <div class='inning-heads'>
+              <button v-on:click='toggleInningRangeDown'> <<< </button>
+              <h2 
+              v-for='index in 10' 
+              v-if='checkInningRange(index)' 
+              id='inning-columns'> {{ index }} </h2>
+              <button v-on:click='toggleInningRangeUp'> >>> </button>
+            </div>
+          </div>
+          <div class='scorecard-row' v-for='row_index in 10'>
+            <div class='player-selects'>
+              <div class='batting-order'>
+                <h5>{{row_index}}.</h5>
+              </div>
+              <div class='player-selects-children'>
+                <div class='starter'>
+                  <select 
+                  name='player' 
+                  v-model='awayTeamData.player[row_index-1].player'>
+                    <option value=''>--Player--</option>
+                    <option v-for='player in awayTeam.players' :value='player'>{{ player }}</option>
+                  </select>
+                  <select 
+                  name='position' 
+                  v-model='awayTeamData.player[row_index-1].position'>
+                    <option value=''>-Pos-</option>
+                    <option v-for='position in scorecardEntry.positions' :value='position'>{{ position }}</option>
+                  </select>
+                </div>
+                <div class='sub'>
+                  <select 
+                  name='sub' 
+                  v-model='awayTeamData.player[row_index-1].sub'>
+                    <option value=''>--Sub--</option>
+                    <option v-for='player in awayTeam.players' :value='player'>{{ player }}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            
+  
+            <div class='diamond' v-for='inning_index in 10' v-if='checkInningRange(inning_index)'> 
+              <div class='rbi'>
+                <select 
+                name='RBI' 
+                id='RBI-select'
+                v-model='homeTeamData.player[row_index-1].atbats[inning_index-1].rbi'>
+                  <option :value='0'>-</option>
+                  <option v-for='index in 4' :value='index'>{{ index }}</option>
+                </select>
+                <label>RBI</label>
+              </div>
+  
+              <div class='sb'>
+                <select 
+                name='SB' 
+                id='SB-select'
+                v-model='awayTeamData.player[row_index-1].atbats[inning_index-1].sb'>
+                  <option value='0'>-</option>
+                  <option v-for='index in 3' :value='index'>{{ index }}</option>
+                </select>
+                <label>SB</label>
+              </div>
+  
+              <div class='result'>
+                <select 
+                name='result' 
+                id='result-select'
+                v-model='awayTeamData.player[row_index-1].atbats[inning_index-1].result'
+                v-on:change='resultUpdateRunnerNote($event, row_index, inning_index, "away")'>
+                  <option value=''>-Result-</option>
+                  <option v-for='result in scorecardEntry.results' :value='result'>{{ result }}</option>
+                </select><br>
+                <input 
+                v-if='awayTeamData.player[row_index-1].atbats[inning_index-1].noteVisibility'
+                placeholder="Note"
+                id='note-input'
+                v-on:change='updateNote($event, row_index, inning_index, "away")'>
+              </div>
+  
+              <div class='out-count'>
+                <select 
+                name='out-count' 
+                id='out-count-select'
+                v-model='awayTeamData.player[row_index-1].atbats[inning_index-1].out'>
+                  <option value='0'>-</option>
+                  <option v-for='index in 3' :value='index'>{{ index }}</option>
+                </select>
+                <label>Out</label>
+              </div>
+              <button 
+                class='base-button' 
+                id='first-base' 
+                :style='checkButtonStyle(0, row_index, inning_index, "away")'
+                v-on:click='updateRunner(1, row_index, inning_index, "away")'>
+              </button>
+              <button 
+                class='base-button' 
+                id='second-base'
+                :style='checkButtonStyle(1, row_index, inning_index, "away")'
+                v-on:click='updateRunner(2, row_index, inning_index, "away")'>
+              </button>
+              <button 
+                class='base-button' 
+                id='third-base'
+                :style='checkButtonStyle(2, row_index, inning_index, "away")'
+                v-on:click='updateRunner(3, row_index, inning_index, "away")'>
+              </button>
+              <button 
+                class='home-plate-button' 
+                id='home-plate'
+                :style='checkButtonStyle(3, row_index, inning_index, "away")'
+                v-on:click='updateRunner(4, row_index, inning_index, "away")'>
+              </button>
+              <div class='sub-box'>
+                <label for='sub-box'>Sub:</label>
+                <input type="checkbox" id="sub-box"
+                v-on:click='toggleSub(row_index, inning_index, "away")'
+                v-model='awayTeamData.player[row_index-1].atbats[inning_index-1].sub'>
+              </div>
+            </div>
+            <div class= 'tally-container'>
+              <div class='tally-parent'>
+                <div 
+                v-for='(tally,index) in scorecardEntry.tallies'
+                class='tally-child'
+                id='starter-tally'>
+                  <h5>{{ tally }}</h5>
+                  <p>{{ awayTeamData.player[row_index-1].starterTally[index] }}</p>
+                </div>
+              </div>
+              <div class='tally-parent'>
+                <div
+                v-if='awayTeamData.player[row_index-1].sub'
+                v-for='(tally,index) in scorecardEntry.tallies'
+                class='tally-child'
+                id='sub-tally'>
+                  <h5>{{ tally }}</h5>
+                  <p>{{ awayTeamData.player[row_index-1].subTally[index] }}</p>
+                </div>
+              </div>
+              
+            </div>
+  
+          </div>
+        </div>
       </div>
     </div>
 

@@ -156,7 +156,7 @@ var app = new Vue({
                 ]
             }
         ],
-        activeTeam: '',
+        activeTeam: 'home',
         homeTeam: '',
         awayTeam: '',
         date: '',
@@ -230,6 +230,20 @@ var app = new Vue({
                 new playerGameData(),
                 new playerGameData()
             ]
+        },
+        awayTeamData: {
+            player: [
+                new playerGameData(),
+                new playerGameData(),
+                new playerGameData(),
+                new playerGameData(),
+                new playerGameData(),
+                new playerGameData(),
+                new playerGameData(),
+                new playerGameData(),
+                new playerGameData(),
+                new playerGameData()
+            ]
         }
     },
     methods: {
@@ -239,6 +253,12 @@ var app = new Vue({
             } else {
                 this.visibility.help = false;
             }
+        },
+        homeButton: function () {
+            this.activeTeam = 'home';
+        },
+        awayButton: function () {
+            this.activeTeam = 'away';
         },
         updateDate: function (event) {
             this.date = event.target.value.replace(/-/gi,'')
@@ -262,14 +282,26 @@ var app = new Vue({
             if(this.visibility.inningRange !== 5)
             this.visibility.inningRange += 1;
         },
-        checkButtonStyle: function (base, row, inning) {
-            let color= this.homeTeamData.player[row-1].atbats[inning-1].baseColors[base];
+        checkButtonStyle: function (base, row, inning, team) {
+            let data;
+            if (team === 'home') {
+                data = this.homeTeamData
+            } else if (team === 'away') {
+                data = this.awayTeamData
+            }
+            let color= data.player[row-1].atbats[inning-1].baseColors[base];
             return {
                 backgroundColor: color
             }
         },
-        updateRunner: function (base, row, inning) {
-            let atbat = this.homeTeamData.player[row-1].atbats[inning-1];
+        updateRunner: function (base, row, inning, team) {
+            let data;
+            if (team === 'home') {
+                data = this.homeTeamData
+            } else if (team === 'away') {
+                data = this.awayTeamData
+            };
+            let atbat = data.player[row-1].atbats[inning-1];
             if (atbat.runner === base) {
                 atbat.runner = 0;
             } else {
@@ -277,10 +309,16 @@ var app = new Vue({
             }
             
         },
-        resultUpdateRunnerNote: function (event, row, inning) {
+        resultUpdateRunnerNote: function (event, row, inning, team) {
             console.log(event.target.value);
             let result = event.target.value;
-            let atbat = this.homeTeamData.player[row-1].atbats[inning-1];
+            let data;
+            if (team === 'home') {
+                data = this.homeTeamData
+            } else if (team === 'away') {
+                data = this.awayTeamData
+            }
+            let atbat = data.player[row-1].atbats[inning-1];
             if(result === '1B' ||
             result === 'BB' ||
             result === 'HBP') {
@@ -305,17 +343,29 @@ var app = new Vue({
                 atbat.noteVisibility = true
             }
         },
-        updateNote: function (event, row, inning) {
+        updateNote: function (event, row, inning, team) {
             console.log(event.target.value);
-            this.homeTeamData.player[row-1].atbats[inning-1].note = event.target.value;
+            let data;
+            if (team === "home") {
+                data = this.homeTeamData
+            } else if (team === "away") {
+                data = this.awayTeamData
+            };
+            data.player[row-1].atbats[inning-1].note = event.target.value;
         },
-        toggleSub: function (row, inning) {
-            console.log('Toggle Sub!')
-            let subStatus = this.homeTeamData.player[row-1].atbats[inning-1].sub;
+        toggleSub: function (row, inning, team) {
+            console.log('Toggle Sub!');
+            let data;
+            if (team === "home") {
+                data = this.homeTeamData
+            } else if (team === "away") {
+                data = this.awayTeamData
+            };
+            let subStatus = data.player[row-1].atbats[inning-1].sub;
             if (subStatus) {
-                this.homeTeamData.player[row-1].atbats[inning-1].sub = false
+                data.player[row-1].atbats[inning-1].sub = false
             } else {
-                this.homeTeamData.player[row-1].atbats[inning-1].sub = true
+                data.player[row-1].atbats[inning-1].sub = true
             }
         }
     },

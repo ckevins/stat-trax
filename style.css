@@ -68,6 +68,18 @@ p {
     color: white;
 }
 
+.team-select-buttons {
+    width: 90%;
+    display: flex;
+    justify-content: space-evenly;
+    margin: auto;
+}
+
+.team-button {
+    width: 40%;
+    padding: 10px 0 10px 0;
+}
+
 .scorecard-columns {
     display: flex;
     width: 75%;
