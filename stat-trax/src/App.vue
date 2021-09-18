@@ -8,12 +8,18 @@
     <div class='scorecard'>
         <h2>Scorecard</h2>
         <button v-on:click='toggleHelp' id='help-button'>Help</button>
-        <ScorecardHeader :teams='teams'></ScorecardHeader>
+        <ScorecardHeader 
+            :teams='teams' 
+            @update-game-data='updateGameData'>
+        </ScorecardHeader>
         <div class='team-select-buttons'>
             <button class='team-button' v-on:click='homeButton'>Home</button>
             <button class='team-button' v-on:click='awayButton'>Away</button>
         </div>
-        <Boxscore v-if='homeTeam && awayTeam'></Boxscore>
+        <Boxscore 
+            v-if='homeTeam && awayTeam'
+            :homeTeam='homeTeam'>
+        </Boxscore>
         <ScorecardChart :team="homeTeamData"></ScorecardChart>
     </div>
 </div>
@@ -98,7 +104,6 @@ const getRuns = (atbats, subBool) => {
     });
     return runs
 }
-
 const getRbis = (atbats, subBool) => {
     let rbis = 0;
     atbats.forEach(element => {
@@ -196,12 +201,14 @@ export default {
                 ]
             }
             ],
+            gameData: {
+                homeTeam: '',
+                awayTeam:'',
+                date: '',
+                time: '',
+                weather: ''
+            },
             activeTeam: 'away',
-            homeTeam: '',
-            awayTeam: '',
-            date: '',
-            time: '',
-            weather: '',
             help: false
         }
     },
@@ -213,28 +220,20 @@ export default {
                 this.help = false;
             }
         },
+        updateGameData: function (gameData) {
+            this.gameData = gameData;
+        },
         homeButton: function () {
             this.activeTeam = 'home';
         },
         awayButton: function () {
             this.activeTeam = 'away';
-        },
-        updateDate: function (event) {
-            this.date = event.target.value.replace(/-/gi,'')
-        },
-        updateTime: function (event) {
-            this.time = event.target.value.replace(':', '').replace('pm', '');
         }
     },
     computed: {
-        gameId: function () {
-            let awayTeamString = this.awayTeam.nickname.toLowerCase().replace(' ', '');
-            let homeTeamString = this.homeTeam.nickname.toLowerCase().replace(' ','');
-            return awayTeamString + '@' + homeTeamString + this.date + this.time;
-        },
         homeTeamData: function() {
             return {
-                nickname: this.homeTeam.nickname,
+                nickname: this.gameData.homeTeam.nickname,
                 players: [
                     new playerGameData(),
                     new playerGameData(),
@@ -251,7 +250,7 @@ export default {
         },
         awayTeamData: function() {
             return {
-                nickname: this.awayTeam.nickname,
+                nickname: this.gameData.awayTeam.nickname,
                 players: [
                     new playerGameData(),
                     new playerGameData(),
@@ -318,19 +317,6 @@ p {
     top: 15px;
     right: 15px;
     border-radius: 10px;
-}
-
-
-.scorecard-header{
-    display: flex;
-    justify-content: space-between;
-    padding: 40px;
-    width: 90%;
-    margin: 5px auto 20px auto;
-    border: 2px solid white;
-    background-color: rgb(47, 47, 47);
-    color: white;
-    border-radius: 15px;
 }
 
 .team-select-buttons {
