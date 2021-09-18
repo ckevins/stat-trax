@@ -320,8 +320,7 @@ var app = new Vue({
                 atbat.runner = 0;
             } else {
                 atbat.runner = base;
-            }
-            
+            } 
         },
         resultUpdateRunnerNote: function (event, row, inning, team) {
             console.log(event.target.value);
