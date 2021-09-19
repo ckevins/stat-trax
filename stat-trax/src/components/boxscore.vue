@@ -6,28 +6,32 @@
             <th v-for='index in 10' :key='index'>{{ index }}</th>
             <th>R</th>
             <th>H</th>
+            <th>E</th>
         </tr>
         <tr>
             <th class='box-team' :style='checkTeamStyling(awayTeamNickname)'> {{ awayTeamNickname }} </th>
             <td v-for='score in awayTeamBoxscore.inningScore' :key='score'> {{score}} </td>
             <td class='box-totals' :style='checkTeamStyling(awayTeamNickname)'> {{ awayTeamBoxscore.score }} </td>
             <td class='box-totals' :style='checkTeamStyling(awayTeamNickname)'> {{ awayTeamBoxscore.hits }}</td>
+            <td class='box-totals' :style='checkTeamStyling(awayTeamNickname)'> {{ awayTeamBoxscore.errors}} </td>
         </tr>
         <tr>
             <th class='box-team' :style='checkTeamStyling(homeTeamNickname)'> {{ homeTeamNickname }} </th>
             <td v-for='score in homeTeamBoxscore.inningScore' :key='score'> {{score}} </td>
             <td class='box-totals' :style='checkTeamStyling(homeTeamNickname)'> {{ homeTeamBoxscore.score }} </td>
             <td class='box-totals' :style='checkTeamStyling(homeTeamNickname)'> {{ homeTeamBoxscore.hits }}</td>
+            <td class='box-totals' :style='checkTeamStyling(homeTeamNickname)'> {{ homeTeamBoxscore.errors}} </td>
         </tr>
         </table>
     </div>
 </template>
 
 <script>
-const getTeamBoxscore = (teamData) => {
+const getTeamBoxscore = (teamData, opponentdata) => {
     let inningScore = new Array(10).fill(0);
     let score = 0;
     let hits = 0;
+    let errors = 0;
     teamData.players.forEach(player => {
         player.atbats.forEach((atbat, index) => {
             if (atbat.result === '1B' ||
@@ -42,10 +46,18 @@ const getTeamBoxscore = (teamData) => {
             }
         });
     });
+    opponentdata.players.forEach(player => {
+        player.atbats.forEach(atbat => {
+            if (atbat.result === 'E') {
+                errors +=1
+            }
+        })
+    })
     return {
         inningScore,
         score,
-        hits
+        hits,
+        errors
     }
 }
 export default {
@@ -78,10 +90,10 @@ export default {
     },
     computed: {
         homeTeamBoxscore: function () {
-            return getTeamBoxscore(this.homeTeamData);
+            return getTeamBoxscore(this.homeTeamData, this.awayTeamData);
         },
         awayTeamBoxscore: function () {
-            return getTeamBoxscore(this.awayTeamData);
+            return getTeamBoxscore(this.awayTeamData, this.homeTeamData);
         }
     }
 }

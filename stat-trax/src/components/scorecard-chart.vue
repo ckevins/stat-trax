@@ -193,7 +193,7 @@ export default {
         return {
             positions: ['P', 'C', '1B', '2B', '3B', 'SS', 'LF', 'CF', 'RF', 'DH'],
             tallies: ['AB', 'H', 'R', 'RBI', 'BB', 'HBP', 'K'],
-            results: ['1B', '2B', '3B', 'HR', 'BB', 'K', 'Kc', 'HBP', 'G', 'U', 'F', 'L', 'FF', 'FO', 'DP', 'FC', 'SF', 'SH'],
+            results: ['1B', '2B', '3B', 'HR', 'BB', 'K', 'Kc', 'HBP', 'G', 'U', 'F', 'L', 'FF', 'FO', 'DP', 'FC', 'SF', 'SH', 'E'],
             teamData: this.team
         }
     },
