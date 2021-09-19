@@ -20,7 +20,14 @@
             v-if='homeTeam && awayTeam'
             :homeTeam='homeTeam'>
         </Boxscore>
-        <ScorecardChart :team="homeTeamData"></ScorecardChart>
+        <ScorecardChart 
+            :roster="gameData.homeTeam"
+            :team="homeTeamData"
+            :inningsRendered='inningsRendered'
+            :toggleUp='toggleInningRangeUp'
+            :toggleDown='toggleInningRangeDown'
+            @update-team-data='updateHomeTeamData'>
+        </ScorecardChart>
     </div>
 </div>
 </template>
@@ -54,67 +61,7 @@ class ABData {
         }
     }
 }
-const getAtBats = (atbats, subBool) => {
-    let abs = 0;
-    atbats.forEach(element => {
-        if (element.sub === subBool) {
-            if (element.result !== null && 
-                element.result !== '' &&
-                element.result !== 'BB' && 
-                element.result !== 'HBP' && 
-                element.result !== 'SF' &&
-                element.result !== 'SH') {
-                    abs += 1;
-                }
-        }
-    })
-    return abs;
-}
-const getResults = (atbats, subBool) => {
-    let hits = 0;
-    let bbs = 0;
-    let hbps = 0;
-    let ks = 0;
-    atbats.forEach(element => {
-        if (element.sub === subBool) {
-            if (element.result === '1B' ||
-            element.result === '2B' || 
-            element.result === '3B' || 
-            element.result === 'HR') {
-                hits += 1;
-            } else if (element.result === 'BB') {
-                bbs += 1;
-            } else if (element.result === 'K' || element.result === 'Kc') {
-                ks += 1;
-            } else if (element.result === 'HBP') {
-                hbps += 1;
-            }
-        }
-    });
-    return [hits, bbs, hbps, ks]
-}
-const getRuns = (atbats, subBool) => {
-    let runs = 0;
-    atbats.forEach(element => {
-        if (element.sub === subBool) {
-            if (element.runner === 4) {
-                runs += 1
-            }
-        }
-    });
-    return runs
-}
-const getRbis = (atbats, subBool) => {
-    let rbis = 0;
-    atbats.forEach(element => {
-        if (element.sub === subBool) {
-            if (element.rbi !== '0') {
-                rbis += element.rbi
-            }
-        }
-    })
-    return rbis;
-}
+
 class playerGameData {
     constructor () {
         this.player = '';
@@ -132,20 +79,6 @@ class playerGameData {
             new ABData(),
             new ABData()
         ];
-    }
-    get starterTally () {
-        let abs = getAtBats(this.atbats, false);
-        let [hits, bbs, hbps, ks] = getResults(this.atbats, false);
-        let runs = getRuns(this.atbats, false);
-        let rbis = getRbis(this.atbats, false);
-        return [abs, hits, runs, rbis, bbs, hbps, ks]
-    }
-    get subTally () {
-        let abs = getAtBats(this.atbats, true);
-        let [hits, bbs, hbps, ks] = getResults(this.atbats, true);
-        let runs = getRuns(this.atbats, true);
-        let rbis = getRbis(this.atbats, true);
-        return [abs, hits, runs, rbis, bbs, hbps, ks]
     }
 }
 
@@ -209,7 +142,36 @@ export default {
                 weather: ''
             },
             activeTeam: 'away',
-            help: false
+            inningRange: 0,
+            help: false,
+            homeTeamData: {
+                players: [
+                    new playerGameData(),
+                    new playerGameData(),
+                    new playerGameData(),
+                    new playerGameData(),
+                    new playerGameData(),
+                    new playerGameData(),
+                    new playerGameData(),
+                    new playerGameData(),
+                    new playerGameData(),
+                    new playerGameData()
+                ]
+            },
+            awayTeamData: {
+                players: [
+                    new playerGameData(),
+                    new playerGameData(),
+                    new playerGameData(),
+                    new playerGameData(),
+                    new playerGameData(),
+                    new playerGameData(),
+                    new playerGameData(),
+                    new playerGameData(),
+                    new playerGameData(),
+                    new playerGameData()
+                ]
+            }
         }
     },
     methods: {
@@ -223,47 +185,30 @@ export default {
         updateGameData: function (gameData) {
             this.gameData = gameData;
         },
+        updateHomeTeamData: function (teamData) {
+            this.homeTeamData = teamData
+        },
         homeButton: function () {
             this.activeTeam = 'home';
         },
         awayButton: function () {
             this.activeTeam = 'away';
+        },
+        toggleInningRangeDown: function () {
+            if(this.inningRange !== 0) {
+                this.inningRange -= 1;
+            }
+        },
+        toggleInningRangeUp: function () {
+            if(this.inningRange !== 5) {
+                this.inningRange += 1;
+            }
         }
     },
     computed: {
-        homeTeamData: function() {
-            return {
-                nickname: this.gameData.homeTeam.nickname,
-                players: [
-                    new playerGameData(),
-                    new playerGameData(),
-                    new playerGameData(),
-                    new playerGameData(),
-                    new playerGameData(),
-                    new playerGameData(),
-                    new playerGameData(),
-                    new playerGameData(),
-                    new playerGameData(),
-                    new playerGameData()
-                ]
-            }
-        },
-        awayTeamData: function() {
-            return {
-                nickname: this.gameData.awayTeam.nickname,
-                players: [
-                    new playerGameData(),
-                    new playerGameData(),
-                    new playerGameData(),
-                    new playerGameData(),
-                    new playerGameData(),
-                    new playerGameData(),
-                    new playerGameData(),
-                    new playerGameData(),
-                    new playerGameData(),
-                    new playerGameData()
-                ]
-            }
+        inningsRendered: function () {
+            let range = this.inningRange;
+            return [range + 1, range + 2, range + 3, range + 4, range +5]
         }
     },
     components: {
@@ -346,145 +291,5 @@ table {
 th, td {
     border: 1px solid black;
     padding: 5px;
-}
-
-.scorecard-columns {
-    display: flex;
-    width: 75%;
-    margin-left: 5%;
-}
-
-
-.player-selects-head {
-    width: 15%;
-    display: flex;
-}
-
-.inning-heads {
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
-}
-
-.scorecard-row {
-    margin: auto;
-    width: 95%;
-    display: flex;
-}
-
-.player-selects{
-    width: 15%;
-    display: flex;
-    justify-content: space-evenly;
-}
-
-.player-selects {
-    background-color: white;
-    border: 1px solid navy;
-}
-
-.player-selects-children {
-    padding-top: 20%;
-}
-
-.batting-order {
-    padding-top: 15%;
-}
-
-.diamond {
-    position: relative;
-    background-color: white;
-    border: 1px solid navy;
-    width: 200px;
-    height: 150px;
-    background-image: url('/Users/codyevins/Documents/Code/personal-projects/baseball-scorecard/stat-trax/src/assets/diamond.jpg');
-    background-repeat: no-repeat;
-    background-size: 150px 150px;
-    background-position: center;
-}
-
-.rbi {
-    padding: 5px;
-}
-
-.sb {
-    position: absolute;
-    top: 0;
-    right: 0;
-    padding: 5px;
-}
-
-.result {
-    position: absolute;
-    top: 30%;
-    left: 30%;
-}
-
-.out-count {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    padding: 5px;
-}
-
-.sub-box {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    padding: 5px;
-}
-
-.base-button {
-    height: 15px;
-    width: 15px;
-    transform: rotate(45deg)
-}
-
-#first-base {
-    position: absolute;
-    top: 45%;
-    right: 19%;
-}
-
-#second-base {
-    position: absolute;
-    top: 9.5%;
-    left: 46%;
-}
-
-#third-base {
-    position: absolute;
-    top: 45%;
-    left: 19%;
-}
-
-.home-plate-button {
-    height: 15px;
-    width: 15px;
-    position: absolute;
-    bottom: 9.5%;
-    left: 46%;
-}
-
-#note-input {
-    width: 70px;
-}
-
-.tally-container {
-    width: 10%;
-    display: block;
-}
-
-.tally-parent {
-    display: flex;
-    height: 50%;
-    margin: auto;
-}
-
-.tally-child {
-    border: 1px solid navy;
-    background-color: white;
-    text-align: center;
-    padding: 0 5%;
 }
 </style>
