@@ -18,7 +18,7 @@
                 :awayTeamData='awayTeamData'>
             </Boxscore>
             <ScorecardChart
-                v-if="activeTeam==='home'"
+                v-if="gameData.homeTeam.nickname && activeTeam==='home'"
                 :roster="gameData.homeTeam"
                 :team="homeTeamData"
                 :inningsRendered='inningsRendered'
@@ -173,3 +173,30 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+.scorecard {
+    position: relative;
+    background-color: #4d926d;
+    padding: 10px 0 30px 0;
+    border: 5px solid #1E392A;
+    margin: 10px auto 20px auto;
+    border-radius: 20px;
+    color: black;
+}
+
+.team-select-buttons {
+    width: 90%;
+    display: flex;
+    justify-content: space-evenly;
+    margin: auto;
+}
+
+.team-button {
+    width: 40%;
+    padding: 10px 0 10px 0;
+    border-radius: 30px;
+}
+
+
+</style>

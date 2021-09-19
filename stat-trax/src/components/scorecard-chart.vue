@@ -259,6 +259,15 @@ export default {
 </script>
 
 <style scoped>
+h5 {
+    padding: 5px;
+    margin: 0;
+}
+
+p {
+    margin: 0;
+}
+
 .scorecard-columns {
     display: flex;
     width: 75%;

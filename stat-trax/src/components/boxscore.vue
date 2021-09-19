@@ -1,23 +1,23 @@
 <template>
     <div>
         <table class='score-board'>
-        <tr>
+        <tr class='box-totals-head'>
             <th>Box Score</th>
             <th v-for='index in 10' :key='index'>{{ index }}</th>
             <th>R</th>
             <th>H</th>
         </tr>
         <tr>
-            <th> {{ awayTeamNickname }} </th>
+            <th class='box-team' :style='checkTeamStyling(awayTeamNickname)'> {{ awayTeamNickname }} </th>
             <td v-for='score in awayTeamBoxscore.inningScore' :key='score'> {{score}} </td>
-            <td> {{ awayTeamBoxscore.score }} </td>
-            <td> {{ awayTeamBoxscore.hits }}</td>
+            <td class='box-totals' :style='checkTeamStyling(awayTeamNickname)'> {{ awayTeamBoxscore.score }} </td>
+            <td class='box-totals' :style='checkTeamStyling(awayTeamNickname)'> {{ awayTeamBoxscore.hits }}</td>
         </tr>
         <tr>
-            <th> {{ homeTeamNickname }} </th>
+            <th class='box-team' :style='checkTeamStyling(homeTeamNickname)'> {{ homeTeamNickname }} </th>
             <td v-for='score in homeTeamBoxscore.inningScore' :key='score'> {{score}} </td>
-            <td> {{ homeTeamBoxscore.score }} </td>
-            <td> {{ homeTeamBoxscore.hits }}</td>
+            <td class='box-totals' :style='checkTeamStyling(homeTeamNickname)'> {{ homeTeamBoxscore.score }} </td>
+            <td class='box-totals' :style='checkTeamStyling(homeTeamNickname)'> {{ homeTeamBoxscore.hits }}</td>
         </tr>
         </table>
     </div>
@@ -56,6 +56,26 @@ export default {
         awayTeamNickname: String,
         awayTeamData: Object
     },
+    methods: {
+        checkTeamStyling: function (teamNickname) {
+            if (teamNickname === 'Southern Ryes') {
+                return {
+                    color: 'white',
+                    backgroundColor: 'teal'
+                }
+            } else if (teamNickname === 'Red Sox') {
+                return {
+                    color: 'white',
+                    backgroundColor: 'red'
+                }
+            } else if (teamNickname === 'Giants') {
+                return {
+                    color: 'black',
+                    backgroundColor: 'orange'
+                }
+            }
+        }
+    },
     computed: {
         homeTeamBoxscore: function () {
             return getTeamBoxscore(this.homeTeamData);
@@ -66,3 +86,34 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+.score-board {
+    text-align: center;
+    border: 1px solid black;
+    color: black;
+    margin-top: 2.5%;
+}
+
+table {
+    width: 50%;
+    margin: 10px auto 10px auto;
+    background-color: white;
+}
+
+th, td {
+    border: 1px solid black;
+    padding: 5px;
+}
+
+.box-totals-head, .box-totals, .box-team {
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.box-totals-head {
+    background-color: #E9C893;
+}
+
+
+</style>
