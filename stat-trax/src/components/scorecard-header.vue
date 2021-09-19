@@ -68,8 +68,12 @@ export default {
         width: 90%;
         margin: 5px auto 20px auto;
         border: 2px solid white;
-        background-color: rgb(47, 47, 47);
+        background-color: #1E392A;
         color: white;
         border-radius: 15px;
+    }
+    label {
+        color: #E9C893;
+        font-weight: bold;
     }
 </style>

@@ -4,8 +4,7 @@
 
     <div class='scorecard-columns'>
         <div class='player-selects-head'>
-            <h2>Player</h2>
-            <h2>Pos</h2>
+            <h2>Lineup</h2>
         </div>
         <div class='inning-heads'>
             <button v-on:click='toggleDown'> &lt;&lt;&lt; </button>
@@ -309,7 +308,7 @@ export default {
     border: 1px solid navy;
     width: 200px;
     height: 150px;
-    background-image: url('/Users/codyevins/Documents/Code/personal-projects/baseball-scorecard/stat-trax/src/assets/diamond.jpg');
+    background-image: url('~@/assets/diamond.jpg');
     background-repeat: no-repeat;
     background-size: 150px 150px;
     background-position: center;
