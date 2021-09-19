@@ -49,7 +49,6 @@ export default {
     top: 12.5%;
     left: 12.5%;
     text-align: left;
-    height: 75%; 
     width: 75%;
     align-content: center;
     background-color: rgba(0, 0, 0, 0.904);

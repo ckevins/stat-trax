@@ -5,7 +5,7 @@
             <Help v-if='help' :toggleHelp='toggleHelp'></Help>
         </div>
 
-        <Scorecard :teams='teams'></Scorecard>
+        <Scorecard :teams='teams' :toggleHelp='toggleHelp'></Scorecard>
         
     </div>
 </template>
@@ -87,13 +87,16 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: white;
   margin-top: 60px;
 }
 body {
     width: 98%;
     margin: auto;
-    background-color: #472800;
+    background-color: #E9C893;
+}
+
+h1 {
+    color: #1E392A;
 }
 
 h2, .app-header {

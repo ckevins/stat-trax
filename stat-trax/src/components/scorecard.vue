@@ -79,7 +79,8 @@ import ScorecardChart from './scorecard-chart.vue';
 export default {
     name: 'Scorecard',
     props: {
-        teams: Array
+        teams: Array,
+        toggleHelp: Function
     },
     data: function () {
         return {
