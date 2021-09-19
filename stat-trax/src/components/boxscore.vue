@@ -8,7 +8,13 @@
             <th>H</th>
         </tr>
         <tr>
-            <th> {{ homeTeam.nickname }} </th>
+            <th> {{ awayTeamNickname }} </th>
+            <td v-for='score in awayTeamBoxscore.inningScore' :key='score'> {{score}} </td>
+            <td> {{ awayTeamBoxscore.score }} </td>
+            <td> {{ awayTeamBoxscore.hits }}</td>
+        </tr>
+        <tr>
+            <th> {{ homeTeamNickname }} </th>
             <td v-for='score in homeTeamBoxscore.inningScore' :key='score'> {{score}} </td>
             <td> {{ homeTeamBoxscore.score }} </td>
             <td> {{ homeTeamBoxscore.hits }}</td>
@@ -18,31 +24,44 @@
 </template>
 
 <script>
+const getTeamBoxscore = (teamData) => {
+    let inningScore = new Array(10).fill(0);
+    let score = 0;
+    let hits = 0;
+    teamData.players.forEach(player => {
+        player.atbats.forEach((atbat, index) => {
+            if (atbat.result === '1B' ||
+                atbat.result === '2B' ||
+                atbat.result === '3B' ||
+                atbat.result === 'HR') {
+                    hits+=1
+                }
+            if (atbat.runner === 4) {
+                    inningScore[index] +=1;
+                    score += 1
+            }
+        });
+    });
+    return {
+        inningScore,
+        score,
+        hits
+    }
+}
 export default {
     name: 'Boxscore',
     props: {
+        homeTeamNickname: String,
         homeTeamData: Object,
+        awayTeamNickname: String,
         awayTeamData: Object
     },
-    methods: {
+    computed: {
         homeTeamBoxscore: function () {
-            let inningScore = new Array(10).fill(0);
-            let score = 0;
-            let hits = 0
-            this.homeTeamData.players.forEach(player => {
-                score += (player.starterTally[2] + player.subTally[2]);
-                hits += (player.starterTally[1] + player.subTally[1]);
-                player.atbats.forEach((atbat, index) => {
-                    if (atbat.runner === 4) {
-                        inningScore[index] += 1;
-                    }
-                })
-            });
-            return {
-                score,
-                hits,
-                inningScore
-            };
+            return getTeamBoxscore(this.homeTeamData);
+        },
+        awayTeamBoxscore: function () {
+            return getTeamBoxscore(this.awayTeamData);
         }
     }
 }

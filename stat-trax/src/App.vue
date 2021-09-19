@@ -1,35 +1,48 @@
 <template>
-<div>
-    <div class='app-header'>
-        <h1>Stat Trax</h1>
-        <Help v-if='help' :toggleHelp='toggleHelp'></Help>
-    </div>
-
-    <div class='scorecard'>
-        <h2>Scorecard</h2>
-        <button v-on:click='toggleHelp' id='help-button'>Help</button>
-        <ScorecardHeader 
-            :teams='teams' 
-            @update-game-data='updateGameData'>
-        </ScorecardHeader>
-        <div class='team-select-buttons'>
-            <button class='team-button' v-on:click='homeButton'>Home</button>
-            <button class='team-button' v-on:click='awayButton'>Away</button>
+    <div>
+        <div class='app-header'>
+            <h1>Stat Trax</h1>
+            <Help v-if='help' :toggleHelp='toggleHelp'></Help>
         </div>
-        <Boxscore 
-            v-if='homeTeam && awayTeam'
-            :homeTeam='homeTeam'>
-        </Boxscore>
-        <ScorecardChart 
-            :roster="gameData.homeTeam"
-            :team="homeTeamData"
-            :inningsRendered='inningsRendered'
-            :toggleUp='toggleInningRangeUp'
-            :toggleDown='toggleInningRangeDown'
-            @update-team-data='updateHomeTeamData'>
-        </ScorecardChart>
+
+        <div class='scorecard'>
+            <h2>Scorecard</h2>
+            <button v-on:click='toggleHelp' id='help-button'>Help</button>
+            <ScorecardHeader 
+                :teams='teams' 
+                @update-game-data='updateGameData'>
+            </ScorecardHeader>
+            <div class='team-select-buttons'>
+                <button class='team-button' :style='checkTeamButtonStyle("home")' v-on:click='homeButton'>Home</button>
+                <button class='team-button' :style='checkTeamButtonStyle("away")' v-on:click='awayButton'>Away</button>
+            </div>
+            <Boxscore 
+                v-if='gameData.homeTeam.nickname && gameData.awayTeam.nickname'
+                :homeTeamNickname='gameData.homeTeam.nickname'
+                :homeTeamData='homeTeamData'
+                :awayTeamNickname='gameData.awayTeam.nickname'
+                :awayTeamData='awayTeamData'>
+            </Boxscore>
+            <ScorecardChart
+                v-if="activeTeam==='home'"
+                :roster="gameData.homeTeam"
+                :team="homeTeamData"
+                :inningsRendered='inningsRendered'
+                :toggleUp='toggleInningRangeUp'
+                :toggleDown='toggleInningRangeDown'
+                @update-team-data='updateHomeTeamData'>
+            </ScorecardChart>
+            <ScorecardChart
+                v-if="activeTeam==='away'"
+                :roster="gameData.awayTeam"
+                :team="awayTeamData"
+                :inningsRendered='inningsRendered'
+                :toggleUp='toggleInningRangeUp'
+                :toggleDown='toggleInningRangeDown'
+                @update-team-data='updateAwayTeamData'>
+            </ScorecardChart>
+        </div>
     </div>
-</div>
 </template>
 
 
@@ -44,21 +57,6 @@ class ABData {
         this.out = 0;
         this.runner = 0;
         this.sub = false;
-    }
-    get baseColors() {
-        if (this.runner === 0) {
-            return ['white', 'white', 'white', 'white']
-        } else if (this.runner === 1){
-            return ['red', 'white', 'white', 'white']
-        } else if (this.runner === 2) {
-            return ['red', 'red', 'white', 'white']
-        } else if (this.runner === 3) {
-            return ['red', 'red', 'red', 'white']
-        } else if (this.runner === 4) {
-            return ['red', 'red', 'red', 'red']
-        } else {
-        return ['white', 'white', 'white', 'white']
-        }
     }
 }
 
@@ -135,8 +133,8 @@ export default {
             }
             ],
             gameData: {
-                homeTeam: '',
-                awayTeam:'',
+                homeTeam: {},
+                awayTeam: {},
                 date: '',
                 time: '',
                 weather: ''
@@ -187,6 +185,20 @@ export default {
         },
         updateHomeTeamData: function (teamData) {
             this.homeTeamData = teamData
+        },
+        updateAwayTeamData: function (teamData) {
+            this.awayTeamData = teamData
+        },
+        checkTeamButtonStyle: function (homeOrAway) {
+            if (this.activeTeam === homeOrAway) {
+                return {
+                    border: "3px solid yellow"
+                }
+            } else {
+                return {
+                    border: "1px solid black"
+                }
+            }
         },
         homeButton: function () {
             this.activeTeam = 'home';

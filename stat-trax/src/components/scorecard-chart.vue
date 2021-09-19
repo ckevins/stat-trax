@@ -8,9 +8,9 @@
             <h2>Pos</h2>
         </div>
         <div class='inning-heads'>
-            <button v-on:click='toggleDown'> --- </button>
+            <button v-on:click='toggleDown'> &lt;&lt;&lt; </button>
             <h2 v-for='inning in inningsRendered' id='inning-columns' :key='inning'> {{ inning }} </h2>
-            <button v-on:click='toggleUp'> --- </button>
+            <button v-on:click='toggleUp'> &gt;&gt;&gt; </button>
         </div>
     </div>
 
@@ -54,7 +54,7 @@
                 <label>SB</label>
             </div>
             <div class='result'>
-                <select name='result' id='result-select' v-model='teamData.players[row_index-1].atbats[inning_index-1].result' v-on:change='updateData'>
+                <select name='result' id='result-select' v-model='teamData.players[row_index-1].atbats[inning_index-1].result' v-on:change='resultUpdateRunner($event, row_index, inning_index); updateData'>
                 <option value=''>-Result-</option>
                 <option v-for='result in results' :value='result' :key='result'>{{ result }}</option>
                 </select>
@@ -68,23 +68,27 @@
             </div>
             <button 
                 class='base-button' 
-                id='first-base' 
-                v-on:click='updateRunner(1, row_index, inning_index)'>
+                id='first-base'
+                :style='checkButtonStyle(1, row_index, inning_index)'
+                v-on:click='updateRunner(1, row_index, inning_index); updateData'>
             </button>
             <button 
                 class='base-button' 
                 id='second-base'
-                v-on:click='updateRunner(2, row_index, inning_index)'>
+                :style='checkButtonStyle(2, row_index, inning_index)'
+                v-on:click='updateRunner(2, row_index, inning_index); updateData'>
             </button>
             <button 
                 class='base-button' 
                 id='third-base'
-                v-on:click='updateRunner(3, row_index, inning_index)'>
+                :style='checkButtonStyle(3, row_index, inning_index)'
+                v-on:click='updateRunner(3, row_index, inning_index); updateData'>
             </button>
             <button 
                 class='home-plate-button' 
                 id='home-plate'
-                v-on:click='updateRunner(4, row_index, inning_index)'>
+                :style='checkButtonStyle(4, row_index, inning_index)'
+                v-on:click='updateRunner(4, row_index, inning_index); updateData'>
             </button>
             <div class='sub-box'>
                 <label for='sub-box'>Sub:</label>
@@ -191,7 +195,7 @@ export default {
             positions: ['P', 'C', '1B', '2B', '3B', 'SS', 'LF', 'CF', 'RF', 'DH'],
             tallies: ['AB', 'H', 'R', 'RBI', 'BB', 'HBP', 'K'],
             results: ['1B', '2B', '3B', 'HR', 'BB', 'K', 'Kc', 'HBP', 'G', 'U', 'F', 'L', 'FF', 'FO', 'DP', 'FC', 'SF', 'SH'],
-            teamData: this.team,
+            teamData: this.team
         }
     },
     methods: {
@@ -204,6 +208,51 @@ export default {
             let runs = getRuns(atbatsArr, subBool);
             let rbis = getRbis(atbatsArr, subBool);
             return [abs, hits, runs, rbis, bbs, hbps, ks]
+        },
+        updateRunner: function (base, row_index, inning_index) {
+            if (this.teamData.players[row_index-1].atbats[inning_index-1].runner === base) {
+                this.teamData.players[row_index-1].atbats[inning_index-1].runner = 0
+            } else {
+                this.teamData.players[row_index-1].atbats[inning_index-1].runner = base
+            }
+        },
+        resultUpdateRunner: function (event, row, inning) {
+            let result = event.target.value;
+            let atbat = this.teamData.players[row-1].atbats[inning-1];
+            if(result === '1B' ||
+                result === 'BB' ||
+                result === 'HBP') {
+                    atbat.runner = 1;
+                    atbat.noteVisibility = false
+            } else if (result === '2B') {
+                atbat.runner = 2;
+                atbat.noteVisibility = false
+            } else if (result === '3B') {
+                atbat.runner = 3;
+                atbat.noteVisibility = false
+            } else if (result === 'HR') {
+                atbat.runner = 4;
+                atbat.noteVisibility = false
+            } else if (result === 'K' ||
+            result === 'Kc' ||
+            result === '') {
+                atbat.runner = 0;
+                atbat.noteVisibility = false
+            } else {
+                atbat.runner = 0;
+                atbat.noteVisibility = true
+            }
+        },
+        checkButtonStyle: function (baseNum, row_index, inning_index) {
+            if (this.teamData.players[row_index-1].atbats[inning_index-1].runner >= baseNum) {
+                return {
+                    backgroundColor: "red"
+                }
+            } else {
+                return {
+                    backgroundColor: "white"
+                }
+            }
         }
     },
 
