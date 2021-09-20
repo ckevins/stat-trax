@@ -1,5 +1,6 @@
 <template>
-<div class='scorecard'>
+    <div class='scorecard'>
+            <Help v-if='help' :toggleHelp='toggleHelp'></Help>
             <h2>Scorecard</h2>
             <button v-on:click='toggleHelp' id='help-button'>Help</button>
             <ScorecardHeader 
@@ -35,10 +36,18 @@
                 :toggleDown='toggleInningRangeDown'
                 @update-team-data='updateAwayTeamData'>
             </ScorecardChart>
-        </div>
+    </div>
 </template>
 
 <script>
+// @ is an alias to /src
+import Help from '@/components/help.vue';
+import ScorecardHeader from '@/components/scorecard-header.vue';  
+import Boxscore from '@/components/boxscore.vue';  
+import ScorecardChart from '@/components/scorecard-chart.vue';
+
+
+
 class ABData {
     constructor () {
         this.rbi = 0;
@@ -72,59 +81,109 @@ class playerGameData {
     }
 }
 
-import ScorecardHeader from './scorecard-header.vue';  
-import Boxscore from './boxscore.vue';  
-import ScorecardChart from './scorecard-chart.vue';
-
 export default {
-    name: 'Scorecard',
-    props: {
-        teams: Array,
-        toggleHelp: Function
-    },
-    data: function () {
-        return {
-            gameData: {
-                homeTeam: {},
-                awayTeam: {},
-                date: '',
-                time: '',
-                weather: ''
-            },
-            inningRange: 0,
-            activeTeam: 'away',
-            homeTeamData: {
-                players: [
-                    new playerGameData(),
-                    new playerGameData(),
-                    new playerGameData(),
-                    new playerGameData(),
-                    new playerGameData(),
-                    new playerGameData(),
-                    new playerGameData(),
-                    new playerGameData(),
-                    new playerGameData(),
-                    new playerGameData()
-                ]
-            },
-            awayTeamData: {
-                players: [
-                    new playerGameData(),
-                    new playerGameData(),
-                    new playerGameData(),
-                    new playerGameData(),
-                    new playerGameData(),
-                    new playerGameData(),
-                    new playerGameData(),
-                    new playerGameData(),
-                    new playerGameData(),
-                    new playerGameData()
-                ]
-            }
-        }
-    },
-    methods: {
-        updateGameData: function (gameData) {
+  name: 'Scorecard',
+  components: {
+        Help,
+        ScorecardHeader,
+        Boxscore,
+        ScorecardChart
+  },
+  data: function () {
+    return {
+      teams: [
+      {
+          nickname: 'Southern Ryes',
+          players: [
+          'Noah Echols', 
+          'Steve Wyre', 
+          'Matt Peterson', 
+          'Seamus Bourne', 
+          'Jason Pulley', 
+          'Cody Evins', 
+          'Ryan Silver',
+          'Tomo Yamahara',
+          'Andrew Daniels']
+      },
+      {
+          nickname: 'Red Sox',
+          players: [
+          'Alan Benes',
+          'Christopher Douglas',
+          'Evan Franklin',
+          'Gregory Hughes',
+          'Ian Jackson',
+          'Kenneth Lewis',
+          'Michael Nicholson',
+          'Oscar Pena',
+          'Quinn Rothschild'
+          ]
+      },
+      {
+          nickname: 'Giants',
+          players: [
+          'Austin Blackwell',
+          'Colby Donaldson',
+          'Elijah Figs', 
+          'Gene Holmes',
+          'Ignacio Juarez',
+          'Kent Longbottom',
+          'Mitch Newell',
+          'Oliver Perez',
+          'Quentin Rollins'
+          ]
+      }
+      ],         
+      help: false,
+      gameData: {
+          homeTeam: {},
+          awayTeam: {},
+          date: '',
+          time: '',
+          weather: ''
+      },
+      inningRange: 0,
+      activeTeam: 'away',
+      homeTeamData: {
+          players: [
+              new playerGameData(),
+              new playerGameData(),
+              new playerGameData(),
+              new playerGameData(),
+              new playerGameData(),
+              new playerGameData(),
+              new playerGameData(),
+              new playerGameData(),
+              new playerGameData(),
+              new playerGameData()
+          ]
+      },
+      awayTeamData: {
+          players: [
+              new playerGameData(),
+              new playerGameData(),
+              new playerGameData(),
+              new playerGameData(),
+              new playerGameData(),
+              new playerGameData(),
+              new playerGameData(),
+              new playerGameData(),
+              new playerGameData(),
+              new playerGameData()
+          ]
+      }
+
+    }
+  },
+  methods: {
+      toggleHelp: function () {
+          if (this.help === false) {
+              this.help = true;
+          } else {
+              this.help = false;
+          }
+      },
+      updateGameData: function (gameData) {
             this.gameData = gameData;
         },
         updateHomeTeamData: function (teamData) {
@@ -160,18 +219,14 @@ export default {
                 this.inningRange += 1;
             }
         }
-    },
-    computed: {
+  },
+  computed: {
         inningsRendered: function () {
             let range = this.inningRange;
             return [range + 1, range + 2, range + 3, range + 4, range +5]
         }
-    },
-    components: {
-        ScorecardHeader,
-        Boxscore,
-        ScorecardChart
-    }
+  }
+    
 }
 </script>
 
