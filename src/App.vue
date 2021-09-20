@@ -21,12 +21,9 @@ body {
     background-color: #E9C893;
 }
 
-h1 {
-    color: #E9C893;
-    text-align: center;
-}
-
 .app-header {
+  color: #E9C893;
+  text-align: center;
   width: 98%;
   margin: auto;
   background-color: #1E392A;
