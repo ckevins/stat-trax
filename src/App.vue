@@ -8,18 +8,13 @@
 
   <div id="nav">
     <router-link to="/" id='link'>Home</router-link> |
-    <router-link to="/Scorecard" id='link'>Scorecard</router-link>
+    <router-link to="/add-league" id='link'>Add League</router-link> |
+    <router-link to="/my-league" id='link'>My League</router-link>
+
   </div>
   <router-view/>
 </div>
-  
 </template>
-
-<script>
-
-
-
-</script>
 
 <style>
 #app {

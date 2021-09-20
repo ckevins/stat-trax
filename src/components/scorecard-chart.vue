@@ -1,6 +1,6 @@
 <template>
 <div class='chart'>
-    <h2>{{ roster.nickname }}</h2>
+    <h2 id='active-team'> {{ roster.nickname }}</h2>
 
     <div class='scorecard-columns'>
         <div class='player-selects-head'>
@@ -259,6 +259,13 @@ export default {
 </script>
 
 <style scoped>
+h2 {
+    color: white;
+    text-align: center;
+}
+#active-team{
+    text-decoration: underline;
+}
 h5 {
     padding: 5px;
     margin: 0;
