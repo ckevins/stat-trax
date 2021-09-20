@@ -245,6 +245,7 @@ h2, .app-header {
     border-radius: 10px;
 }
 .scorecard {
+    width: 98%;
     position: relative;
     background-color: #4d926d;
     padding: 10px 0 30px 0;

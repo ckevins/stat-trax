@@ -3,15 +3,12 @@
   <div class='app-header'>
       <h1>Stat Trax</h1>
   </div>
-
-
-
   <div id="nav">
     <router-link to="/" id='link'>Home</router-link> |
-    <router-link to="/add-league" id='link'>Add League</router-link> |
-    <router-link to="/my-league" id='link'>My League</router-link>
-
+    <router-link to="/my-league" id='link'>My League</router-link> |
+    <router-link to="/add-league" id='link'>Add League</router-link>
   </div>
+  
   <router-view/>
 </div>
 </template>
@@ -19,19 +16,31 @@
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  margin-top: 60px;
 }
 body {
-    width: 98%;
-    margin: auto;
     background-color: #E9C893;
 }
 
-h1, #nav {
-    color: #1E392A;
+h1 {
+    color: #E9C893;
     text-align: center;
+}
+
+.app-header {
+  width: 98%;
+  margin: auto;
+  background-color: #1E392A;
+  border: 5px solid #4d926d;
+  border-radius: 20px;
+}
+
+#nav {
+  color: #1E392A;
+  display: flex;
+  justify-content: space-evenly;
+  width: 50%;
+  margin: auto;
+  padding-top: 5px;
 }
 
 #link {
