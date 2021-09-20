@@ -7,8 +7,8 @@
 
 
   <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/Scorecard">Scorecard</router-link>
+    <router-link to="/" id='link'>Home</router-link> |
+    <router-link to="/Scorecard" id='link'>Scorecard</router-link>
   </div>
   <router-view/>
 </div>
@@ -34,21 +34,15 @@ body {
     background-color: #E9C893;
 }
 
-h1 {
+h1, #nav {
     color: #1E392A;
-}
-
-h2, .app-header {
     text-align: center;
-    color: white
 }
 
-#help-button {
-    height: 50px;
-    width: 50px;
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    border-radius: 10px;
+#link {
+  color: #1E392A;
+  font-size: 1.5em
 }
+
+
 </style>

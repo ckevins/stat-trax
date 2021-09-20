@@ -231,6 +231,19 @@ export default {
 </script>
 
 <style scoped>
+h2, .app-header {
+    text-align: center;
+    color: white
+}
+
+#help-button {
+    height: 50px;
+    width: 50px;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    border-radius: 10px;
+}
 .scorecard {
     position: relative;
     background-color: #4d926d;
