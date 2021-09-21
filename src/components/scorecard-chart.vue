@@ -1,6 +1,6 @@
 <template>
 <div class='chart'>
-    <h2 id='active-team'> {{ roster.nickname }}</h2>
+    <h2 id='active-team'> {{ team.nickname }}</h2>
 
     <div class='scorecard-columns'>
         <div class='player-selects-head'>
@@ -20,46 +20,46 @@
             </div>
             <div class='player-selects-children'>
                 <div class='starter'>
-                <select name='player' v-model='teamData.players[row_index-1].player' v-on:change='updateData'>
+                <select name='player' v-model='teamData.lineup[row_index-1].starter' v-on:change='updateData'>
                     <option value=''>--Player--</option>
-                    <option v-for='player in roster.players' :value='player' :key='player'>{{ player }}</option>
+                    <option v-for='player in team.roster' :value='player' :key='player'>{{ player }}</option>
                 </select>
-                <select name='position' v-model='teamData.players[row_index-1].position' v-on:change='updateData'>
+                <select name='position' v-model='teamData.lineup[row_index-1].position' v-on:change='updateData'>
                     <option value=''>-Pos-</option>
                     <option v-for='position in positions' :value='position' :key='position'>{{ position }}</option>
                 </select>
                 </div>
                 <div class='sub'>
-                <select name='sub' v-model='teamData.players[row_index-1].sub' v-on:change='updateData'>
+                <select name='sub' v-model='teamData.lineup[row_index-1].sub' v-on:change='updateData'>
                     <option value=''>--Sub--</option>
-                    <option v-for='player in roster.players' :value='player' :key='player'>{{ player }}</option>
+                    <option v-for='player in team.roster' :value='player' :key='player'>{{ player }}</option>
                 </select>
                 </div>
             </div>
         </div>
         <div class='diamond' v-for='inning_index in inningsRendered' :key='inning_index'> 
             <div class='rbi'>
-                <select name='RBI' id='RBI-select' v-model='teamData.players[row_index-1].atbats[inning_index-1].rbi' v-on:change='updateData'>
+                <select name='RBI' id='RBI-select' v-model='teamData.lineup[row_index-1].atbats[inning_index-1].rbi' v-on:change='updateData'>
                     <option :value='0'>-</option>
                     <option v-for='index in 4' :value='index' :key='index'>{{ index }}</option>
                 </select>
                 <label>RBI</label>
             </div>
             <div class='sb'>
-                <select name='SB' id='SB-select' v-model='teamData.players[row_index-1].atbats[inning_index-1].sb' v-on:change='updateData'>
+                <select name='SB' id='SB-select' v-model='teamData.lineup[row_index-1].atbats[inning_index-1].sb' v-on:change='updateData'>
                     <option value='0'>-</option>
                     <option v-for='index in 3' :value='index' :key='index'>{{ index }}</option>
                 </select>
                 <label>SB</label>
             </div>
             <div class='result'>
-                <select name='result' id='result-select' v-model='teamData.players[row_index-1].atbats[inning_index-1].result' v-on:change='resultUpdateRunner($event, row_index, inning_index); updateData'>
+                <select name='result' id='result-select' v-model='teamData.lineup[row_index-1].atbats[inning_index-1].result' v-on:change='resultUpdateRunner($event, row_index, inning_index); updateData'>
                 <option value=''>-Result-</option>
                 <option v-for='result in results' :value='result' :key='result'>{{ result }}</option>
                 </select>
             </div>
             <div class='out-count'>
-                <select name='out-count' id='out-count-select' v-model='teamData.players[row_index-1].atbats[inning_index-1].out' v-on:change='updateData'>
+                <select name='out-count' id='out-count-select' v-model='teamData.lineup[row_index-1].atbats[inning_index-1].out' v-on:change='updateData'>
                     <option value='0'>-</option>
                     <option v-for='index in 3' :value='index' :key='index'>{{ index }}</option>
                 </select>
@@ -91,20 +91,20 @@
             </button>
             <div class='sub-box'>
                 <label for='sub-box'>Sub:</label>
-                <input type="checkbox" id="sub-box" v-model='teamData.players[row_index-1].atbats[inning_index-1].sub' v-on:change='updateData'>
+                <input type="checkbox" id="sub-box" v-model='teamData.lineup[row_index-1].atbats[inning_index-1].sub' v-on:change='updateData'>
             </div>
         </div>
         <div class= 'tally-container'>
             <div class='tally-parent'>
                 <div v-for='(tally,index) in tallies' class='tally-child' id='starter-tally' :key='tally'>
                 <h5>{{ tally }}</h5>
-                <p>{{ getTallies(team.players[row_index-1].atbats, false)[index] }}</p>
+                <p>{{ getTallies(teamData.lineup[row_index-1].atbats, false)[index] }}</p>
                 </div>
             </div>
-            <div class='tally-parent' v-if='team.players[row_index-1].sub'>
+            <div class='tally-parent' v-if='teamData.lineup[row_index-1].sub'>
                 <div v-for='(tally,index) in tallies' class='tally-child' id='sub-tally' :key='tally'>
                 <h5>{{ tally }}</h5>
-                <p>{{ getTallies(team.players[row_index-1].atbats, true)[index] }}</p>
+                <p>{{ getTallies(teamData.lineup[row_index-1].atbats, true)[index] }}</p>
                 </div>
             </div>
             
@@ -183,8 +183,8 @@ const getRbis = (atbats, subBool) => {
 export default {
     name: 'ScorecardChart',
     props: {
-        roster: Object,
-        team: Object, 
+        team: Object,
+        gameData: Object, 
         inningsRendered: Array,
         toggleUp: Function,
         toggleDown: Function
@@ -194,7 +194,7 @@ export default {
             positions: ['P', 'C', '1B', '2B', '3B', 'SS', 'LF', 'CF', 'RF', 'DH'],
             tallies: ['AB', 'H', 'R', 'RBI', 'BB', 'HBP', 'K'],
             results: ['1B', '2B', '3B', 'HR', 'BB', 'K', 'Kc', 'HBP', 'G', 'U', 'F', 'L', 'FF', 'FO', 'DP', 'FC', 'SF', 'SH', 'E'],
-            teamData: this.team
+            teamData: this.gameData
         }
     },
     methods: {
@@ -209,15 +209,15 @@ export default {
             return [abs, hits, runs, rbis, bbs, hbps, ks]
         },
         updateRunner: function (base, row_index, inning_index) {
-            if (this.teamData.players[row_index-1].atbats[inning_index-1].runner === base) {
-                this.teamData.players[row_index-1].atbats[inning_index-1].runner = 0
+            if (this.teamData.lineup[row_index-1].atbats[inning_index-1].runner === base) {
+                this.teamData.lineup[row_index-1].atbats[inning_index-1].runner = 0
             } else {
-                this.teamData.players[row_index-1].atbats[inning_index-1].runner = base
+                this.teamData.lineup[row_index-1].atbats[inning_index-1].runner = base
             }
         },
         resultUpdateRunner: function (event, row, inning) {
             let result = event.target.value;
-            let atbat = this.teamData.players[row-1].atbats[inning-1];
+            let atbat = this.teamData.lineup[row-1].atbats[inning-1];
             if(result === '1B' ||
                 result === 'BB' ||
                 result === 'HBP') {
@@ -243,7 +243,7 @@ export default {
             }
         },
         checkButtonStyle: function (baseNum, row_index, inning_index) {
-            if (this.teamData.players[row_index-1].atbats[inning_index-1].runner >= baseNum) {
+            if (this.teamData.lineup[row_index-1].atbats[inning_index-1].runner >= baseNum) {
                 return {
                     backgroundColor: "red"
                 }

@@ -32,7 +32,7 @@ const getTeamBoxscore = (teamData, opponentdata) => {
     let score = 0;
     let hits = 0;
     let errors = 0;
-    teamData.players.forEach(player => {
+    teamData.lineup.forEach(player => {
         player.atbats.forEach((atbat, index) => {
             if (atbat.result === '1B' ||
                 atbat.result === '2B' ||
@@ -46,7 +46,7 @@ const getTeamBoxscore = (teamData, opponentdata) => {
             }
         });
     });
-    opponentdata.players.forEach(player => {
+    opponentdata.lineup.forEach(player => {
         player.atbats.forEach(atbat => {
             if (atbat.result === 'E') {
                 errors +=1

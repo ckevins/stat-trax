@@ -22,8 +22,8 @@
             </div>
             <ScorecardChart
                 v-if="gameData.homeTeam.nickname && activeTeam==='home'"
-                :roster="gameData.homeTeam"
-                :team="homeTeamData"
+                :team="gameData.homeTeam"
+                :gameData="homeTeamData"
                 :inningsRendered='inningsRendered'
                 :toggleUp='toggleInningRangeUp'
                 :toggleDown='toggleInningRangeDown'
@@ -31,8 +31,8 @@
             </ScorecardChart>
             <ScorecardChart
                 v-if="gameData.awayTeam.nickname && activeTeam==='away'"
-                :roster="gameData.awayTeam"
-                :team="awayTeamData"
+                :team="gameData.awayTeam"
+                :gameData="awayTeamData"
                 :inningsRendered='inningsRendered'
                 :toggleUp='toggleInningRangeUp'
                 :toggleDown='toggleInningRangeDown'
@@ -65,7 +65,7 @@ class ABData {
 
 class playerGameData {
     constructor () {
-        this.player = '';
+        this.starter = '';
         this.position = '';
         this.sub = '';
         this.atbats = [
@@ -96,7 +96,7 @@ export default {
       teams: [
       {
           nickname: 'Southern Ryes',
-          players: [
+          roster: [
           'Noah Echols', 
           'Steve Wyre', 
           'Matt Peterson', 
@@ -109,7 +109,7 @@ export default {
       },
       {
           nickname: 'Red Sox',
-          players: [
+          roster: [
           'Alan Benes',
           'Christopher Douglas',
           'Evan Franklin',
@@ -123,7 +123,7 @@ export default {
       },
       {
           nickname: 'Giants',
-          players: [
+          roster: [
           'Austin Blackwell',
           'Colby Donaldson',
           'Elijah Figs', 
@@ -147,7 +147,7 @@ export default {
       inningRange: 0,
       activeTeam: 'away',
       homeTeamData: {
-          players: [
+          lineup: [
               new playerGameData(),
               new playerGameData(),
               new playerGameData(),
@@ -161,7 +161,7 @@ export default {
           ]
       },
       awayTeamData: {
-          players: [
+          lineup: [
               new playerGameData(),
               new playerGameData(),
               new playerGameData(),
