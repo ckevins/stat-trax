@@ -5,7 +5,7 @@
   </div>
   <div id="nav">
     <router-link to="/" id='link'>Home</router-link> 
-    <router-link to="/my-league" id='link'>My League</router-link> 
+    <router-link to="/my-league/league-home" id='link'>My League</router-link> 
     <router-link to="/add-league" id='link'>Add League</router-link>
   </div>
   
@@ -23,19 +23,18 @@ body {
 }
 
 .app-header {
-  color: #E9C893;
+  color: #1E392A;
+  text-shadow: 2px 2px 6px #4d926d;
   text-align: center;
   width: 98%;
   margin: auto;
-  background-color: #1E392A;
-  border: 5px solid #4d926d;
-  border-radius: 20px;
+  font-size: 1.5em
 }
 
 #nav {
   display: flex;
   justify-content: space-evenly;
-  width: 35%;
+  width: 50%;
   margin: auto;
   margin-top: 20px;
 }
@@ -46,7 +45,7 @@ body {
   background-color: #1E392A;
   border: 5px solid #4d926d;
   font-size: 1.5em;
-  padding: 10px 30px;
+  padding: 10px 50px;
   border-radius: 20px 20px 0 0;
   z-index: 10;
 }

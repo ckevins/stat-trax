@@ -1,10 +1,11 @@
 <template>
     <div class='my-league'>
         <div id="nav">
-            <router-link to="/scorecard" id='sublink'>Scorecard</router-link> 
-            <router-link to="/standings" id='sublink'>Standings</router-link> 
-            <router-link to="/individual-stats" id='sublink'>Individual Stats</router-link> 
-            <router-link to="/team-stats" id='sublink'>Team Stats</router-link>
+            <router-link to='/my-league/league-home' id='sublink' exact>League Home</router-link>
+            <router-link to="/my-league/standings" id='sublink' exact>Standings</router-link> 
+            <router-link to="/my-league/individual-stats" id='sublink' exact>Individual Stats</router-link> 
+            <router-link to="/my-league/team-stats" id='sublink' exact>Team Stats</router-link>
+            <router-link to="/my-league/scorecard" id='sublink' exact>Scorecard</router-link> 
         </div>
         <router-view/>
     </div>
@@ -24,10 +25,13 @@ h2 {
     border-radius: 20px;
     margin-top: -5px;
 }
+
+
+
 #nav {
   display: flex;
   justify-content: space-evenly;
-  width: 60%;
+  width: 80%;
   margin: auto;
   margin-top: 20px;
 }
@@ -42,7 +46,7 @@ h2 {
     border-radius: 20px 20px 0 0;
     z-index: 10;
 }
-#sublink.router-link-active {
+#sublink.router-link-exact-active {
   border-bottom: 0px;
 }
 </style>
