@@ -4,14 +4,15 @@
       <h1>Stat Trax</h1>
   </div>
   <div id="nav">
-    <router-link to="/" id='link'>Home</router-link> |
-    <router-link to="/my-league" id='link'>My League</router-link> |
+    <router-link to="/" id='link'>Home</router-link> 
+    <router-link to="/my-league" id='link'>My League</router-link> 
     <router-link to="/add-league" id='link'>Add League</router-link>
   </div>
   
   <router-view/>
 </div>
 </template>
+
 
 <style>
 #app {
@@ -32,17 +33,26 @@ body {
 }
 
 #nav {
-  color: #1E392A;
   display: flex;
   justify-content: space-evenly;
-  width: 50%;
+  width: 35%;
   margin: auto;
-  padding-top: 5px;
+  margin-top: 20px;
 }
 
 #link {
-  color: #1E392A;
-  font-size: 1.5em
+  color: #E9C893;
+  text-decoration: none;
+  background-color: #1E392A;
+  border: 5px solid #4d926d;
+  font-size: 1.5em;
+  padding: 10px 30px;
+  border-radius: 20px 20px 0 0;
+  z-index: 10;
+}
+
+#link.router-link-active {
+  border-bottom: 0px;
 }
 
 

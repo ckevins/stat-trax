@@ -250,7 +250,7 @@ h2, .app-header {
     background-color: #4d926d;
     padding: 10px 0 30px 0;
     border: 5px solid #1E392A;
-    margin: 10px auto 20px auto;
+    margin: -5px auto 20px auto;
     border-radius: 20px;
     color: black;
 }

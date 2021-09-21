@@ -20,8 +20,15 @@
 
 <style scoped>
 .about {
-    color: #1E392A;
+    color: white;
+    background-color: #1E392A;
+    border: 5px solid #4d926d;
+    width: 98%;
+    margin: auto;
+    border-radius: 20px;
+    margin-top: -5px;
 }
+
 h1, h2 {
     text-align: center;
 }
