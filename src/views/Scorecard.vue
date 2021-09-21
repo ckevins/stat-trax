@@ -7,17 +7,19 @@
                 :teams='teams' 
                 @update-game-data='updateGameData'>
             </ScorecardHeader>
-            <div class='team-select-buttons'>
+            <div class='boxscore-div' v-if='gameData.homeTeam.nickname && gameData.awayTeam.nickname'>
                 <button class='team-button' :style='checkTeamButtonStyle("away")' v-on:click='awayButton'>Away</button>
+                <Boxscore 
+                    class='boxscore'
+                    :homeTeamNickname='gameData.homeTeam.nickname'
+                    :homeTeamData='homeTeamData'
+                    :awayTeamNickname='gameData.awayTeam.nickname'
+                    :awayTeamData='awayTeamData'>
+                </Boxscore>
                 <button class='team-button' :style='checkTeamButtonStyle("home")' v-on:click='homeButton'>Home</button>
             </div>
-            <Boxscore 
-                v-if='gameData.homeTeam.nickname && gameData.awayTeam.nickname'
-                :homeTeamNickname='gameData.homeTeam.nickname'
-                :homeTeamData='homeTeamData'
-                :awayTeamNickname='gameData.awayTeam.nickname'
-                :awayTeamData='awayTeamData'>
-            </Boxscore>
+            <div class='team-select-buttons'>
+            </div>
             <ScorecardChart
                 v-if="gameData.homeTeam.nickname && activeTeam==='home'"
                 :roster="gameData.homeTeam"
@@ -255,17 +257,21 @@ h2, .app-header {
     color: black;
 }
 
-.team-select-buttons {
+.boxscore-div {
     width: 90%;
-    display: flex;
-    justify-content: space-evenly;
     margin: auto;
+    display: flex;
+    justify-content: center;
+}
+
+.boxscore {
+    flex-grow: 1.5;
 }
 
 .team-button {
-    width: 40%;
-    padding: 10px 0 10px 0;
-    border-radius: 30px;
+    width: 10%;
+    margin: 10px;
+    border-radius: 20px;
 }
 
 

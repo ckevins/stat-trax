@@ -104,11 +104,10 @@ export default {
     text-align: center;
     border: 1px solid black;
     color: black;
-    margin-top: 2.5%;
 }
 
 table {
-    width: 50%;
+    width: 70%;
     margin: 10px auto 10px auto;
     background-color: white;
 }
