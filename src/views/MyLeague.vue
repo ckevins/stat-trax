@@ -1,5 +1,5 @@
 <template>
-    <div class='my-league'>
+    <div class='my-league upper-tab'>
         <div id="nav">
             <router-link to='/my-league/league-home' id='sublink' exact>League Home</router-link>
             <router-link to="/my-league/standings" id='sublink' exact>Standings</router-link> 
@@ -16,16 +16,6 @@ h2 {
     color: #1E392A;
     text-align: center;
 }
-.my-league {
-    color: white;
-    background-color: #1E392A;
-    border: 5px solid #4d926d;
-    width: 98%;
-    min-height: 75vh;
-    margin: auto;
-    border-radius: 10px;
-    margin-top: -5px;
-}
 
 
 
@@ -33,7 +23,6 @@ h2 {
   display: flex;
   justify-content: space-evenly;
   width: 80%;
-  margin: auto;
   margin-top: 20px;
 }
 

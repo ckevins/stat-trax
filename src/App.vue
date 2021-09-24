@@ -9,7 +9,7 @@
     <router-link to="/add-league" id='link'>Add League</router-link>
   </div>
   
-  <router-view/>
+  <router-view class='components'/>
 </div>
 </template>
 
@@ -30,19 +30,18 @@ h1 {
 
 .app-header {
   color: #1E392A;
-  text-align: center;
+  text-align: right;
   width: 98%;
   font-size: 1.5em;
-  margin: 0 auto;
-  padding: 30px 0;
+  margin: 0 100px 0 0;
+  padding: 15px 0 0;
 }
 
 #nav {
   display: flex;
   justify-content: space-evenly;
   width: 50%;
-  margin: auto;
-  margin-top: 20px;
+  margin-top: -50px;
 }
 
 #link {
@@ -65,6 +64,18 @@ h1 {
   border-bottom: 0px;
   color: #E9C893;
 }
+
+.upper-tab {
+    color: white;
+    background-color: #1E392A;
+    border: 5px solid #4d926d;
+    width: 98%;
+    min-height: 85vh;
+    margin: auto;
+    border-radius: 10px;
+    margin-top: -5px;
+}
+
 
 
 </style>

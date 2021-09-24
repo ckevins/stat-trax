@@ -1,5 +1,5 @@
 <template>
-    <div class="add-league">
+    <div class="add-league upper-tab">
         <h2>Add League</h2>
         <div class='form'>  
             <div class='form-head'>
@@ -56,16 +56,6 @@ export default ({
 h2 {
     color: white;
     text-align: center;
-}
-.add-league {
-    color: white;
-    background-color: #1E392A;
-    border: 5px solid #4d926d;
-    width: 98%;
-    min-height: 75vh;
-    margin: auto;
-    border-radius: 10px;
-    margin-top: -5px;
 }
 
 .form {

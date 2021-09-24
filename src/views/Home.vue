@@ -1,5 +1,5 @@
 <template>
-  <div class="about">
+  <div class="about upper-tab">
     <h1>Welcome to Stat Trax!</h1>
     <h2>A place to keep track of your baseball league's stats and rankings!</h2>
     <div class='list'>
@@ -19,16 +19,7 @@
 </template>
 
 <style scoped>
-.about {
-    color: white;
-    background-color: #1E392A;
-    border: 5px solid #4d926d;
-    width: 98%;
-    min-height: 75vh;
-    margin: auto;
-    border-radius: 10px;
-    margin-top: -5px;
-}
+
 
 h1, h2 {
     text-align: center;
