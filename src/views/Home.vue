@@ -26,7 +26,7 @@
     width: 98%;
     min-height: 75vh;
     margin: auto;
-    border-radius: 20px;
+    border-radius: 10px;
     margin-top: -5px;
 }
 

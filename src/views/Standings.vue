@@ -22,9 +22,9 @@
                     <td>{{team.wins}}</td>
                     <td>{{team.losses}}</td>
                     <td>{{team.percentage}}</td>
-                    <td>{{team.gamesBack}}</td>
+                    <td></td>
                     <td>{{team.lastTenRecord[0]}} - {{team.lastTenRecord[1]}}</td>
-                    <td>Streak</td>
+                    <td></td>
                     <td>{{team.runsArr[0]}}</td>
                     <td>{{team.runsArr[1]}}</td>
                     <td>{{team.runsArr[2]}}</td>
@@ -110,23 +110,28 @@ h2 {
     width: 98%;
     min-height: 55vh;
     margin: -5px auto 20px auto;
-    border-radius: 20px;
+    border-radius: 10px;
     background-color: #4d926d;
     padding: 10px 0 30px 0;
     border: 5px solid #1E392A;
 }
 
 table {
-    width: 70%;
+    width: 90%;
     margin: auto;
     background-color: #1E392A;
     padding: 5px;
+    font-size: 1.5em;
 }
 
 th, td {
     border: 1px solid #1E392A;
     background-color: white;
     color: #1E392A;
+}
+
+td {
+    padding: 8px;
 }
 
 tbody {

@@ -46,18 +46,24 @@ h1 {
 }
 
 #link {
-  color: #E9C893;
+  color: white;
   text-decoration: none;
   background-color: #1E392A;
   border: 5px solid #4d926d;
   font-size: 1.5em;
   padding: 10px 50px;
-  border-radius: 20px 20px 0 0;
+  border-radius: 10px 10px 0 0;
   z-index: 10;
+}
+
+#link:hover {
+  transform: scale(1.05);
+  transform-origin: bottom;
 }
 
 #link.router-link-active {
   border-bottom: 0px;
+  color: #E9C893;
 }
 
 

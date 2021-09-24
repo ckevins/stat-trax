@@ -254,7 +254,7 @@ h2, .app-header {
     padding: 10px 0 30px 0;
     border: 5px solid #1E392A;
     margin: -5px auto 20px auto;
-    border-radius: 20px;
+    border-radius: 10px;
     color: black;
 }
 
