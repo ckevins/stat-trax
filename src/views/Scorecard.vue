@@ -248,6 +248,7 @@ h2, .app-header {
 }
 .scorecard {
     width: 98%;
+    min-height: 55vh;
     position: relative;
     background-color: #4d926d;
     padding: 10px 0 30px 0;

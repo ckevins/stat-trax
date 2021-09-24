@@ -21,6 +21,7 @@ h2 {
     background-color: #1E392A;
     border: 5px solid #4d926d;
     width: 98%;
+    min-height: 75vh;
     margin: auto;
     border-radius: 20px;
     margin-top: -5px;

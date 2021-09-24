@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class='app'>
   <div class='app-header'>
       <h1>Stat Trax</h1>
   </div>
@@ -15,20 +15,26 @@
 
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+html {
+  height: 100vh;
 }
 body {
     background-color: #E9C893;
 }
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+}
+h1 {
+  margin: 0
+}
 
 .app-header {
   color: #1E392A;
-  text-shadow: 2px 2px 6px #4d926d;
   text-align: center;
   width: 98%;
-  margin: auto;
-  font-size: 1.5em
+  font-size: 1.5em;
+  margin: 0 auto;
+  padding: 30px 0;
 }
 
 #nav {

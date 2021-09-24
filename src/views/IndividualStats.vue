@@ -11,6 +11,7 @@ h2 {
 }
 .stats {
     width: 98%;
+    min-height: 55vh;
     margin: -5px auto 20px auto;
     border-radius: 20px;
     background-color: #4d926d;
