@@ -5,6 +5,7 @@
             <router-link to="/my-league/standings" id='sublink' exact>Standings</router-link> 
             <router-link to="/my-league/individual-stats" id='sublink' exact>Individual Stats</router-link> 
             <router-link to="/my-league/team-stats" id='sublink' exact>Team Stats</router-link>
+            <router-link to="/my-league/schedule" id='sublink' exact>Schedule</router-link>
             <router-link to="/my-league/scorecard" id='sublink' exact>Scorecard</router-link> 
         </div>
         <router-view/>

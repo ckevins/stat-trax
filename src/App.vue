@@ -6,7 +6,7 @@
   <div id="nav">
     <router-link to="/" id='link'>Home</router-link> 
     <router-link to="/my-league/league-home" id='link'>My League</router-link> 
-    <router-link to="/add-league" id='link'>Add League</router-link>
+    <router-link to="/create-league" id='link'>Create League</router-link>
   </div>
   
   <router-view class='components'/>
@@ -25,7 +25,8 @@ body {
   font-family: Avenir, Helvetica, Arial, sans-serif;
 }
 h1 {
-  margin: 0
+  margin: 0;
+  font-weight: bold;
 }
 
 .app-header {

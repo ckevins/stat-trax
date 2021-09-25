@@ -91,7 +91,7 @@ export default {
         return {
             dummyData: {
                 leagueName: "Atlanta Area Senior Men's Baseball League",
-                teams: [new dummyTeam("Southern Ryes"), new dummyTeam("Red Sox"), new dummyTeam("Giants"), new dummyTeam("Red Wings")]
+                teams: [new dummyTeam("Ryes"), new dummyTeam("Red Sox"), new dummyTeam("Giants"), new dummyTeam("Red Wings")]
             }
         }
     }

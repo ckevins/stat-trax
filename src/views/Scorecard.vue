@@ -178,14 +178,14 @@ export default {
     }
   },
   methods: {
-      toggleHelp: function () {
+        toggleHelp: function () {
           if (this.help === false) {
               this.help = true;
           } else {
               this.help = false;
           }
-      },
-      updateGameData: function (gameData) {
+        },
+        updateGameData: function (gameData) {
             this.gameData = gameData;
         },
         updateHomeTeamData: function (teamData) {

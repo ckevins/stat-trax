@@ -4,14 +4,12 @@
         <h2 style='color:white'>Help:</h2>
         <h3>Getting Started:</h3>
         <ul>
-            <li>To begin, select the team that you are entering a scorecard for at the top of the page.</li>
-            <li>Next, select how many players will be starting (or how many will be hitting in your batting order).</li>
+            <li>To begin, select the home and away teams for the game that you are scoring.</li>
             <li>Then, select this game's date, time, opponent, and weather conditions.</li>
         </ul>
         <h3>Line-ups:</h3>
         <ul>
-            <li>Once you've selected your team, you can select your starters and subs as well as their positions in the far left column.</li>
-            <li>If an at-bat in the inning column was taken by the sub, be sure to check the sub box in the bottom right corner of each at-bat box.</li>
+            <li>Once you've selected your teams, you can select your starters and subs as well as their positions in the far left column.</li>
         </ul>
         <h3>At-Bats:</h3>
         <ul>
@@ -24,6 +22,7 @@
             <li>RBIs, stolen bases, and outs can be tracked in each at-bats box as well.</li>
             <li>To indicate that a run is scored, all you need to do is make sure that home plate is your selected base (all bases colored in).</li>
             <li>As you fill in at-bats, each player's cumulative stats for the game will be automaticall tabulated in the far right column.</li>
+            <li>If an at-bat in the inning column was taken by the sub, be sure to check the sub box in the bottom right corner of each at-bat box.</li>
         </ul>
         <h3>Innings:</h3>
         <ul>
