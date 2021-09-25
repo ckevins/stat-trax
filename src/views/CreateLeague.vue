@@ -24,6 +24,7 @@
                         <input type="color" v-model="league[division_index-1].teams[team_index-1].primaryColor"/><br>
                         <h5>Roster</h5>
                         <div class='roster'  v-for='index in rosterSize' :key="index">
+                            <label>{{index}}.</label>
                             <input type="text" id="player-name" placeholder="Last Name, First Name" v-model='league[division_index-1].teams[team_index-1].roster[index-1]'/>
                             <br>
                         </div>
@@ -137,7 +138,8 @@ h2 {
 }
 
 .roster {
-    display: block
+    display: block;
+    text-align: right;
 }
 
 #player-name {

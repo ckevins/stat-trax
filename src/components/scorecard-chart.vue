@@ -414,4 +414,8 @@ p {
     text-align: center;
     padding: 0 5%;
 }
+
+#sub-tally {
+    background-color: gainsboro;
+}
 </style>
