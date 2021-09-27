@@ -3,41 +3,39 @@
     <h2 id='active-team'> {{ team.nickname }}</h2>
 
     <div class='scorecard-columns'>
-        <div class='player-selects-head'>
+        <div class='player-selects-head cell'>
             <h2>Lineup</h2>
         </div>
         <div class='inning-heads'>
-            <button v-on:click='toggleDown'> &lt;&lt;&lt; </button>
-            <h2 v-for='inning in inningsRendered' id='inning-columns' :key='inning'> {{ inning }} </h2>
-            <button v-on:click='toggleUp'> &gt;&gt;&gt; </button>
+            <h2 v-for='inning in inningsRendered' class='cell' id='inning-columns' :key='inning'> {{ inning }} </h2>
+        </div>
+        <div class='inning-buttons cell'>
+            <button id="inning-button" v-on:click='toggleDown'>&lt;&lt;&lt;</button>
+            <button id="inning-button" v-on:click='toggleUp'>&gt;&gt;&gt;</button>
         </div>
     </div>
 
     <div class='scorecard-row' v-for='row_index in 10' :key='row_index'>
-        <div class='player-selects'>
-            <div class='batting-order'>
-                <h5>{{row_index}}.</h5>
-            </div>
+        <div class='player-selects cell'>
+            <h5>{{row_index}}.</h5>
             <div class='player-selects-children'>
-                <div class='starter'>
-                <select name='player' v-model='teamData.lineup[row_index-1].starter' v-on:change='updateData'>
+                <select name='player' class='player-box' v-model='teamData.lineup[row_index-1].starter' v-on:change='updateData'>
                     <option value=''>--Player--</option>
                     <option v-for='player in team.roster' :value='player' :key='player'>{{ player }}</option>
                 </select>
-                <select name='position' v-model='teamData.lineup[row_index-1].position' v-on:change='updateData'>
-                    <option value=''>-Pos-</option>
-                    <option v-for='position in positions' :value='position' :key='position'>{{ position }}</option>
-                </select>
-                </div>
-                <div class='sub'>
-                <select name='sub' v-model='teamData.lineup[row_index-1].sub' v-on:change='updateData'>
+                <br>
+                <select name='sub' class='player-box' v-model='teamData.lineup[row_index-1].sub' v-on:change='updateData'>
                     <option value=''>--Sub--</option>
                     <option v-for='player in team.roster' :value='player' :key='player'>{{ player }}</option>
                 </select>
-                </div>
+                <br>
+                <select name='position' class='pos-box' v-model='teamData.lineup[row_index-1].position' v-on:change='updateData'>
+                    <option value=''>-Pos-</option>
+                    <option v-for='position in positions' :value='position' :key='position'>{{ position }}</option>
+                </select>
             </div>
         </div>
-        <div class='diamond' v-for='inning_index in inningsRendered' :key='inning_index'> 
+        <div class='diamond cell' v-for='inning_index in inningsRendered' :key='inning_index'> 
             <div class='rbi'>
                 <select name='RBI' id='RBI-select' v-model='teamData.lineup[row_index-1].atbats[inning_index-1].rbi' v-on:change='updateData'>
                     <option :value='0'>-</option>
@@ -263,9 +261,7 @@ h2 {
     color: white;
     text-align: center;
 }
-#active-team{
-    text-decoration: underline;
-}
+
 h5 {
     padding: 5px;
     margin: 0;
@@ -275,34 +271,34 @@ p {
     margin: 0;
 }
 
-.scorecard-columns {
-    display: flex;
-    width: 75%;
-    margin-left: 5%;
+#active-team{
+    text-decoration: underline;
 }
 
-
-.player-selects-head {
-    width: 15%;
-    display: flex;
+.cell {
+    margin: 2px;
 }
 
 .inning-heads {
     display: flex;
-    width: 100%;
     justify-content: space-between;
 }
 
-.scorecard-row {
+.scorecard-row, .scorecard-columns {
     margin: auto;
-    width: 95%;
+    width: 99%;
     display: flex;
 }
 
-.player-selects{
+.player-selects, .player-selects-head{
     width: 15%;
+    padding: 5px;
+}
+
+.player-selects-head {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: center;
+    border: 1px solid #4d926d;
 }
 
 .player-selects {
@@ -310,12 +306,41 @@ p {
     border: 1px solid navy;
 }
 
-.player-selects-children {
-    padding-top: 20%;
+.player-box {
+    width: 100%;
+    padding: 5px 0;
+    margin: 3px 0;
 }
 
-.batting-order {
-    padding-top: 15%;
+.pos-box {
+    padding: 5px 0;
+    margin: 3px 0
+}
+
+#inning-columns {
+    border: 1px solid #4d926d;
+    width: 200px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.inning-buttons {
+    flex-grow: 2;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+#inning-button {
+    flex-grow: 2;
+    height: 60%;
+    margin: 5px;
+    border: 4px ridge #1E392A;
+    border-radius: 100px;
+    font-size: 1.5em;
+    font-weight: bold;
 }
 
 .diamond {
@@ -398,21 +423,24 @@ p {
 }
 
 .tally-container {
-    width: 10%;
     display: block;
+    flex-grow: 2;
+    margin: 2px;
 }
 
 .tally-parent {
     display: flex;
     height: 50%;
     margin: auto;
+    justify-content: space-between;
 }
 
 .tally-child {
     border: 1px solid navy;
+    flex: 1 0 auto;
     background-color: white;
     text-align: center;
-    padding: 0 5%;
+    margin: 1px;
 }
 
 #sub-tally {
