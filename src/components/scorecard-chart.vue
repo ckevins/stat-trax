@@ -20,7 +20,7 @@
             <h5>{{row_index}}.</h5>
             <div class='player-selects-children'>
                 <select name='player' class='player-box' v-model='teamData.lineup[row_index-1].starter' v-on:change='updateData'>
-                    <option value=''>--Player--</option>
+                    <option value=''>--Starter--</option>
                     <option v-for='player in team.roster' :value='player' :key='player'>{{ player }}</option>
                 </select>
                 <br>
@@ -30,7 +30,7 @@
                 </select>
                 <br>
                 <select name='position' class='pos-box' v-model='teamData.lineup[row_index-1].position' v-on:change='updateData'>
-                    <option value=''>-Pos-</option>
+                    <option value=''>--Pos--</option>
                     <option v-for='position in positions' :value='position' :key='position'>{{ position }}</option>
                 </select>
             </div>
