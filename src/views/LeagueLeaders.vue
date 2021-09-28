@@ -1,6 +1,6 @@
 <template>
-    <div class="individual-stats">
-        <h2>Individual Stats</h2>
+    <div class='league-leaders'>
+        <h2>League Leaders</h2>
     </div>
 </template>
 
@@ -9,8 +9,7 @@ h2 {
     color: white;
     text-align: center;
 }
-
-.individual-stats {
+.league-leaders {
     width: 98%;
     min-height: 55vh;
     margin: 0 auto 20px auto;

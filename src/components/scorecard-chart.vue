@@ -462,12 +462,17 @@ p {
 .tally-child {
     border: 1px solid navy;
     flex: 1 0 auto;
-    background-color: white;
     text-align: center;
     margin: 1px;
 }
 
+#starter-tally {
+    background-color: white;
+    margin: 0 1px 1px 1px
+}
+
 #sub-tally {
     background-color: gainsboro;
+    margin: 1px 1px 0 1px;
 }
 </style>

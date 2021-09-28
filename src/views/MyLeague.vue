@@ -3,8 +3,7 @@
         <div id="nav">
             <router-link to='/my-league/league-home' id='sublink' exact>League Home</router-link>
             <router-link to="/my-league/standings" id='sublink' exact>Standings</router-link> 
-            <router-link to="/my-league/individual-stats" id='sublink' exact>Individual Stats</router-link> 
-            <router-link to="/my-league/team-stats" id='sublink' exact>Team Stats</router-link>
+            <router-link to="/my-league/stats/individual" id='stats'>Stats</router-link> 
             <router-link to="/my-league/schedule" id='sublink' exact>Schedule</router-link>
             <router-link to="/my-league/scorecard" id='sublink' exact>Scorecard</router-link> 
         </div>
@@ -23,11 +22,11 @@ h2 {
 #nav {
   display: flex;
   justify-content: space-evenly;
-  width: 80%;
+  width: 70%;
   margin-top: 20px;
 }
 
-#sublink{
+#sublink, #stats{
     background-color: #4d926d;
     border: 5px solid #1E392A;
     text-decoration: none;
@@ -38,13 +37,18 @@ h2 {
     z-index: 10;
 }
 
-#sublink:hover {
+#sublink:hover, #stats:hover {
   transform: scale(1.05);
   transform-origin: bottom;
 }
 
 #sublink.router-link-exact-active {
   border-bottom: 0px;
-  color: #ffbf58;
+  color: #E9C893;
+}
+
+#stats.router-link-active {
+  border-bottom: 0px;
+  color: #E9C893;
 }
 </style>
