@@ -7,6 +7,7 @@
             <th>R</th>
             <th>H</th>
             <th>E</th>
+            <th>LOB</th>
         </tr>
         <tr>
             <th class='box-team' :style='checkTeamStyling(awayTeamNickname)'> {{ awayTeamNickname }} </th>
@@ -14,6 +15,7 @@
             <td class='box-totals' :style='checkTeamStyling(awayTeamNickname)'> {{ awayTeamBoxscore.score }} </td>
             <td class='box-totals' :style='checkTeamStyling(awayTeamNickname)'> {{ awayTeamBoxscore.hits }}</td>
             <td class='box-totals' :style='checkTeamStyling(awayTeamNickname)'> {{ awayTeamBoxscore.errors}} </td>
+            <td class='box-totals' :style='checkTeamStyling(awayTeamNickname)' id='lob'> {{ awayTeamBoxscore.LOB  }} </td>
         </tr>
         <tr>
             <th class='box-team' :style='checkTeamStyling(homeTeamNickname)'> {{ homeTeamNickname }} </th>
@@ -21,6 +23,7 @@
             <td class='box-totals' :style='checkTeamStyling(homeTeamNickname)'> {{ homeTeamBoxscore.score }} </td>
             <td class='box-totals' :style='checkTeamStyling(homeTeamNickname)'> {{ homeTeamBoxscore.hits }}</td>
             <td class='box-totals' :style='checkTeamStyling(homeTeamNickname)'> {{ homeTeamBoxscore.errors}} </td>
+            <td class='box-totals' :style='checkTeamStyling(homeTeamNickname)' id='lob'> {{ homeTeamBoxscore.LOB }} </td>
         </tr>
         </table>
     </div>
@@ -32,6 +35,7 @@ const getTeamBoxscore = (teamData, opponentdata) => {
     let score = 0;
     let hits = 0;
     let errors = 0;
+    let LOB = 0;
     teamData.lineup.forEach(player => {
         player.atbats.forEach((atbat, index) => {
             if (atbat.result === '1B' ||
@@ -43,6 +47,9 @@ const getTeamBoxscore = (teamData, opponentdata) => {
             if (atbat.runner === 4) {
                     inningScore[index] +=1;
                     score += 1
+            }
+            if (atbat.runner !== 4 && atbat.runner !== 0 && atbat.out === 0) {
+                    LOB +=1
             }
         });
     });
@@ -57,7 +64,8 @@ const getTeamBoxscore = (teamData, opponentdata) => {
         inningScore,
         score,
         hits,
-        errors
+        errors,
+        LOB
     }
 }
 export default {

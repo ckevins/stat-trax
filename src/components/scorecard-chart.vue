@@ -35,7 +35,7 @@
                 </select>
             </div>
         </div>
-        <div class='diamond cell' v-for='inning_index in inningsRendered' :key='inning_index'> 
+        <div class='diamond cell' v-for='inning_index in inningsRendered' :key='inning_index' :style="checkDiamondClass(row_index, inning_index)"> 
             <div class='rbi'>
                 <select name='RBI' id='RBI-select' v-model='teamData.lineup[row_index-1].atbats[inning_index-1].rbi' v-on:change='updateData'>
                     <option :value='0'>-</option>
@@ -52,9 +52,12 @@
             </div>
             <div class='result'>
                 <select name='result' id='result-select' v-model='teamData.lineup[row_index-1].atbats[inning_index-1].result' v-on:change='resultUpdateRunner($event, row_index, inning_index); updateData'>
-                <option value=''>-Result-</option>
+                <option value=''></option>
                 <option v-for='result in results' :value='result' :key='result'>{{ result }}</option>
                 </select>
+            </div>
+            <div class='note' v-if='teamData.lineup[row_index-1].atbats[inning_index-1].noteVisibility'>
+                <input type="text" id='note-input' placeholder="Note">
             </div>
             <div class='out-count'>
                 <select name='out-count' id='out-count-select' v-model='teamData.lineup[row_index-1].atbats[inning_index-1].out' v-on:change='updateData'>
@@ -240,6 +243,18 @@ export default {
                 atbat.noteVisibility = true
             }
         },
+        checkDiamondClass: function(row_index, inning_index) {
+            let cell = this.teamData.lineup[row_index-1].atbats[inning_index-1]
+            if (cell.result !== '') {
+                return {
+                    border: "1px ridge navy"
+                }
+            } else {
+                return {
+                    border: "1px ridge navy"
+                }
+            }
+        },
         checkButtonStyle: function (baseNum, row_index, inning_index) {
             if (this.teamData.lineup[row_index-1].atbats[inning_index-1].runner >= baseNum) {
                 return {
@@ -346,7 +361,6 @@ p {
 .diamond {
     position: relative;
     background-color: white;
-    border: 1px solid navy;
     width: 200px;
     height: 150px;
     background-image: url('~@/assets/diamond.jpg');
@@ -368,8 +382,14 @@ p {
 
 .result {
     position: absolute;
-    top: 30%;
+    top: 35%;
     left: 30%;
+}
+
+#result-select {
+    font-size: 1.2em;
+    width: 80px;
+    text-align-last: center;
 }
 
 .out-count {
@@ -419,7 +439,11 @@ p {
 }
 
 #note-input {
-    width: 70px;
+    width: 50px;
+    position: absolute;
+    top: 55%;
+    left: 35%;
+    text-align: center;
 }
 
 .tally-container {
