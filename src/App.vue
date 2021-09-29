@@ -20,13 +20,20 @@ html {
 }
 body {
     background-color: #E9C893;
+    width: 100%;
+    margin: 0;
 }
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
+  width: 100%;
 }
 h1 {
   margin: 0;
   font-weight: bold;
+}
+
+.app {
+  width: 100%;
 }
 
 .app-header {
@@ -69,11 +76,9 @@ h1 {
 .upper-tab {
     color: white;
     background-color: #1E392A;
-    border: 5px solid #4d926d;
-    width: 98%;
-    min-height: 85vh;
-    margin: auto;
-    border-radius: 10px;
+    border-top: 5px solid #4d926d;
+    width: 100%;
+    min-height: 90vh;
     margin-top: -5px;
 }
 
