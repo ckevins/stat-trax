@@ -15,41 +15,34 @@
 
 
 <style>
-html {
-  height: 100vh;
-}
 body {
-    background-color: #E9C893;
-    width: 100%;
+    background-color: #1E392A;
     margin: 0;
+    min-height: 100vh;
 }
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
-  width: 100%;
 }
 h1 {
-  margin: 0;
+  margin: 0 30px 0 0;
   font-weight: bold;
 }
 
-.app {
-  width: 100%;
-}
 
 .app-header {
   color: #1E392A;
+  background-color: #E9C893;
   text-align: right;
-  width: 98%;
+  width: 100%;
   font-size: 1.5em;
-  margin: 0 100px 0 0;
-  padding: 15px 0 0;
+  padding: 25px 0 15px;
 }
 
 #nav {
   display: flex;
   justify-content: space-evenly;
   width: 50%;
-  margin-top: -50px;
+  margin-top: -60px;
 }
 
 #link {
@@ -75,11 +68,13 @@ h1 {
 
 .upper-tab {
     color: white;
+    position: relative;
     background-color: #1E392A;
     border-top: 5px solid #4d926d;
     width: 100%;
-    min-height: 90vh;
     margin-top: -5px;
+    min-height: 80vh;
+    padding-bottom: 50px;
 }
 
 
