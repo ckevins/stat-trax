@@ -358,6 +358,14 @@ p {
     font-weight: bold;
 }
 
+#inning-button:hover{
+    background-color: rgb(189, 189, 189);
+}
+
+#inning-button:active{
+    transform: scale(0.95)
+}
+
 .diamond {
     position: relative;
     background-color: white;

@@ -1,7 +1,7 @@
 <template>
 <div class='app'>
   <div class='app-header'>
-      <h1>Stat Trax</h1>
+      <h1>StatTrax</h1>
   </div>
   <div id="nav">
     <router-link to="/" id='link'>Home</router-link> 

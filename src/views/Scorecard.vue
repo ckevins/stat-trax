@@ -197,7 +197,8 @@ export default {
         checkTeamButtonStyle: function (homeOrAway) {
             if (this.activeTeam === homeOrAway) {
                 return {
-                    border: "3px solid yellow"
+                    border: "5px solid yellow",
+                    fontWeight: "bold"
                 }
             } else {
                 return {
@@ -244,7 +245,6 @@ h2, .app-header {
     position: absolute;
     top: 15px;
     right: 15px;
-    border-radius: 10px;
 }
 .scorecard {
     width: 98%;
@@ -270,9 +270,15 @@ h2, .app-header {
 }
 
 .team-button {
+    background-color: white;
     width: 10%;
     margin: 10px;
-    border-radius: 20px;
+    border-radius: 100%;
+    font-size: 2em;
+}
+
+.team-button:hover {
+    background-color: rgb(189, 189, 189);
 }
 
 
