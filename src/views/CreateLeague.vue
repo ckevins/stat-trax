@@ -24,10 +24,14 @@
                 <div class='teams-parent'>
                     <div class='team-details' v-for='team_index in league[division_index-1].teams.length' :key='team_index'>
                         <h3>Team {{team_index}}</h3>
-                        <label>Team Name: </label><br>
-                        <input type="text" v-model="league[division_index-1].teams[team_index-1].nickname"/><br>
-                        <label>Primary Color: </label><br>
-                        <input type="color" v-model="league[division_index-1].teams[team_index-1].primaryColor"/><br>
+                        <div class='team-name'>
+                            <label>Team Name: </label><br>
+                            <input type="text" id='team-name' v-model="league[division_index-1].teams[team_index-1].nickname"/><br>
+                        </div>
+                        <div class='primary-color'>
+                            <label>Primary Color: </label>
+                            <input type="color" v-model="league[division_index-1].teams[team_index-1].primaryColor"/><br>
+                        </div>
                         <div class='roster-head'>
                             <h4>Roster</h4>
                             <button class='roster-button' v-on:click='rosterSizeDown(division_index, team_index)'>-</button>
@@ -152,14 +156,14 @@ h2 {
     width: 40%;
     margin: auto;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     align-items: center;
 }
 
 .teams-parent {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-evenly;
+    justify-content: space-around;
 }
 
 .team-details {
@@ -169,10 +173,15 @@ h2 {
     border: 2px solid white;
 }
 
-.roster-head {
+.roster-head, .primary-color, .team-name {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
+    padding: 4px
+}
+
+#team-name {
+    width: 50%;
 }
 
 .roster {
@@ -185,8 +194,13 @@ button {
     height: 30px;
 }
 
+.roster-button {
+    width: 70px;
+}
+
 #player-name {
     margin: 2px;
+    width: 85%;
 }
     
 
