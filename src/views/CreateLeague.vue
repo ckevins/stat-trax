@@ -3,27 +3,37 @@
         <h2>Create League</h2>
         <div class='form'>  
             <div class='form-head'>
-                <label>League Name:</label><br>
+                <h3>League Name:</h3><br>
                 <input id='team-name-input' type="text" v-model='leagueName'/><br>
-                <label>Number of Divisions (max 5):</label><br>
-                <input id='number-of-divisions' type="number" max="5" min="1" v-model='numberOfDivisions'/>
+                <div class="league-size">
+                    <h3>Number of Divisions: {{league.length}}</h3><br>
+                    <button class='league-size-button' v-on:click='leagueSizeDown()'>-</button>
+                    <button class='league-size-button' v-on:click='leagueSizeUp()'>+</button>
+                </div>
             </div>
-            <div class='division' v-for='division_index in numberOfDivisions' :key='division_index'>
+            <div class='division' v-for='division_index in league.length' :key='division_index'>
                 <div class='division-head'>
                     <label>Division Name:</label><br>
                     <input id='division-name' type="text" v-model='league[division_index-1].divisionName'/><br>
-                    <label>Number of teams:</label><br>
-                    <input id='division-size' type="number" v-model='divisionSizes[division_index-1]'/>
+                    <div class='division-size'>
+                        <h4>Number of teams: {{league[division_index-1].teams.length}}</h4><br>
+                        <button class='division-size-button' v-on:click='divisionSizeDown(division_index)'>-</button>
+                        <button class='division-size-button' v-on:click='divisionSizeUp(division_index)'>+</button>
+                    </div>
                 </div>
                 <div class='teams-parent'>
-                    <div class='team-details' v-for='team_index in divisionSizes[division_index-1]' :key='team_index'>
+                    <div class='team-details' v-for='team_index in league[division_index-1].teams.length' :key='team_index'>
                         <h3>Team {{team_index}}</h3>
                         <label>Team Name: </label><br>
                         <input type="text" v-model="league[division_index-1].teams[team_index-1].nickname"/><br>
                         <label>Primary Color: </label><br>
                         <input type="color" v-model="league[division_index-1].teams[team_index-1].primaryColor"/><br>
-                        <h5>Roster</h5>
-                        <div class='roster'  v-for='index in rosterSize' :key="index">
+                        <div class='roster-head'>
+                            <h4>Roster</h4>
+                            <button class='roster-button' v-on:click='rosterSizeDown(division_index, team_index)'>-</button>
+                            <button class='roster-button' v-on:click='rosterSizeUp(division_index, team_index)'>+</button>
+                        </div>
+                        <div class='roster'  v-for='index in league[division_index-1].teams[team_index-1].roster.length' :key="index">
                             <label>{{index}}.</label>
                             <input type="text" id="player-name" placeholder="Last Name, First Name" v-model='league[division_index-1].teams[team_index-1].roster[index-1]'/>
                             <br>
@@ -40,7 +50,14 @@ class TeamData {
     constructor () {
         this.nickname = '';
         this.primaryColor = '#ffffff';
-        this.roster = new Array(15).fill('')
+        this.roster = new Array(10).fill('')
+    }
+}
+
+class DivisionData {
+    constructor () {
+        this.divisionName = '';
+        this.teams = Array.from({length:4}, ()=> new TeamData)
     }
 }
 
@@ -48,19 +65,31 @@ export default ({
     data: function () {
         return {
             leagueName: '',
-            numberOfDivisions: 1,
-            rosterSize: 20,
-            divisionSizes: new Array(5).fill(4)     
+            league: [
+                new DivisionData
+            ]
         }
     },
-    computed: {
-        league: function () {
-            //divisions should be an array filled with arrays
-            let divisions = [];
-            this.divisionSizes.forEach((divisionSize) => {
-                divisions.push({divisionName:'', teams: Array.from({ length:divisionSize }, ()=> new TeamData)})
-            })
-            return divisions;
+    methods: {
+        leagueSizeUp: function () {
+            this.league.push(new DivisionData)
+        },
+        leagueSizeDown: function () {
+            if (this.league.length !== 1) {
+                this.league.pop()
+            }
+        },
+        divisionSizeUp: function (divisionIndex) {
+            this.league[divisionIndex-1].teams.push(new TeamData)
+        },
+        divisionSizeDown: function (divisionIndex) {
+            this.league[divisionIndex-1].teams.pop()
+        },
+        rosterSizeUp: function (divisionIndex, teamIndex) {
+            this.league[divisionIndex-1].teams[teamIndex-1].roster.push('')
+        },
+        rosterSizeDown: function (divisionIndex, teamIndex) {
+            this.league[divisionIndex-1].teams[teamIndex-1].roster.pop()
         }
     }
 })
@@ -119,9 +148,12 @@ h2 {
     margin: 10px
 }
 
-#division-size {
-    width: 50px;
-    font-size: 1.4em;
+.division-size, .league-size {
+    width: 40%;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .teams-parent {
@@ -134,12 +166,23 @@ h2 {
     margin: 10px;
     padding: 0 10px 10px;
     background-color: #1E392A;
-    border: 2px solid white
+    border: 2px solid white;
+}
+
+.roster-head {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
 }
 
 .roster {
     display: block;
     text-align: right;
+}
+
+button {
+    width: 30px;
+    height: 30px;
 }
 
 #player-name {
