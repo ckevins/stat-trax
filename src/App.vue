@@ -1,7 +1,8 @@
 <template>
 <div class='app'>
   <div class='app-header'>
-      <h1>StatTrax</h1>
+      <h1>StatTrax.</h1>
+      <img id='plate-logo' src='~@/assets/plate.png'/>
   </div>
   <div id="nav">
     <router-link to="/" id='link'>Home</router-link> 
@@ -24,8 +25,11 @@ body {
   font-family: Avenir, Helvetica, Arial, sans-serif;
 }
 h1 {
-  margin: 0 30px 0 0;
+  margin: 0 0 0 0;
+  -webkit-text-stroke: 2px black;
   font-weight: bold;
+  font-size: 2.5em;
+  color: white;
 }
 
 
@@ -34,8 +38,16 @@ h1 {
   background-color: #E9C893;
   text-align: right;
   width: 100%;
+  margin-right: 30px;
   font-size: 1.5em;
   padding: 25px 0 15px;
+  display: flex;
+  justify-content: right;
+}
+
+#plate-logo {
+  height: 75px;
+  padding-right: 30px;
 }
 
 #nav {

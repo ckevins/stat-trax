@@ -24,14 +24,20 @@
                 <div class='teams-parent'>
                     <div class='team-details' v-for='team_index in league[division_index-1].teams.length' :key='team_index'>
                         <h3>Team {{team_index}}</h3>
-                        <div class='team-name'>
-                            <label>Team Name: </label><br>
-                            <input type="text" id='team-name' v-model="league[division_index-1].teams[team_index-1].nickname"/><br>
-                        </div>
-                        <div class='primary-color'>
-                            <label>Primary Color: </label>
-                            <input type="color" v-model="league[division_index-1].teams[team_index-1].primaryColor"/><br>
-                        </div>
+                        <table class='team-header'>
+                            <tr>
+                                <th>Team Name:</th>
+                                <td><input type="text" id='team-name' v-model="league[division_index-1].teams[team_index-1].nickname"/></td>
+                            </tr>
+                            <tr>
+                                <th>Primary Color:</th>
+                                <td><input type="color" id ='team-color' v-model="league[division_index-1].teams[team_index-1].primaryColor"/></td>
+                            </tr>
+                            <tr>
+                                <th>Manager:</th>
+                                <td><input type="text" id='manager' v-model="league[division_index-1].teams[team_index-1].manager" placeholder="Last Name, First Name"/></td>
+                            </tr>
+                        </table>
                         <div class='roster-head'>
                             <h4>Roster</h4>
                             <button class='roster-button' v-on:click='rosterSizeDown(division_index, team_index)'>-</button>
@@ -54,6 +60,7 @@ class TeamData {
     constructor () {
         this.nickname = '';
         this.primaryColor = '#ffffff';
+        this.manager = '';
         this.roster = new Array(10).fill('')
     }
 }
@@ -168,20 +175,31 @@ h2 {
 
 .team-details {
     margin: 10px;
+    width: 20%;
     padding: 0 10px 10px;
     background-color: #1E392A;
     border: 2px solid white;
 }
 
-.roster-head, .primary-color, .team-name {
+.team-header {
+    width: 98%;
+    margin: auto;
+    text-align: right;
+}
+
+th {
+    width: 45%;
+}
+
+.roster-head {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     align-items: center;
     padding: 4px
 }
 
-#team-name {
-    width: 50%;
+#team-name, #manager, #team-color {
+    width: 100%;
 }
 
 .roster {
