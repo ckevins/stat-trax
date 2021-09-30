@@ -1,7 +1,7 @@
 <template>
 <div class='app'>
   <div class='app-header'>
-      <h1>StatTrax.</h1>
+      <h1 id='title'>StatTrax.</h1>
       <img id='plate-logo' src='~@/assets/plate.png'/>
   </div>
   <div id="nav">
@@ -26,10 +26,13 @@ body {
 }
 h1 {
   margin: 0 0 0 0;
-  -webkit-text-stroke: 2px black;
   font-weight: bold;
   font-size: 2.5em;
   color: white;
+}
+
+#title {
+  -webkit-text-stroke: 2px black;
 }
 
 
@@ -38,11 +41,14 @@ h1 {
   background-color: #E9C893;
   text-align: right;
   width: 100%;
+  height: 200px;
   margin-right: 30px;
   font-size: 1.5em;
   padding: 25px 0 15px;
   display: flex;
   justify-content: right;
+  align-items: flex-end;
+  background-image: url('~@/assets/dirt.jpg');
 }
 
 #plate-logo {
@@ -85,7 +91,7 @@ h1 {
     border-top: 5px solid #4d926d;
     width: 100%;
     margin-top: -5px;
-    min-height: 80vh;
+    min-height: 60vh;
     padding-bottom: 50px;
 }
 
