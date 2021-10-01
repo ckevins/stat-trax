@@ -118,7 +118,7 @@ export default ({
             this.league.push(new DivisionData)
         },
         leagueSizeDown: function () {
-            if (this.league.length !== 1) {
+            if (this.league.length > 1) {
                 this.league.pop()
             }
         },
@@ -126,7 +126,9 @@ export default ({
             this.league[divisionIndex-1].teams.push(new TeamData)
         },
         divisionSizeDown: function (divisionIndex) {
-            this.league[divisionIndex-1].teams.pop()
+            if (this.league[divisionIndex-1].teams.length > 1) {
+                this.league[divisionIndex-1].teams.pop()
+            }
         },
         rosterSizeUp: function (divisionIndex, teamIndex) {
             this.league[divisionIndex-1].teams[teamIndex-1].roster.push(new PlayerData)
