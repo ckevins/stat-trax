@@ -1,22 +1,21 @@
 <template>
     <div class="add-league upper-tab">
-        <h2>Create League</h2>
         <div class='form'>  
             <div class='form-head'>
-                <h3>League Name:</h3><br>
-                <input id='team-name-input' type="text" v-model='leagueName'/><br>
+                <h1>League:</h1><br>
+                <input id='team-name-input' type="text" placeholder="League Name" v-model='leagueName'/><br>
                 <div class="league-size">
-                    <h3>Number of Divisions: {{league.length}}</h3><br>
+                    <h3>Divisions: {{league.length}}</h3><br>
                     <button class='league-size-button' v-on:click='leagueSizeDown()'>-</button>
                     <button class='league-size-button' v-on:click='leagueSizeUp()'>+</button>
                 </div>
             </div>
             <div class='division' v-for='division_index in league.length' :key='division_index'>
                 <div class='division-head'>
-                    <label>Division Name:</label><br>
-                    <input id='division-name' type="text" v-model='league[division_index-1].divisionName'/><br>
+                    <h2>Division:</h2>
+                    <input id='division-name' type="text" placeholder="Division Name" v-model='league[division_index-1].divisionName'/><br>
                     <div class='division-size'>
-                        <h4>Number of teams: {{league[division_index-1].teams.length}}</h4><br>
+                        <h3>Number of teams: {{league[division_index-1].teams.length}}</h3>
                         <button class='division-size-button' v-on:click='divisionSizeDown(division_index)'>-</button>
                         <button class='division-size-button' v-on:click='divisionSizeUp(division_index)'>+</button>
                     </div>
@@ -24,29 +23,49 @@
                 <div class='teams-parent'>
                     <div class='team-details' v-for='team_index in league[division_index-1].teams.length' :key='team_index'>
                         <h3>Team {{team_index}}</h3>
-                        <table class='team-header'>
-                            <tr>
-                                <th>Team Name:</th>
-                                <td><input type="text" id='team-name' v-model="league[division_index-1].teams[team_index-1].nickname"/></td>
-                            </tr>
-                            <tr>
-                                <th>Primary Color:</th>
-                                <td><input type="color" id ='team-color' v-model="league[division_index-1].teams[team_index-1].primaryColor"/></td>
-                            </tr>
-                            <tr>
-                                <th>Manager:</th>
-                                <td><input type="text" id='manager' v-model="league[division_index-1].teams[team_index-1].manager" placeholder="Last Name, First Name"/></td>
-                            </tr>
-                        </table>
+                        <div class='team-basics'>
+                            <h3>Team Name</h3>
+                            <h3>Color</h3>
+                            <h3>Manager</h3>
+                            <input type="text" id='team-name' v-model="league[division_index-1].teams[team_index-1].nickname"/>
+                            <input type="color" id ='team-color' v-model="league[division_index-1].teams[team_index-1].primaryColor"/>
+                            <input type="text" id='manager' v-model="league[division_index-1].teams[team_index-1].manager" placeholder="Last Name, First Name"/>
+                        </div>
                         <div class='roster-head'>
-                            <h4>Roster</h4>
+                            <h3>Roster ({{league[division_index-1].teams[team_index-1].roster.length}})</h3>
                             <button class='roster-button' v-on:click='rosterSizeDown(division_index, team_index)'>-</button>
                             <button class='roster-button' v-on:click='rosterSizeUp(division_index, team_index)'>+</button>
                         </div>
-                        <div class='roster'  v-for='index in league[division_index-1].teams[team_index-1].roster.length' :key="index">
-                            <label>{{index}}.</label>
-                            <input type="text" id="player-name" placeholder="Last Name, First Name" v-model='league[division_index-1].teams[team_index-1].roster[index-1]'/>
-                            <br>
+                        <div class='roster'>
+                            <h5>Player Name</h5>
+                            <h5>#</h5>
+                            <h5>Pos</h5>
+                            <h5>Sec.</h5>
+                            <h5>Bats</h5>
+                            <h5>Throws</h5>
+                        </div>
+                        <div class='roster' id="player"  v-for='index in league[division_index-1].teams[team_index-1].roster.length' :key="index">
+                            <div class= 'name'>
+                                <label>{{index}}.</label>
+                                <input type="text" id="player-name" placeholder="Last Name, First Name" v-model='league[division_index-1].teams[team_index-1].roster[index-1].name'/>
+                            </div>
+                            <input type="number" id="jersey-number" placeholder="#" max=99 min=00 v-model='league[division_index-1].teams[team_index-1].roster[index-1].number'/>
+                            <select id="position" v-model='league[division_index-1].teams[team_index-1].roster[index-1].primaryPos'>
+                                <option value=''>--</option>
+                                <option v-for='position in positions' :value="position" :key="position">{{position}}</option>
+                            </select>
+                            <select id="sec-position" v-model='league[division_index-1].teams[team_index-1].roster[index-1].secondaryPos'>
+                                <option value=''>--</option>
+                                <option v-for='position in positions' :value="position" :key="position">{{position}}</option>
+                            </select>
+                            <select id="bats" v-model='league[division_index-1].teams[team_index-1].roster[index-1].bats'>
+                                <option value=''>--</option>
+                                <option v-for='hand in handedness' :value="hand" :key="hand">{{hand}}</option>
+                            </select>
+                            <select id="throws" v-model='league[division_index-1].teams[team_index-1].roster[index-1].throws'>
+                                <option value=''>--</option>
+                                <option v-for='hand in handedness.slice(0,2)' :value="hand" :key="hand">{{hand}}</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -56,12 +75,23 @@
 </template>
 
 <script>
+class PlayerData {
+    constructor () {
+        this.name = '';
+        this.number= '';
+        this.primaryPos = '';
+        this.secondaryPos = '';
+        this.bats = '';
+        this.throws = '';
+    }
+}
+
 class TeamData {
     constructor () {
         this.nickname = '';
         this.primaryColor = '#ffffff';
         this.manager = '';
-        this.roster = new Array(10).fill('')
+        this.roster = Array.from({length:10}, ()=> new PlayerData);
     }
 }
 
@@ -78,7 +108,9 @@ export default ({
             leagueName: '',
             league: [
                 new DivisionData
-            ]
+            ],
+            positions: ['P', 'C', '1B', '2B', '3B', 'SS', 'LF', 'CF', 'RF', 'DH', 'IF', 'OF', 'IF/OF', '1B/3B', '2B/SS', 'LF/RF'],
+            handedness: ['R', 'L', 'S']
         }
     },
     methods: {
@@ -97,7 +129,7 @@ export default ({
             this.league[divisionIndex-1].teams.pop()
         },
         rosterSizeUp: function (divisionIndex, teamIndex) {
-            this.league[divisionIndex-1].teams[teamIndex-1].roster.push('')
+            this.league[divisionIndex-1].teams[teamIndex-1].roster.push(new PlayerData)
         },
         rosterSizeDown: function (divisionIndex, teamIndex) {
             this.league[divisionIndex-1].teams[teamIndex-1].roster.pop()
@@ -108,13 +140,25 @@ export default ({
 
 
 <style scoped>
+h1 {
+    margin-top: 20px;
+}
+
 h2 {
     color: white;
     text-align: center;
 }
 
+h3 {
+    margin: 5px;
+}
+
+h5 {
+    margin: 2px;
+}
+
 .form {
-    width: 90%;
+    width: 98%;
     margin: auto;
 }
 
@@ -142,21 +186,22 @@ h2 {
     border: 5px solid #E9C893;
     background-color: #4d926d;
     padding: 10px;
-    margin: 40px;
+    margin: 20px;
 }
 
 .division-head {
     width: 50%;
     margin: auto;
     text-align: center;
+    align-content: space-around;
 }
 
 #division-name {
     width: 80%;
+    margin:10px;
     height: 20px;
     font-size:1.4em;
     text-align: center;
-    margin: 10px
 }
 
 .division-size, .league-size {
@@ -170,41 +215,43 @@ h2 {
 .teams-parent {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
+    justify-content: space-evenly;
 }
 
 .team-details {
-    margin: 10px;
-    width: 20%;
+    width: 45%;
+    margin: 10px 0;
     padding: 0 10px 10px;
     background-color: #1E392A;
     border: 2px solid white;
 }
 
-.team-header {
-    width: 98%;
+.team-basics {
+    display: grid;
+    text-align: center;
+    width: 95%;
     margin: auto;
-    text-align: right;
+    grid-template-columns: 40% 20% 40%;
+    column-gap: 10px;
+    justify-content: center;
 }
 
-th {
-    width: 45%;
+#team-name, #team-color, #manager{
+    justify-self: center;
+    width: 80%;
 }
 
 .roster-head {
+    text-align: center;
+    margin-top: 20px;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: center;
     align-items: center;
-    padding: 4px
 }
 
-#team-name, #manager, #team-color {
-    width: 100%;
-}
-
-.roster {
-    display: block;
-    text-align: right;
+.roster-button {
+    width: 70px;
+    margin: 5px;
 }
 
 button {
@@ -212,13 +259,35 @@ button {
     height: 30px;
 }
 
-.roster-button {
-    width: 70px;
+.roster {
+    display: grid;
+    grid-template-columns: 45% 1fr 10% 10% 1fr 1fr;
+    column-gap: 10px;
+    justify-content: center;
+    text-align: center;
+}
+
+#player {
+    padding: 2px 0;
+}
+
+.name {
+    width: 100%;
+    text-align: right;
 }
 
 #player-name {
-    margin: 2px;
     width: 85%;
+}
+
+#jersey-number {
+    width: 100%;
+}
+
+.player-basics {
+    display: flex;
+    width: 99%;
+    margin: 5px;
 }
     
 

@@ -91,7 +91,6 @@ h1 {
     border-top: 5px solid #4d926d;
     width: 100%;
     margin-top: -5px;
-    min-height: 60vh;
     padding-bottom: 50px;
 }
 
