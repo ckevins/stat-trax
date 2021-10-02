@@ -1,8 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "zJiVAoKUjySTRBYFYcddRk5JSZUUAA/kY6ZNZ4s30k3jK+LReIdM7TkOM0o6dH3cem/szPchoUgHAcNmwD7RZg==",
+  "dgSpecHash": "hKXDK5cB7o8o+dep3MoJpuTLljghgQ/61rczE3bJziB2o6joRaiVWNybk4FaNJZYNdo1U2MVJlkl76VhkOJL5Q==",
   "success": true,
   "projectFilePath": "/Users/codyevins/Documents/Code/stat-trax/api/api.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "/Users/codyevins/.nuget/packages/mediatr/9.0.0/mediatr.9.0.0.nupkg.sha512",
+    "/Users/codyevins/.nuget/packages/mediatr.extensions.microsoft.dependencyinjection/9.0.0/mediatr.extensions.microsoft.dependencyinjection.9.0.0.nupkg.sha512",
+    "/Users/codyevins/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/2.0.0/microsoft.extensions.dependencyinjection.abstractions.2.0.0.nupkg.sha512"
+  ],
   "logs": []
 }
