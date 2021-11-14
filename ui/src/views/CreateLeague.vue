@@ -70,35 +70,38 @@
                     </div>
                 </div>
             </div>
+            <button @click='submitLeague(leagueName, league)'>Submit</button>
         </div>
     </div>
 </template>
 
 <script>
+import db from '../firebaseInit';
+
 class PlayerData {
     constructor () {
-        this.name = '';
-        this.number= '';
-        this.primaryPos = '';
-        this.secondaryPos = '';
-        this.bats = '';
-        this.throws = '';
+        this.name = null;
+        this.number= null;
+        this.primaryPos = null;
+        this.secondaryPos = null;
+        this.bats = null;
+        this.throws = null;
     }
 }
 
 class TeamData {
     constructor () {
-        this.nickname = '';
+        this.nickname = null;
         this.primaryColor = '#ffffff';
-        this.manager = '';
-        this.roster = Array.from({length:10}, ()=> new PlayerData);
+        this.manager = null;
+        this.roster = Array.from({length:10}, ()=> new PlayerData).map((obj)=>{return Object.assign({},obj)});
     }
 }
 
 class DivisionData {
     constructor () {
-        this.divisionName = '';
-        this.teams = Array.from({length:4}, ()=> new TeamData)
+        this.divisionName = null;
+        this.teams = Array.from({length:4}, ()=> new TeamData).map((obj)=>{return Object.assign({},obj)})
     }
 }
 
@@ -135,6 +138,19 @@ export default ({
         },
         rosterSizeDown: function (divisionIndex, teamIndex) {
             this.league[divisionIndex-1].teams[teamIndex-1].roster.pop()
+        },
+        submitLeague: function (name, league) {
+            db.collection("leagues")
+                .add({
+                    leagueName: name,
+                    divisions: league.map((obj)=> {return Object.assign({}, obj)})
+                })
+                .then(()=> {
+                    console.log("Document successfully written!")
+                })
+                .catch((error) => {
+                    console.log("Error writing document: ", error)
+                });
         }
     }
 })

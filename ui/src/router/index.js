@@ -11,6 +11,9 @@ import TeamStats from '../views/TeamStats.vue'
 import LeagueLeaders from '../views/LeagueLeaders.vue'
 import Schedule from '../views/Schedule.vue'
 
+
+
+
 const routes = [
   {
     path: '/',
@@ -35,7 +38,7 @@ const routes = [
       },
       {
         path: '/my-league/standings',
-        component: Standings  
+        component: Standings,
       },
       {
         path: '/my-league/stats/individual',
