@@ -483,4 +483,9 @@ p {
     background-color: gainsboro;
     margin: 1px 1px 0 1px;
 }
+
+select {
+    background-color: white;
+    border: 1px solid black;
+}
 </style>

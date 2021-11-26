@@ -134,5 +134,10 @@ th, td {
     background-color: #E9C893;
 }
 
+select {
+    background-color: white;
+    border: 1px solid black;
+}
+
 
 </style>

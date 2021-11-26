@@ -233,7 +233,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 h2, .app-header {
     text-align: center;
     color: white
@@ -280,6 +280,4 @@ h2, .app-header {
 .team-button:hover {
     background-color: rgb(189, 189, 189);
 }
-
-
 </style>
