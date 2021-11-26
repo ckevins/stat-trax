@@ -3,10 +3,10 @@
             <Help v-if='help' :toggleHelp='toggleHelp'></Help>
             <h2>Scorecard</h2>
             <button v-on:click='toggleHelp' id='help-button'>Help</button>
-            <ScorecardHeader 
+            <Header 
                 :teams='teams' 
                 @update-game-data='updateGameData'>
-            </ScorecardHeader>
+            </Header>
             <div class='boxscore-div' v-if='gameData.homeTeam.nickname && gameData.awayTeam.nickname'>
                 <button class='team-button' :style='checkTeamButtonStyle("away")' v-on:click='awayButton'>Away</button>
                 <Boxscore 
@@ -20,7 +20,7 @@
             </div>
             <div class='team-select-buttons'>
             </div>
-            <ScorecardChart
+            <Chart
                 v-if="gameData.homeTeam.nickname && activeTeam==='home'"
                 :team="gameData.homeTeam"
                 :gameData="homeTeamData"
@@ -28,8 +28,8 @@
                 :toggleUp='toggleInningRangeUp'
                 :toggleDown='toggleInningRangeDown'
                 @update-team-data='updateHomeTeamData'>
-            </ScorecardChart>
-            <ScorecardChart
+            </Chart>
+            <Chart
                 v-if="gameData.awayTeam.nickname && activeTeam==='away'"
                 :team="gameData.awayTeam"
                 :gameData="awayTeamData"
@@ -37,16 +37,16 @@
                 :toggleUp='toggleInningRangeUp'
                 :toggleDown='toggleInningRangeDown'
                 @update-team-data='updateAwayTeamData'>
-            </ScorecardChart>
+            </Chart>
     </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import Help from '@/components/help.vue';
-import ScorecardHeader from '@/components/scorecard-header.vue';  
-import Boxscore from '@/components/boxscore.vue';  
-import ScorecardChart from '@/components/scorecard-chart.vue';
+import Help from '@/components/my-league/scorecard/help.vue';
+import Header from '@/components/my-league/scorecard/header.vue';  
+import Boxscore from '@/components/my-league/scorecard/boxscore.vue';  
+import Chart from '@/components/my-league/scorecard/chart.vue';
 
 
 
@@ -87,9 +87,9 @@ export default {
   name: 'Scorecard',
   components: {
         Help,
-        ScorecardHeader,
+        Header,
         Boxscore,
-        ScorecardChart
+        Chart
   },
   data: function () {
     return {

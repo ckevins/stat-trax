@@ -5,9 +5,13 @@
       <img id="plate-logo" src="~@/assets/plate.png" />
     </div>
     <div id="nav">
-      <router-link to="/" id="link">Home</router-link>
-      <router-link to="/create-league" id="link">Create League</router-link>
-      <router-link to="/my-league/league-home" id="link">My League</router-link>
+      <router-link to="/" id="link" exact>Home</router-link>
+      <router-link to="/create-league" id="link" exact
+        >Create League</router-link
+      >
+      <router-link to="/my-league/league-home" id="my-league"
+        >My League</router-link
+      >
     </div>
 
     <router-view class="components" />
@@ -70,7 +74,8 @@ button {
   margin-top: -60px;
 }
 
-#link {
+#link,
+#my-league {
   color: white;
   text-decoration: none;
   background-color: #1e392a;
@@ -81,12 +86,17 @@ button {
   z-index: 10;
 }
 
-#link:hover {
+#link:hover,
+#my-league:hover {
   transform: scale(1.05);
   transform-origin: bottom;
 }
 
-#link.router-link-active {
+#link.router-link-exact-active {
+  border-bottom: 0px;
+  color: #e9c893;
+}
+#my-league.router-link-active {
   border-bottom: 0px;
   color: #e9c893;
 }

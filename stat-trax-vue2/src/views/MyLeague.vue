@@ -3,7 +3,7 @@
         <div id="nav">
             <router-link to='/my-league/league-home' id='sublink' exact>League Home</router-link>
             <router-link to="/my-league/standings" id='sublink' exact>Standings</router-link> 
-            <router-link to="/my-league/stats/individual" id='stats'>Stats</router-link> 
+            <router-link to="/my-league/stats" id='stats'>Stats</router-link> 
             <router-link to="/my-league/schedule" id='sublink' exact>Schedule</router-link>
             <router-link to="/my-league/scorecard" id='sublink' exact>Scorecard</router-link> 
         </div>

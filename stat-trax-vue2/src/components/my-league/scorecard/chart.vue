@@ -182,7 +182,7 @@ const getRbis = (atbats, subBool) => {
     return rbis;
 }
 export default {
-    name: 'ScorecardChart',
+    name: 'Chart',
     props: {
         team: Object,
         gameData: Object, 

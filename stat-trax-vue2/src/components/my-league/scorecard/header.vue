@@ -59,7 +59,7 @@
 
 <script>
 export default {
-  name: "ScorecardHeader",
+  name: "Header",
   data: function () {
     return {
       gameData: {
