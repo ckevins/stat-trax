@@ -1,15 +1,11 @@
 <template>
-  <div class="my-league upper-tab">
-    <div id="nav">
-      <router-link to="/my-league/home" id="sublink" exact>
-        Home
-      </router-link>
-      <router-link to="/my-league/scorecard" id="sublink" exact>
-        Scorecard
-      </router-link>
+    <div class='my-league upper-tab'>
+        <div id="nav">
+            <router-link to='/new/league' id='sublink' exact>New League</router-link>
+            <router-link to="/new/player" id='sublink' exact>New Player</router-link> 
+        </div>
+        <router-view/>
     </div>
-    <router-view />
-  </div>
 </template>
 
 <style scoped>

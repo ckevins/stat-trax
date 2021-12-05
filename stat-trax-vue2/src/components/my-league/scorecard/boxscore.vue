@@ -10,20 +10,20 @@
             <th>LOB</th>
         </tr>
         <tr>
-            <th class='box-team' :style='checkTeamStyling(awayTeamNickname)'> {{ awayTeamNickname }} </th>
-            <td v-for='score in awayTeamBoxscore.inningScore' :key='score'> {{score}} </td>
-            <td class='box-totals' :style='checkTeamStyling(awayTeamNickname)'> {{ awayTeamBoxscore.score }} </td>
-            <td class='box-totals' :style='checkTeamStyling(awayTeamNickname)'> {{ awayTeamBoxscore.hits }}</td>
-            <td class='box-totals' :style='checkTeamStyling(awayTeamNickname)'> {{ awayTeamBoxscore.errors}} </td>
-            <td class='box-totals' :style='checkTeamStyling(awayTeamNickname)' id='lob'> {{ awayTeamBoxscore.LOB  }} </td>
+            <th class='box-team' :style="gameData.awayTeam.info.style"> {{ gameData.awayTeam.info.nickname }} </th>
+            <td v-for='(score, index) in awayTeamBoxscore.inningScore' :key='index'> {{score}} </td>
+            <td class='box-totals' :style="gameData.awayTeam.info.style"> {{ awayTeamBoxscore.score }} </td>
+            <td class='box-totals' :style="gameData.awayTeam.info.style"> {{ awayTeamBoxscore.hits }}</td>
+            <td class='box-totals' :style="gameData.awayTeam.info.style"> {{ awayTeamBoxscore.errors}} </td>
+            <td class='box-totals' :style="gameData.awayTeam.info.style" id='lob'> {{ awayTeamBoxscore.LOB  }} </td>
         </tr>
         <tr>
-            <th class='box-team' :style='checkTeamStyling(homeTeamNickname)'> {{ homeTeamNickname }} </th>
-            <td v-for='score in homeTeamBoxscore.inningScore' :key='score'> {{score}} </td>
-            <td class='box-totals' :style='checkTeamStyling(homeTeamNickname)'> {{ homeTeamBoxscore.score }} </td>
-            <td class='box-totals' :style='checkTeamStyling(homeTeamNickname)'> {{ homeTeamBoxscore.hits }}</td>
-            <td class='box-totals' :style='checkTeamStyling(homeTeamNickname)'> {{ homeTeamBoxscore.errors}} </td>
-            <td class='box-totals' :style='checkTeamStyling(homeTeamNickname)' id='lob'> {{ homeTeamBoxscore.LOB }} </td>
+            <th class='box-team' :style="gameData.homeTeam.info.style"> {{ gameData.homeTeam.info.nickname }} </th>
+            <td v-for='(score, index) in homeTeamBoxscore.inningScore' :key='index'> {{score}} </td>
+            <td class='box-totals' :style="gameData.homeTeam.info.style"> {{ homeTeamBoxscore.score }} </td>
+            <td class='box-totals' :style="gameData.homeTeam.info.style"> {{ homeTeamBoxscore.hits }}</td>
+            <td class='box-totals' :style="gameData.homeTeam.info.style"> {{ homeTeamBoxscore.errors}} </td>
+            <td class='box-totals' :style="gameData.homeTeam.info.style" id='lob'> {{ homeTeamBoxscore.LOB }} </td>
         </tr>
         </table>
     </div>
@@ -36,7 +36,7 @@ const getTeamBoxscore = (teamData, opponentdata) => {
     let hits = 0;
     let errors = 0;
     let LOB = 0;
-    teamData.lineup.forEach(player => {
+    teamData.forEach(player => {
         player.atbats.forEach((atbat, index) => {
             if (atbat.result === '1B' ||
                 atbat.result === '2B' ||
@@ -53,7 +53,7 @@ const getTeamBoxscore = (teamData, opponentdata) => {
             }
         });
     });
-    opponentdata.lineup.forEach(player => {
+    opponentdata.forEach(player => {
         player.atbats.forEach(atbat => {
             if (atbat.result === 'E') {
                 errors +=1
@@ -71,37 +71,14 @@ const getTeamBoxscore = (teamData, opponentdata) => {
 export default {
     name: 'Boxscore',
     props: {
-        homeTeamNickname: String,
-        homeTeamData: Object,
-        awayTeamNickname: String,
-        awayTeamData: Object
-    },
-    methods: {
-        checkTeamStyling: function (teamNickname) {
-            if (teamNickname === 'Southern Ryes') {
-                return {
-                    color: 'white',
-                    backgroundColor: 'teal'
-                }
-            } else if (teamNickname === 'Red Sox') {
-                return {
-                    color: 'white',
-                    backgroundColor: 'red'
-                }
-            } else if (teamNickname === 'Giants') {
-                return {
-                    color: 'black',
-                    backgroundColor: 'orange'
-                }
-            }
-        }
+        gameData: Object
     },
     computed: {
         homeTeamBoxscore: function () {
-            return getTeamBoxscore(this.homeTeamData, this.awayTeamData);
+            return getTeamBoxscore(this.gameData.homeTeam.lineup, this.gameData.awayTeam.lineup);
         },
         awayTeamBoxscore: function () {
-            return getTeamBoxscore(this.awayTeamData, this.homeTeamData);
+            return getTeamBoxscore(this.gameData.awayTeam.lineup, this.gameData.homeTeam.lineup)
         }
     }
 }

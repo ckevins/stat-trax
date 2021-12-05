@@ -1,10 +1,10 @@
 <template>
-  <div class="my-league upper-tab">
+  <div class="my-player upper-tab">
     <div id="nav">
-      <router-link to="/my-league/home" id="sublink" exact>
+      <router-link to="/my-player/home" id="sublink" exact>
         Home
       </router-link>
-      <router-link to="/my-league/scorecard" id="sublink" exact>
+      <router-link to="/my-player/scorecard" id="sublink" exact>
         Scorecard
       </router-link>
     </div>
@@ -25,8 +25,7 @@ h2 {
   margin-top: 20px;
 }
 
-#sublink,
-#stats {
+#sublink {
   background-color: #4d926d;
   border: 5px solid #1e392a;
   text-decoration: none;
@@ -37,18 +36,12 @@ h2 {
   z-index: 10;
 }
 
-#sublink:hover,
-#stats:hover {
+#sublink:hover {
   transform: scale(1.05);
   transform-origin: bottom;
 }
 
 #sublink.router-link-exact-active {
-  border-bottom: 0px;
-  color: #e9c893;
-}
-
-#stats.router-link-active {
   border-bottom: 0px;
   color: #e9c893;
 }

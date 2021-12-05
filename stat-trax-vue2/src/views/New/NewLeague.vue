@@ -1,5 +1,5 @@
 <template>
-  <div class="upper-tab">
+  <div class="new-league">
     <div class="form">
       <div class="form-head">
         <input
@@ -23,7 +23,6 @@
 </template>
 
 <script>
-import db from "../firebaseInit";
 import Division from "@/components/create-league/division.vue";
 
 export default {
@@ -43,28 +42,22 @@ export default {
     subtractDivision: function () {
       this.divisions--;
     },
-    //SUBMIT NEEDS TO ACCESS DATA OF CHILDREN
-    submitLeague: function (name, league) {
-      db.collection("leagues")
-        .add({
-          leagueName: name,
-          divisions: league.map((obj) => {
-            return Object.assign({}, obj);
-          }),
-        })
-        .then(() => {
-          console.log("Document successfully written!");
-        })
-        .catch((error) => {
-          console.log("Error writing document: ", error);
-        });
-    },
   },
 };
 </script>
 
 
 <style scoped>
+.new-league {
+  width: 98%;
+  min-height: 55vh;
+  margin: -5px auto 20px auto;
+  border-radius: 10px;
+  background-color: #4d926d;
+  padding: 10px 0 30px 0;
+  border: 5px solid #1e392a;
+}
+
 .form {
   padding: 5%;
 }
@@ -73,7 +66,7 @@ export default {
   background-color: white;
   padding: 2.5%;
   width: 45%;
-  border: 2px solid #4d926d;
+  border: 2px solid #1e392a;
   border-radius: 30px;
   margin: 10px;
 }
@@ -102,5 +95,7 @@ button {
   margin: 10px;
   border-radius: 10px 100px / 120px;
   font-weight: bold;
+  background-color: #1e392a;
+  border: 1px solid #4d926d;
 }
 </style>

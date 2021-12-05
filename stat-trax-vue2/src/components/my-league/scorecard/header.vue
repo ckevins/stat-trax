@@ -4,7 +4,7 @@
     <select
       name="home-team"
       id="home-team-select"
-      v-model="gameData.homeTeam"
+      v-model="gameDataCopy.homeTeam.info"
       v-on:change="updateData"
     >
       <option value="">--Team--</option>
@@ -16,7 +16,7 @@
     <select
       name="away-team"
       id="away-team-select"
-      v-model="gameData.awayTeam"
+      v-model="gameDataCopy.awayTeam.info"
       v-on:change="updateData"
     >
       <option value="">--Team--</option>
@@ -25,12 +25,12 @@
       </option>
     </select>
     <label>Date:</label>
-    <input type="date" v-model="gameData.date" v-on:change="updateData" />
+    <input type="date" v-model="gameDataCopy.date" v-on:change="updateData" />
     <label>Game Time:</label>
     <select
       name="gametime"
       id="gametime-select"
-      v-model="gameData.time"
+      v-model="gameDataCopy.time"
       v-on:change="updateData"
     >
       <option value="">--Select--</option>
@@ -46,7 +46,7 @@
     <select
       name="weather"
       id="weather-select"
-      v-model="gameData.weather"
+      v-model="gameDataCopy.weather"
       v-on:change="updateData"
     >
       <option value="">--Select--</option>
@@ -60,27 +60,22 @@
 <script>
 export default {
   name: "Header",
+  props: {
+    gameData: Object,
+    teams: Array
+  },
   data: function () {
     return {
-      gameData: {
-        homeTeam: "",
-        awayTeam: "",
-        date: "",
-        time: "",
-        weather: "",
-      },
       weatherOptions: ["Sunny", "Overcast", "Rain"],
       gametimeOptions: ["1:00pm", "4:00pm", "7:00pm"],
+      gameDataCopy: this.gameData,
     };
   },
   methods: {
     updateData: function () {
-      this.$emit("update-game-data", this.gameData);
+      this.$emit("update-game-data", this.gameDataCopy);
     },
-  },
-  props: {
-    teams: Array,
-  },
+  }
 };
 </script>
 

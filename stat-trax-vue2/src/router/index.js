@@ -1,13 +1,15 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-import CreateLeague from '../views/CreateLeague.vue'
+import New from '../views/New.vue'
+  import NewLeague from '../views/New/NewLeague.vue'
+  import NewPlayer from '../views/New/NewPlayer.vue'
 import MyLeague from '../views/MyLeague.vue'
-import LeagueHome from '../views/MyLeague/LeagueHome.vue'
-import Standings from '../views/MyLeague/Standings.vue'
-import Stats from '../views/MyLeague/Stats.vue'
-import Schedule from '../views/MyLeague/Schedule.vue'
-import Scorecard from '../views/MyLeague/Scorecard.vue'
+  import LeagueHome from '../views/MyLeague/LeagueHome.vue'
+  import Scorecard from '../views/MyLeague/Scorecard.vue'
+import MyPlayer from '../views/MyPlayer.vue'
+  import PlayerHome from '../views/MyPlayer/PlayerHome'
+  import PlayerScorecard from '../views/MyPlayer/PlayerScorecard'
 
 
 Vue.use(VueRouter)
@@ -19,32 +21,44 @@ const routes = [
     component: Home
   },
   {
-    path: '/create-league',
-    component: CreateLeague
+    path: '/new/league',
+    component: New,
+    children: [
+      {
+        path: '/new/league',
+        component: NewLeague
+      },
+      {
+        path: '/new/player',
+        component: NewPlayer
+      }
+    ]
   },
   {
-    path: '/my-league/league-home',
+    path: '/my-league/home',
     component: MyLeague,
     children: [
       {
-        path: '/my-league/league-home',
+        path: '/my-league/home',
         component: LeagueHome
       },
       {
         path: '/my-league/scorecard',
         component: Scorecard
       },
+    ]
+  },
+  {
+    path: '/my-player',
+    component: MyPlayer,
+    children: [
       {
-        path: '/my-league/standings',
-        component: Standings,
+        path: '/my-player/home',
+        component: PlayerHome
       },
       {
-        path: '/my-league/stats',
-        component: Stats,
-      },
-      {
-        path: '/my-league/schedule',
-        component: Schedule
+        path: '/my-player/scorecard',
+        component: PlayerScorecard
       }
     ]
   }

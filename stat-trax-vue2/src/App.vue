@@ -6,12 +6,11 @@
     </div>
     <div id="nav">
       <router-link to="/" id="link" exact>Home</router-link>
-      <router-link to="/create-league" id="link" exact
-        >Create League</router-link
-      >
-      <router-link to="/my-league/league-home" id="my-league"
+      <router-link to="/new/league" id="link" exact>New</router-link>
+      <router-link to="/my-league/home" id="my-league"
         >My League</router-link
       >
+      <router-link to="/my-player" id="new">My Player</router-link>
     </div>
 
     <router-view class="components" />
@@ -70,12 +69,13 @@ button {
 #nav {
   display: flex;
   justify-content: space-evenly;
-  width: 50%;
+  width: 60%;
   margin-top: -60px;
 }
 
 #link,
-#my-league {
+#my-league,
+#new {
   color: white;
   text-decoration: none;
   background-color: #1e392a;
@@ -87,7 +87,8 @@ button {
 }
 
 #link:hover,
-#my-league:hover {
+#my-league:hover,
+#new {
   transform: scale(1.05);
   transform-origin: bottom;
 }
@@ -96,7 +97,7 @@ button {
   border-bottom: 0px;
   color: #e9c893;
 }
-#my-league.router-link-active {
+#my-league.router-link-active, #new.router-link-active {
   border-bottom: 0px;
   color: #e9c893;
 }

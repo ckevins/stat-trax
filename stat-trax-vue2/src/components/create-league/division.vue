@@ -53,7 +53,7 @@ export default {
   padding: 2.5%;
   margin: 10px;
   width: 45%;
-  border: 2px solid #4d926d;
+  border: 2px solid #1e392a;
   border-radius: 30px;
 }
 
