@@ -7,10 +7,14 @@
       <router-link to="/my-league/scorecard" id="sublink" exact>
         Scorecard
       </router-link>
+      <router-link to="/my-league/manage" id="sublink" exact>
+        Manage
+      </router-link>
     </div>
     <router-view />
   </div>
 </template>
+
 
 <style scoped>
 h2 {

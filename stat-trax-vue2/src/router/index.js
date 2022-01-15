@@ -7,6 +7,7 @@ import New from '../views/New.vue'
 import MyLeague from '../views/MyLeague.vue'
   import LeagueHome from '../views/MyLeague/LeagueHome.vue'
   import Scorecard from '../views/MyLeague/Scorecard.vue'
+  import Manage from '../views/MyLeague/Manage.vue'
 import MyPlayer from '../views/MyPlayer.vue'
   import PlayerHome from '../views/MyPlayer/PlayerHome'
   import PlayerScorecard from '../views/MyPlayer/PlayerScorecard'
@@ -46,6 +47,10 @@ const routes = [
         path: '/my-league/scorecard',
         component: Scorecard
       },
+      {
+        path: '/my-league/manage',
+        component: Manage
+      }
     ]
   },
   {

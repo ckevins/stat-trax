@@ -10,7 +10,7 @@
       <router-link to="/my-league/home" id="my-league"
         >My League</router-link
       >
-      <router-link to="/my-player" id="new">My Player</router-link>
+      <router-link to="/my-player/home" id="new">My Player</router-link>
     </div>
 
     <router-view class="components" />
@@ -110,5 +110,15 @@ button {
   width: 100%;
   margin-top: -5px;
   padding-bottom: 50px;
+}
+
+.view {
+  width: 98%;
+  min-height: 55vh;
+  margin: -5px auto 20px auto;
+  border-radius: 10px;
+  background-color: #4d926d;
+  padding: 10px 10px 30px;
+  border: 5px solid #1e392a;
 }
 </style>
