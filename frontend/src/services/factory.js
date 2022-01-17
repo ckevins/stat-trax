@@ -1,7 +1,9 @@
 import playersService from "./players.service";
+import gamesService from "./games.services";
 
 const services = {
-    players: playersService
+    players: playersService,
+    games: gamesService
 }
 
 export const serviceFactory = {

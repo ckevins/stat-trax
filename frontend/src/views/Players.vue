@@ -16,7 +16,7 @@
         <h3>B/T</h3>
         <h3>Team</h3>
       </div>
-      <div class="roster" v-for="(player, index) in rosterData" :key="index">
+      <div class="roster player" v-for="(player, index) in rosterData" :key="index" @click="viewPlayerCard(player)">
         <p>{{ player.firstName }} {{ player.lastName }}</p>
         <p>{{ player.number }}</p>
         <p>{{ player.position }}</p>
@@ -25,12 +25,14 @@
       </div>
     </div>
     <CreatePlayer v-if="createPlayer" @cancel="createPlayer = false" />
+    <PlayerCard v-if="playerCard" :player=playerCard @cancel="playerCard = null" />
   </div>
 </template>
 
 <script>
 import CreatePlayer from "@/components/CreatePlayer.vue";
-import { serviceFactory } from "../services/factory";
+import PlayerCard from "@/components/PlayerCard.vue";
+import { serviceFactory } from "@/services/factory";
 
 const playersService = serviceFactory.get("players");
 
@@ -38,12 +40,14 @@ export default {
   name: "Players",
   components: {
     CreatePlayer,
+    PlayerCard
   },
   data() {
     return {
       isLoading: false,
       rosterData: [],
       createPlayer: false,
+      playerCard: null
     };
   },
   created() {
@@ -58,15 +62,30 @@ export default {
       this.rosterData = data;
       console.log("rosterData", this.rosterData);
     },
+    viewPlayerCard(player) {
+      this.playerCard = player
+    }
   },
 };
 </script>
 
 <style scoped>
-
 .roster {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 1fr 2fr;
   width: 50%;
 }
+
+.head {
+  border-bottom: 2px solid black
+}
+
+.player {
+  border-bottom: 1px solid gray;
+}
+
+.player:hover {
+  cursor: pointer;
+}
+
 </style>
