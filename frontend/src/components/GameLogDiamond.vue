@@ -1,11 +1,5 @@
 <template>
-  <div class="diamond" :class="{ noAB: noAB }">
-    <div class="first base" v-if="atBat && atBat.runnerProgress >= 1"></div>
-    <div class="second base" v-if="atBat && atBat.runnerProgress >= 2"></div>
-    <div class="third base" v-if="atBat && atBat.runnerProgress >= 3"></div>
-    <div class="home" v-if="atBat && atBat.runnerProgress === 4">
-      <div class="bottom"></div>
-    </div>
+  <div :class="checkClass()">
     <div class="result" v-if="atBat">
       <h1>{{ atBat.result }}</h1>
     </div>
@@ -18,13 +12,31 @@ export default {
   props: {
     atBat: Object,
   },
-  computed: {
-    noAB() {
-      if (this.atBat) {
-        return false;
+  methods: {
+    checkClass() {
+      let classString = "";
+      if (!this.atBat) {
+        classString = "diamond noAB";
       } else {
-        return true;
+        switch (this.atBat.runnerProgress) {
+          case 1:
+            classString = "diamond first-base";
+            break;
+          case 2:
+            classString = "diamond second-base";
+            break;
+          case 3:
+            classString = "diamond third-base";
+            break;
+          case 4:
+            classString = "diamond home";
+            break;
+          case 0:
+            classString = "diamond no-base";
+            break;
+        }
       }
+      return classString;
     },
   },
 };
@@ -33,6 +45,7 @@ export default {
 <style scoped>
 .noAB {
   opacity: 0.5;
+  background-image: url("~@/assets/diamond.jpg");
 }
 
 h1 {
@@ -41,7 +54,6 @@ h1 {
 }
 
 .diamond {
-  background-image: url("~@/assets/diamond.jpg");
   background-repeat: no-repeat;
   background-size: 150px 150px;
   background-position: center;
@@ -51,51 +63,24 @@ h1 {
   height: 150px;
 }
 
-.base {
-  width: 13px;
-  height: 13px;
-  background-color: rgb(63, 107, 63);
-  position: absolute;
-  transform: rotate(45deg);
+.first-base {
+  background-image: url("~@/assets/diamond-rp1.jpg");
 }
 
-.rotate {
-  transform: rotate(45deg);
+.second-base {
+  background-image: url("~@/assets/diamond-rp2.jpg");
 }
 
-.first,
-.third {
-  top: 45%;
-}
-
-.first {
-  right: 9.5%;
-}
-
-.third {
-  left: 9.5%;
-}
-
-.second {
-  top: 10.25%;
-  left: 45.5%;
+.third-base {
+  background-image: url("~@/assets/diamond-rp3.jpg");
 }
 
 .home {
-  width: 12px;
-  height: 8px;
-  background-color: rgb(63, 107, 63);
-  position: absolute;
-  bottom: 11.5%;
-  left: 46%;
+  background-image: url("~@/assets/diamond-rp4.jpg");
 }
-.bottom {
-  width: 8px;
-  height: 8px;
-  margin-top: 4px;
-  margin-left: 2px;
-  transform: rotate(45deg);
-  background-color: rgb(63, 107, 63);
+
+.no-base {
+  background-image: url("~@/assets/diamond.jpg");
 }
 
 .result {

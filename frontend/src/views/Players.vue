@@ -24,12 +24,14 @@
         <p>{{ player.teamName }}</p>
       </div>
     </div>
+    <RecordGame v-if="recordGame" @cancel="recordGame = false" />
     <CreatePlayer v-if="createPlayer" @cancel="createPlayer = false" />
     <PlayerCard v-if="playerCard" :player=playerCard @cancel="playerCard = null" />
   </div>
 </template>
 
 <script>
+import RecordGame from "@/components/PlayerRecordGame.vue"
 import CreatePlayer from "@/components/CreatePlayer.vue";
 import PlayerCard from "@/components/PlayerCard.vue";
 import { serviceFactory } from "@/services/factory";
@@ -39,6 +41,7 @@ const playersService = serviceFactory.get("players");
 export default {
   name: "Players",
   components: {
+    RecordGame,
     CreatePlayer,
     PlayerCard
   },
@@ -47,6 +50,7 @@ export default {
       isLoading: false,
       rosterData: [],
       createPlayer: false,
+      recordGame: false,
       playerCard: null
     };
   },
