@@ -1,5 +1,5 @@
 <template>
   <div class="leagues view">
-    <h1>This is the league page</h1>
+    <h1>Leagues Page Coming Soon</h1>
   </div>
 </template>

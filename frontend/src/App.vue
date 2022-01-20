@@ -80,7 +80,7 @@ body {
 .view {
   width: 90%;
   border-radius: 40px;
-  margin: auto;
+  margin: 0 auto 30px;
   padding: 5px 40px;
   border: 1px solid rgb(0, 31, 0);
   background-color: white;

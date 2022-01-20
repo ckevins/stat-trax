@@ -1,5 +1,5 @@
 <template>
   <div class="teams view">
-    <h1>This is the team page.</h1>
+    <h1>Teams Page Coming Soon</h1>
   </div>
 </template>
