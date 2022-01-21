@@ -14,19 +14,23 @@
         <h2 id="date">Date</h2>
         <h2>Opponent</h2>
         <h2>Stats</h2>
-        <h2 v-for="index in 9" :key="index">{{ index }}</h2>
+        <div class="inning-numbers">
+          <h2 v-for="index in 9" :key="index">{{ index }}</h2>
+        </div>
       </div>
 
       <div class="game-log" v-for="(game, index) in gameData" :key="index">
         <h3 id="date">{{ getDate(game.date) }}</h3>
         <h2 id="opponent">{{ game.opponent }}</h2>
         <GameLogStatTable :game="game" />
-        <div v-for="abIndex in 9" :key="abIndex">
-          <GameLogDiamond
-            v-if="checkAtBatInning(game, abIndex)"
-            :atBat="getAtBat(game, abIndex)"
-          />
-          <GameLogDiamond v-else />
+        <div class="ab-chart">
+          <div v-for="abIndex in 9" :key="abIndex" class="cell">
+            <GameLogDiamond
+              v-if="checkAtBatInning(game, abIndex)"
+              :atBat="getAtBat(game, abIndex)"
+            />
+            <GameLogDiamond v-else class="cell" />
+          </div>
         </div>
       </div>
     </div>
@@ -112,17 +116,23 @@ h2 {
   text-align: center;
 }
 
-.game-log {
-  display: grid;
-  grid-template-columns: 1fr 2fr 3fr 150px 150px 150px 150px 150px 150px 150px 150px 150px;
-  align-items: center;
-}
-
 #date {
   text-align: right;
 }
 
 #opponent {
   font-size: 2em;
+}
+
+.game-log {
+  display: grid;
+  grid-template-columns: 1fr 1fr 2fr 6fr;
+  align-items: center;
+  position: relative;
+}
+
+.ab-chart, .inning-numbers {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
 }
 </style>

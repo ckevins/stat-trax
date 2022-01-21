@@ -1,5 +1,7 @@
 <template>
-  <div :class="checkClass()">
+  <div class="diamond">
+    <img v-if="!atBat" class="noAB" src="@/assets/diamond.jpg" />
+    <img v-else :src="checkSource" />
     <div class="result" v-if="atBat">
       <h1>{{ atBat.result }}</h1>
     </div>
@@ -7,45 +9,49 @@
 </template>
 
 <script>
+const noBase = require("../assets/diamond.jpg");
+const first = require("../assets/diamond-rp1.jpg");
+const second = require("../assets/diamond-rp2.jpg");
+const third = require("../assets/diamond-rp3.jpg");
+const home = require("../assets/diamond-rp4.jpg");
+
 export default {
   name: "GameLogDiamond",
   props: {
     atBat: Object,
   },
-  methods: {
-    checkClass() {
-      let classString = "";
-      if (!this.atBat) {
-        classString = "diamond noAB";
-      } else {
-        switch (this.atBat.runnerProgress) {
-          case 1:
-            classString = "diamond first-base";
-            break;
-          case 2:
-            classString = "diamond second-base";
-            break;
-          case 3:
-            classString = "diamond third-base";
-            break;
-          case 4:
-            classString = "diamond home";
-            break;
-          case 0:
-            classString = "diamond no-base";
-            break;
-        }
+  computed: {
+    checkSource() {
+      let src;
+      switch (this.atBat.runnerProgress) {
+        case 0:
+          src = noBase;
+          break;
+        case 1:
+          src = first;
+          break;
+        case 2:
+          src = second;
+          break;
+        case 3:
+          src = third;
+          break;
+        case 4:
+          src = home;
+          break;
       }
-      return classString;
+      return src;
     },
   },
 };
 </script>
 
 <style scoped>
-.noAB {
-  opacity: 0.5;
-  background-image: url("~@/assets/diamond.jpg");
+.diamond {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 h1 {
@@ -53,40 +59,16 @@ h1 {
   margin: 0;
 }
 
-.diamond {
-  background-repeat: no-repeat;
-  background-size: 150px 150px;
-  background-position: center;
-  position: relative;
-  background-color: white;
-  width: 150px;
-  height: 150px;
+img {
+  width: 100%;
 }
 
-.first-base {
-  background-image: url("~@/assets/diamond-rp1.jpg");
-}
-
-.second-base {
-  background-image: url("~@/assets/diamond-rp2.jpg");
-}
-
-.third-base {
-  background-image: url("~@/assets/diamond-rp3.jpg");
-}
-
-.home {
-  background-image: url("~@/assets/diamond-rp4.jpg");
-}
-
-.no-base {
-  background-image: url("~@/assets/diamond.jpg");
+.noAB {
+  opacity: 0.5;
 }
 
 .result {
-  height: 150px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  z-index: 10;
+  position: absolute;
 }
 </style>
