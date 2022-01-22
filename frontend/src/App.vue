@@ -112,9 +112,9 @@ body {
 
 button {
   font-family: "Saira Condensed", sans-serif;
-  font-size: 1.5em;
+  font-size: 2.5em;
   border-radius: 20px;
-  padding: 10px 20px;
+  padding: 20px 40px;
   margin: 20px;
   background-image: linear-gradient(
     to left,
@@ -130,7 +130,7 @@ button {
 
 button:hover {
   background-position: 100% 0;
-  padding: 10px 60px 10px 20px;
+  padding: 20px 80px 20px 40px;
   cursor: pointer;
 }
 </style>

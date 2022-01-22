@@ -24,8 +24,8 @@
         <p>{{ player.teamName }}</p>
       </div>
     </div>
-    <RecordGame v-if="recordGame" @cancel="recordGame = false" />
-    <CreatePlayer v-if="createPlayer" @cancel="createPlayer = false" />
+    <RecordGame v-if="recordGame" :players=rosterData @cancel="recordGame = false" />
+    <CreatePlayer v-if="createPlayer" @cancel="createPlayer = false" @close="fetchPlayersData()"/>
     <PlayerCard v-if="playerCard" :player=playerCard @cancel="playerCard = null" />
   </div>
 </template>
@@ -61,6 +61,7 @@ export default {
   methods: {
     async fetchPlayersData() {
       this.isLoading = true;
+      this.createPlayer = false;
       const { data } = await playersService.get();
       this.isLoading = false;
       this.rosterData = data;

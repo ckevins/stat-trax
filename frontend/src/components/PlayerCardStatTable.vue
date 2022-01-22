@@ -128,12 +128,15 @@ export default {
           stats.SB += atBat.sb;
         });
       });
-      stats.BA = (stats.H / stats.AB).toFixed(3);
+      stats.BA = (stats.H / stats.AB).toFixed(3).slice(1);
       stats.OBP = (
         (stats.H + stats.BB + stats.HBP) /
         (stats.AB + stats.BB + stats.HBP + stats.SAC)
-      ).toFixed(3);
+      ).toFixed(3).slice(1);
       stats.SLG = (stats.TB / stats.AB).toFixed(3);
+      if (stats.SLG[0] == '0') {
+        stats.SLG.toString.slice(1);
+      }
       stats.OPS = (parseFloat(stats.OBP) + parseFloat(stats.SLG)).toFixed(3);
       return stats;
     },

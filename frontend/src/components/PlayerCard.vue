@@ -24,12 +24,12 @@
         <h2 id="opponent">{{ game.opponent }}</h2>
         <GameLogStatTable :game="game" />
         <div class="ab-chart">
-          <div v-for="abIndex in 9" :key="abIndex" class="cell">
+          <div v-for="abIndex in 9" :key="abIndex">
             <GameLogDiamond
               v-if="checkAtBatInning(game, abIndex)"
               :atBat="getAtBat(game, abIndex)"
             />
-            <GameLogDiamond v-else class="cell" />
+            <GameLogDiamond v-else/>
           </div>
         </div>
       </div>

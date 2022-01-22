@@ -1,6 +1,19 @@
 <template>
   <div class="full-component">
-    <div class="component-text">
+    <div v-if="submission" class="component-text">
+      <h1>Player Created!</h1>
+      <h2>
+        {{ submission.firstName }} {{ submission.lastName }}
+        {{ submission.number }}
+      </h2>
+      <h3>{{ submission.position }}</h3>
+      <h4>{{ submission.bats }} / {{ submission.throws }}</h4>
+      <h4>{{ submission.teamName }}</h4>
+      <div class="actions">
+        <button @click="$emit('close')">Close</button>
+      </div>
+    </div>
+    <div v-else class="component-text">
       <h1>Create Player</h1>
       <div class="field">
         <label>First Name:</label>
@@ -54,17 +67,22 @@
       </div>
       <div class="actions">
         <button @click="$emit('cancel')">Cancel</button>
-        <button>Submit</button>
+        <button @click="submitPlayer">Submit</button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { serviceFactory } from "@/services/factory";
+
+const playersService = serviceFactory.get("players");
+
 export default {
   name: "CreatePlayer",
   data() {
     return {
+      isPosting: false,
       positions: ["P", "C", "1B", "2B", "3B", "SS", "LF", "CF", "RF", "DH"],
       bats: ["R", "L", "S"],
       throws: ["R", "L"],
@@ -77,13 +95,22 @@ export default {
         throws: null,
         teamName: "",
       },
+      submission: undefined,
     };
+  },
+  methods: {
+    async submitPlayer() {
+      this.isPosting = true;
+      const { data } = await playersService.post(this.player);
+      this.isPosting = false;
+      this.submission = data;
+      console.log("Submitted:", data);
+    },
   },
 };
 </script>
 
 <style scoped>
-
 .field {
   width: 25%;
   display: grid;

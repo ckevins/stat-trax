@@ -7,5 +7,5 @@ const services = {
 }
 
 export const serviceFactory = {
-    get: name => services[name]
+    get: name => services[name],
 }
