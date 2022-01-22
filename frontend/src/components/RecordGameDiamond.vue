@@ -1,12 +1,20 @@
 <template>
-  <div class="diamond">
-    <img :src="imageSrc" />
-    <select class="result">
-      <option value="">--</option>
-      <option v-for="(result, index) in results" :key="index">
-        {{ result }}
+  <div>
+    <label>Inning: </label>
+    <select v-model="atBat.inning" @change="update">
+      <option v-for="index in 18" :key="index" :value="index">
+        {{ index }}
       </option>
     </select>
+    <div class="diamond">
+      <img :src="imageSrc" />
+      <select class="result" v-model="atBat.result" @change="update">
+        <option value="">--</option>
+        <option v-for="(result, index) in results" :key="index">
+          {{ result }}
+        </option>
+      </select>
+    </div>
   </div>
 </template>
 
@@ -21,6 +29,16 @@ export default {
   name: "RecordGameDiamond",
   data() {
     return {
+      atBat: {
+        result: "",
+        inning: 0,
+        rbi: 0,
+        sb: 0,
+        cs: 0,
+        runnerProgress: 0,
+        balls: 0,
+        strikes: 0,
+      },
       imageSrc: noBase,
       results: [
         "1B",
@@ -58,9 +76,14 @@ export default {
         "3-6-1",
         "3-6-3",
         "1-6-3",
-        "1-4-3"
+        "1-4-3",
       ],
     };
+  },
+  methods: {
+    update() {
+      this.$emit("update", this.atBat);
+    },
   },
 };
 </script>

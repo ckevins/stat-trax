@@ -17,13 +17,13 @@
       </div>
       <div class="atbat-input">
         <div class="diamonds">
-          <div v-for="index in abCount" :key="index">
-            <RecordGameDiamond />
+          <div v-for="(atBat, index) in game.atBats" :key="index">
+            <RecordGameDiamond @update="updateAtBat(index, ...arguments)" />
           </div>
         </div>
         <div class="adjust-abCount">
-          <button id="plus" @click="abCount += 1">+</button>
-          <button id="minus" @click="abCount -= 1">-</button>
+          <button id="plus" @click="addOne">+</button>
+          <button id="minus" @click="subtractOne">-</button>
         </div>
         <GameLogStatTable class="stat-table" :game="game" />
       </div>
@@ -39,6 +39,19 @@
 import RecordGameDiamond from "@/components/RecordGameDiamond.vue";
 import GameLogStatTable from "@/components/GameLogStatTable.vue";
 
+class atBat {
+  constructor() {
+    this.result = "";
+    this.inning = 0;
+    this.rbi = 0;
+    this.sb = 0;
+    this.cs = 0;
+    this.runnerProgress = 0;
+    this.balls = 0;
+    this.strikes = 0;
+  }
+}
+
 export default {
   name: "PlayerRecordGame",
   props: {
@@ -52,10 +65,23 @@ export default {
     return {
       activePlayer: "",
       game: {
-        atBats: [],
+        atBats: [new atBat(), new atBat(), new atBat()],
       },
-      abCount: 3,
     };
+  },
+  methods: {
+    addOne() {
+      this.game.atBats.push(new atBat());
+    },
+    subtractOne() {
+      if (this.game.atBats.length > 0) {
+        this.game.atBats.pop();
+      }
+    },
+    updateAtBat(index, atBat) {
+      console.log('updated!');
+      this.game.atBats[index] = atBat;
+    }
   },
 };
 </script>

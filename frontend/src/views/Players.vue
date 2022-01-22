@@ -55,7 +55,6 @@ export default {
     };
   },
   created() {
-    console.log("in created");
     this.fetchPlayersData();
   },
   methods: {
@@ -65,7 +64,6 @@ export default {
       const { data } = await playersService.get();
       this.isLoading = false;
       this.rosterData = data;
-      console.log("rosterData", this.rosterData);
     },
     viewPlayerCard(player) {
       this.playerCard = player
