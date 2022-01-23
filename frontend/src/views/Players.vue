@@ -7,7 +7,7 @@
         Create Player
       </button>
     </div>
-    <div>
+    <div class="roster-div">
       <h2>Roster</h2>
       <div class="roster head">
         <h3>Name</h3>
@@ -73,10 +73,15 @@ export default {
 </script>
 
 <style scoped>
+.roster-div {
+  margin-bottom: 40px;
+}
+
 .roster {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 1fr 2fr;
   width: 50%;
+  padding-left:20px;
 }
 
 .head {
@@ -89,6 +94,7 @@ export default {
 
 .player:hover {
   cursor: pointer;
+  background-color: gainsboro;
 }
 
 </style>

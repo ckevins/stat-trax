@@ -1,19 +1,33 @@
 <template>
   <div>
-    <label>Inning: </label>
-    <select v-model="atBat.inning" @change="update">
-      <option v-for="index in 18" :key="index" :value="index">
-        {{ index }}
-      </option>
-    </select>
+    <div class="inning">
+      <label>Inning: </label>
+      <select id="inning" v-model="atBat.inning" @change="update">
+        <option v-for="index in 18" :key="index" :value="index">
+          {{ index }}
+        </option>
+      </select>
+    </div>
     <div class="diamond">
       <img :src="imageSrc" />
       <select class="result" v-model="atBat.result" @change="update">
-        <option value="">--</option>
         <option v-for="(result, index) in results" :key="index">
           {{ result }}
         </option>
       </select>
+    </div>
+    <div class="balls-strikes">
+      <div class="balls">
+        <label>B</label>
+        <input type="button" :class="checkClass(1, 'balls')" @click="setCount(1, 'balls')" />
+        <input type="button" :class="checkClass(2, 'balls')" @click="setCount(2, 'balls')" />
+        <input type="button" :class="checkClass(3, 'balls')" @click="setCount(3, 'balls')" />
+      </div>
+      <div class="strikes">
+        <label>S</label>
+        <input type="button" :class="checkClass(1, 'strikes')" @click="setCount(1, 'strikes')" />
+        <input type="button" :class="checkClass(2, 'strikes')" @click="setCount(2, 'strikes')" />
+      </div>
     </div>
   </div>
 </template>
@@ -30,7 +44,7 @@ export default {
   data() {
     return {
       atBat: {
-        result: "",
+        result: null,
         inning: 0,
         rbi: 0,
         sb: 0,
@@ -81,6 +95,15 @@ export default {
     };
   },
   methods: {
+    setCount(value, ballOrStrike) {
+      this.atBat[ballOrStrike] = value;
+    },
+    checkClass(value, ballOrStrike) {
+      if (this.atBat[ballOrStrike] >= value) {
+        return "count-button active"
+      }
+      return "count-button"
+    },
     update() {
       this.$emit("update", this.atBat);
     },
@@ -89,6 +112,21 @@ export default {
 </script>
 
 <style scoped>
+.inning {
+  width: 50%;
+  margin: auto;
+  text-align: center;
+}
+
+label,
+select {
+  font-size: 2em;
+}
+
+#inning {
+  height: 50px;
+}
+
 .diamond {
   position: relative;
   width: 100%;
@@ -106,5 +144,29 @@ img {
   position: absolute;
   width: 30%;
   height: 20%;
+}
+
+.balls-strikes {
+  width: 50%;
+  margin: auto;
+}
+
+.balls, .strikes {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.count-button {
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  border: 2px solid black;
+  margin: 10px;
+}
+
+
+.active {
+  background-color: red;
 }
 </style>

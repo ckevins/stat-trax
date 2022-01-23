@@ -101,9 +101,12 @@ select {
 }
 
 .atbat-input {
-  margin-top: 20px;
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  top: 0;
+  bottom: 0;
   width: 90%;
-  height: 600px;
   display: flex;
   align-items: center;
   margin: auto;

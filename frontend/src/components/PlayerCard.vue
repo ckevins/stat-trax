@@ -35,6 +35,7 @@
       </div>
     </div>
     <div class="actions">
+      <button>Edit Player</button>
       <button @click="$emit('cancel')">Back</button>
     </div>
   </div>
