@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace backend.Migrations
 {
     [DbContext(typeof(StatTraxDbContext))]
-    partial class StatTraxDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220206212255_AddOutsBallsStrikesPitchTypeToAtBat")]
+    partial class AddOutsBallsStrikesPitchTypeToAtBat
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,9 +32,6 @@ namespace backend.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AtBatId"), 1L, 1);
 
                     b.Property<int>("Balls")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CS")
                         .HasColumnType("int");
 
                     b.Property<int>("Inning")
@@ -119,9 +118,8 @@ namespace backend.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PlayerGameId"), 1L, 1);
 
-                    b.Property<string>("Date")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("IndividualPlayerId")
                         .HasColumnType("int");

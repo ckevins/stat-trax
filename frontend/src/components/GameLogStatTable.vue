@@ -31,10 +31,26 @@
 export default {
   name: "GameLogStatTable",
   props: {
-    game: Object,
+    atBats: Array,
+    updateKey: Number
   },
-  computed: {
-    totals() {
+  data() {
+    return {
+      totals: {},
+    };
+  },
+  watch: {
+    updateKey: {
+      handler() {
+        console.log("handler running");
+        this.calculateTotals();
+      },
+      immediate: true,
+    },
+  },
+  methods: {
+    calculateTotals() {
+      console.log("Calculating...");
       let totals = {
         ab: 0,
         h: 0,
@@ -45,13 +61,9 @@ export default {
         hbp: 0,
         sb: 0,
       };
-      this.game.atBats.forEach((atBat) => {
+      this.atBats.forEach((atBat) => {
         let result = atBat.result;
-        if (
-          result !== "BB" ||
-          result !== "HBP" ||
-          result !== "SAC"
-        ) {
+        if (result !== "BB" || result !== "HBP" || result !== "SAC") {
           totals.ab += 1;
         }
         if (
@@ -61,10 +73,10 @@ export default {
           result === "HR"
         ) {
           totals.h += 1;
-        } 
-        if (result === "K") {
+        }
+        if (result === "K" || result === "Kc") {
           totals.k += 1;
-        } else if (result === "BB") {
+        } else if (result === "BB" || result === "IBB") {
           totals.bb += 1;
         } else if (result === "HBP") {
           totals.hbp += 1;
@@ -75,15 +87,16 @@ export default {
         totals.rbi += atBat.rbi;
         totals.sb += atBat.sb;
       });
-      return totals;
+      this.totals = totals;
     },
   },
 };
 </script>
 
 <style scoped>
-h3, p {
-    margin: 0;
+h3,
+p {
+  margin: 0;
 }
 
 .stat-table {
@@ -100,6 +113,6 @@ h3, p {
 }
 
 .second-row {
-    border-top: 2px solid black;
+  border-top: 2px solid black;
 }
 </style>

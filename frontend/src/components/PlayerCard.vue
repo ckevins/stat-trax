@@ -22,7 +22,7 @@
       <div class="game-log" v-for="(game, index) in gameData" :key="index">
         <h3 id="date">{{ getDate(game.date) }}</h3>
         <h2 id="opponent">{{ game.opponent }}</h2>
-        <GameLogStatTable :game="game" />
+        <GameLogStatTable :atBats="game.atBats" />
         <div class="ab-chart">
           <div v-for="abIndex in 9" :key="abIndex">
             <GameLogDiamond

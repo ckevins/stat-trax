@@ -17,7 +17,7 @@
       </div>
       <div class="atbat-input">
         <div class="diamonds">
-          <div v-for="(atBat, index) in game.atBats" :key="index">
+          <div v-for="(atBat, index) in atBats" :key="index">
             <RecordGameDiamond @update="updateAtBat(index, ...arguments)" />
           </div>
         </div>
@@ -25,12 +25,12 @@
           <button id="plus" @click="addOne">+</button>
           <button id="minus" @click="subtractOne">-</button>
         </div>
-        <GameLogStatTable class="stat-table" :game="game" />
+        <GameLogStatTable class="stat-table" :atBats="atBats" :updateKey="updateKey" />
       </div>
     </div>
     <div class="actions">
       <button @click="$emit('cancel')">Cancel</button>
-      <button>Submit</button>
+      <button @click="submitGame">Submit</button>
     </div>
   </div>
 </template>
@@ -38,6 +38,10 @@
 <script>
 import RecordGameDiamond from "@/components/RecordGameDiamond.vue";
 import GameLogStatTable from "@/components/GameLogStatTable.vue";
+import { serviceFactory } from "@/services/factory";
+
+const gamesService = serviceFactory.get("games");
+
 
 class atBat {
   constructor() {
@@ -64,23 +68,33 @@ export default {
   data() {
     return {
       activePlayer: "",
-      game: {
-        atBats: [new atBat(), new atBat(), new atBat()],
-      },
+      date: "",
+      opponent: "",
+      atBats: [new atBat(), new atBat(), new atBat()],
+      updateKey: 0
     };
   },
   methods: {
     addOne() {
-      this.game.atBats.push(new atBat());
+      this.atBats.push(new atBat());
     },
     subtractOne() {
-      if (this.game.atBats.length > 0) {
-        this.game.atBats.pop();
+      if (this.atBats.length > 0) {
+        this.atBats.pop();
       }
     },
     updateAtBat(index, atBat) {
-      console.log('updated!');
-      this.game.atBats[index] = atBat;
+      this.atBats[index] = atBat;
+      this.updateKey += 1
+    },
+    submitGame() {
+      let game = {
+        IndividualPlayer: this.activePlayer,
+        Date: this.date,
+        Opponent: this.opponent,
+        AtBats: this.atBats
+      };
+      gamesService.post(game);
     }
   },
 };
