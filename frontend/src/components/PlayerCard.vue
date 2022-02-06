@@ -29,20 +29,27 @@
               v-if="checkAtBatInning(game, abIndex)"
               :atBat="getAtBat(game, abIndex)"
             />
-            <GameLogDiamond v-else/>
+            <GameLogDiamond v-else />
           </div>
         </div>
       </div>
     </div>
     <div class="actions">
+      <button @click="recordGame = !recordGame" id="record">Record Game</button>
       <button>Edit Player</button>
       <button @click="$emit('cancel')">Back</button>
     </div>
+    <RecordGame
+      v-if="recordGame"
+      :player="player"
+      @cancel="recordGame = false"
+    />
   </div>
 </template>
 
 <script>
 import { serviceFactory } from "@/services/factory";
+import RecordGame from "@/components/PlayerRecordGame.vue";
 import PlayerCardStatTable from "@/components/PlayerCardStatTable.vue";
 import GameLogDiamond from "@/components/GameLogDiamond.vue";
 import GameLogStatTable from "@/components/GameLogStatTable.vue";
@@ -55,6 +62,7 @@ export default {
     player: Object,
   },
   components: {
+    RecordGame,
     PlayerCardStatTable,
     GameLogDiamond,
     GameLogStatTable,
@@ -63,6 +71,7 @@ export default {
     return {
       isLoading: false,
       gameData: [],
+      recordGame: false,
     };
   },
   created() {
@@ -132,7 +141,8 @@ h2 {
   position: relative;
 }
 
-.ab-chart, .inning-numbers {
+.ab-chart,
+.inning-numbers {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="full-component">
+  <div class="full-component record-game">
     <div class="component-text">
       <h1>Record Game</h1>
       <div class="player-select">
@@ -59,7 +59,7 @@ class atBat {
 export default {
   name: "PlayerRecordGame",
   props: {
-    players: Array,
+    player: Object,
   },
   components: {
     RecordGameDiamond,
@@ -67,7 +67,6 @@ export default {
   },
   data() {
     return {
-      activePlayer: "",
       date: "",
       opponent: "",
       atBats: [new atBat(), new atBat(), new atBat()],
@@ -89,7 +88,7 @@ export default {
     },
     submitGame() {
       let game = {
-        IndividualPlayer: this.activePlayer,
+        IndividualPlayer: this.player,
         Date: this.date,
         Opponent: this.opponent,
         AtBats: this.atBats
@@ -101,6 +100,11 @@ export default {
 </script>
 
 <style scoped>
+.record-game {
+  background-color: white;
+  z-index: 10;
+}
+
 .player-select {
   display: flex;
   align-items: center;

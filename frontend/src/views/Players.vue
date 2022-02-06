@@ -2,7 +2,6 @@
   <div class="players view">
     <h1>Players</h1>
     <div class="actions">
-      <button @click="recordGame = !recordGame" id="record">Record Game</button>
       <button @click="createPlayer = !createPlayer" id="create">
         Create Player
       </button>
@@ -24,14 +23,12 @@
         <p>{{ player.teamName }}</p>
       </div>
     </div>
-    <RecordGame v-if="recordGame" :players=rosterData @cancel="recordGame = false" />
     <CreatePlayer v-if="createPlayer" @cancel="createPlayer = false" @close="fetchPlayersData()"/>
     <PlayerCard v-if="playerCard" :player=playerCard @cancel="playerCard = null" />
   </div>
 </template>
 
 <script>
-import RecordGame from "@/components/PlayerRecordGame.vue"
 import CreatePlayer from "@/components/CreatePlayer.vue";
 import PlayerCard from "@/components/PlayerCard.vue";
 import { serviceFactory } from "@/services/factory";
@@ -41,7 +38,6 @@ const playersService = serviceFactory.get("players");
 export default {
   name: "Players",
   components: {
-    RecordGame,
     CreatePlayer,
     PlayerCard
   },
