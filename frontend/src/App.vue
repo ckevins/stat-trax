@@ -6,8 +6,8 @@
     </div>
     <div id="nav">
       <router-link id="link" to="/">Home</router-link>
-      <router-link id="link" to="/leagues">Leagues</router-link>
-      <router-link id="link" to="/teams">Teams</router-link>
+      <!-- <router-link id="link" to="/leagues">Leagues</router-link>
+      <router-link id="link" to="/teams">Teams</router-link> -->
       <router-link id="link" to="/players">Players</router-link>
     </div>
     <router-view />
@@ -79,7 +79,7 @@ body {
 
 .view {
   width: 90%;
-  border-radius: 40px;
+  border-radius: 10px;
   margin: 0 auto 30px;
   padding: 5px 40px;
   border: 1px solid rgb(0, 31, 0);
@@ -97,7 +97,7 @@ body {
   border: 1px solid rgb(0, 31, 0);
   background-color: white;
   color: black;
-  border-radius: 40px;
+  border-radius: 10px;
 }
 
 .component-text {
@@ -108,29 +108,5 @@ body {
   position: absolute;
   top: 0;
   right: 0;
-}
-
-button {
-  font-family: "Saira Condensed", sans-serif;
-  font-size: 2.5em;
-  border-radius: 20px;
-  padding: 20px 40px;
-  margin: 20px;
-  background-image: linear-gradient(
-    to left,
-    rgba(21, 205, 40, 1) 0%,
-    rgba(16, 127, 17, 1) 50%,
-    rgba(12, 66, 0, 1) 100%
-  );
-  background-size: 200% 100%;
-  color: white;
-  transition: 1.5s;
-  border: none;
-}
-
-button:hover {
-  background-position: 100% 0;
-  padding: 20px 80px 20px 40px;
-  cursor: pointer;
 }
 </style>

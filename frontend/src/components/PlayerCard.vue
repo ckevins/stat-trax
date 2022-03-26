@@ -34,11 +34,11 @@
         </div>
       </div>
     </div>
-    <div class="actions">
-      <button @click="recordGame = !recordGame" id="record">Record Game</button>
-      <button>Edit Player</button>
-      <button @click="$emit('cancel')">Back</button>
-    </div>
+    <ActionToolbar
+      :actions="actions"
+      @record-game="recordGame = !recordGame"
+      @back="$emit('cancel')"
+    />
     <RecordGame
       v-if="recordGame"
       :player="player"
@@ -49,6 +49,7 @@
 
 <script>
 import { serviceFactory } from "@/services/factory";
+import ActionToolbar from "@/components/ActionToolbar.vue";
 import RecordGame from "@/components/PlayerRecordGame.vue";
 import PlayerCardStatTable from "@/components/PlayerCardStatTable.vue";
 import GameLogDiamond from "@/components/GameLogDiamond.vue";
@@ -62,6 +63,7 @@ export default {
     player: Object,
   },
   components: {
+    ActionToolbar,
     RecordGame,
     PlayerCardStatTable,
     GameLogDiamond,
@@ -69,6 +71,11 @@ export default {
   },
   data() {
     return {
+      actions: [
+        { text: "Record Game", action: "record-game" },
+        { text: "Edit Player", action: "edit-player" },
+        { text: "Back", action: "back" },
+      ],
       isLoading: false,
       gameData: [],
       recordGame: false,

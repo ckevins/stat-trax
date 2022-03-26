@@ -65,23 +65,32 @@
         <label>Team Name:</label>
         <input type="text" value="" v-model="player.teamName" />
       </div>
-      <div class="actions">
-        <button @click="$emit('cancel')">Cancel</button>
-        <button @click="submitPlayer">Submit</button>
-      </div>
+      <ActionToolbar
+        :actions="actions"
+        @cancel="$emit('cancel')"
+        @submit="submitPlayer"
+      />
     </div>
   </div>
 </template>
 
 <script>
+import ActionToolbar from "@/components/ActionToolbar.vue";
 import { serviceFactory } from "@/services/factory";
 
 const playersService = serviceFactory.get("players");
 
 export default {
   name: "CreatePlayer",
+  components: {
+    ActionToolbar,
+  },
   data() {
     return {
+      actions: [
+        { text: "Cancel", action: "cancel" },
+        { text: "Submit", action: "submit" },
+      ],
       isPosting: false,
       positions: ["P", "C", "1B", "2B", "3B", "SS", "LF", "CF", "RF", "DH"],
       bats: ["R", "L", "S"],
