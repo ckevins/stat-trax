@@ -11,8 +11,20 @@
       <router-link id="link" to="/players">Players</router-link>
     </div>
     <router-view />
+    <AppFooter />
   </div>
 </template>
+
+<script>
+import AppFooter from './components/AppFooter.vue'
+
+export default {
+  components: {
+    AppFooter
+  }
+}
+</script>
+
 
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@400;600&display=swap");
@@ -38,7 +50,7 @@ body {
   display: flex;
   justify-content: flex-end;
   align-items: flex-end;
-  border-bottom: 15px solid rgb(0, 29, 0);
+  border-bottom: 15px solid #001d00;
   color: white;
   text-align: right;
 }
