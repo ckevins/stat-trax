@@ -1,5 +1,5 @@
 <template>
-  <div id="footer">
+  <div id="footer" class="flex justify-center items-center">
       <p>StatTrax is an app developed by Cody Evins and, in its current state, is only meant for recreational and educational purposes.</p>
   </div>
 </template>
@@ -14,10 +14,6 @@ export default {
 #footer {
     background-color: #001d00;
     color: white;
-    text-align: center;
     min-height: 150px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 </style>

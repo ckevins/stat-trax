@@ -1,7 +1,7 @@
 <template>
-  <div id="app">
+  <div id="app" class="flex flex-col min-h-screen">
     <div id="app-header">
-      <h1 id="title">StatTrax</h1>
+      <h1 id="title" class="text-8xl">StatTrax</h1>
       <img id="plate-logo" src="./assets/plate.png" />
     </div>
     <div id="nav">
@@ -10,7 +10,7 @@
       <router-link id="link" to="/teams">Teams</router-link> -->
       <router-link id="link" to="/players">Players</router-link>
     </div>
-    <router-view />
+    <router-view class="flex-auto"/>
     <AppFooter />
   </div>
 </template>
@@ -40,7 +40,7 @@ body {
 
 #app-header {
   width: 100%;
-  height: 200px;
+  height: 250px;
   padding: 25px 0 15px 0;
   background-image: url("./assets/dirt.jpg");
   background-repeat: repeat-x;
@@ -58,7 +58,6 @@ body {
 #title {
   margin: 0;
   padding: 0;
-  font-weight: bold;
 }
 
 #plate-logo {

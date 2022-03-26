@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import App from './App.vue'
+import './index.css'
 import Home from './views/Home.vue'
 // import Leagues from './views/Leagues.vue'
 // import Teams from './views/Teams.vue'
