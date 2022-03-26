@@ -103,10 +103,4 @@ body {
 .component-text {
     padding: 5px 40px;
 }
-
-.actions {
-  position: absolute;
-  top: 0;
-  right: 0;
-}
 </style>

@@ -22,6 +22,12 @@ export default {
 </script>
 
 <style>
+.actions {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
 button {
   font-family: "Saira Condensed", sans-serif;
   font-size: 1.5em;

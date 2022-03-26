@@ -1,6 +1,6 @@
 <template>
   <div class="players view">
-    <h1>Players</h1>
+    <h1 class="underline">Players</h1>
     <ActionToolbar
       :actions="actions"
       @create-player="createPlayer = !createPlayer"
