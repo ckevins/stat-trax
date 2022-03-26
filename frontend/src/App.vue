@@ -4,13 +4,15 @@
       <h1 id="title" class="text-8xl">StatTrax</h1>
       <img id="plate-logo" src="./assets/plate.png" />
     </div>
+    <div class="flex-auto">
     <div id="nav">
       <router-link id="link" to="/">Home</router-link>
       <!-- <router-link id="link" to="/leagues">Leagues</router-link>
       <router-link id="link" to="/teams">Teams</router-link> -->
       <router-link id="link" to="/players">Players</router-link>
     </div>
-    <router-view class="flex-auto"/>
+    <router-view />
+    </div>
     <AppFooter />
   </div>
 </template>
@@ -30,7 +32,7 @@ export default {
 @import url("https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@400;600&display=swap");
 
 body {
-  background-color: rgb(63, 107, 63);
+  background-color: #3f6b3f;
   margin: 0;
 }
 
