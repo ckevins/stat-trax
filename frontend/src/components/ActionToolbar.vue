@@ -1,5 +1,5 @@
 <template>
-  <div class="actions">
+  <div class="actions basis-1/8 flex flex-col">
     <button v-for="(action, index) in actions" :key="index" @click="emitAction(index)">
       {{ action.text }}
     </button>
@@ -22,12 +22,6 @@ export default {
 </script>
 
 <style>
-.actions {
-  position: absolute;
-  top: 0;
-  right: 0;
-}
-
 button {
   font-family: "Saira Condensed", sans-serif;
   font-size: 1.5em;
@@ -48,7 +42,6 @@ button {
 
 button:hover {
   background-position: 100% 0;
-  padding: 5px 60px 5px 20px;
   cursor: pointer;
 }
 </style>

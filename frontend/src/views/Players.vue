@@ -1,36 +1,32 @@
 <template>
   <div class="players view">
-    <h1 class="underline">Players</h1>
-    <ActionToolbar
-      :actions="actions"
-      @create-player="createPlayer = !createPlayer"
-    />
-    <!-- <div class="actions">
-      <button @click="createPlayer = !createPlayer" id="create">
-        Create Player
-      </button>
-    </div> -->
-    <div class="roster-div">
-      <h2>Roster</h2>
-      <div class="roster head">
-        <h3>Name</h3>
-        <h3>#</h3>
-        <h3>Pos</h3>
-        <h3>B/T</h3>
-        <h3>Team</h3>
+    <h1 class="text-center text-5xl p-5">Players</h1>
+    <div class="flex justify-between">
+      <div class="basis-3/4 roster-div w-full">
+        <div class="grid grid-cols-5 text-2xl font-bold header">
+          <h3>Name</h3>
+          <h3>#</h3>
+          <h3>Pos</h3>
+          <h3>B/T</h3>
+          <h3>Team</h3>
+        </div>
+        <div
+          class="grid grid-cols-5 player"
+          v-for="(player, index) in rosterData"
+          :key="index"
+          @click="viewPlayerCard(player)"
+        >
+          <p>{{ player.firstName }} {{ player.lastName }}</p>
+          <p>{{ player.number }}</p>
+          <p>{{ player.position }}</p>
+          <p>{{ player.bats }}/{{ player.throws }}</p>
+          <p>{{ player.teamName }}</p>
+        </div>
       </div>
-      <div
-        class="roster player"
-        v-for="(player, index) in rosterData"
-        :key="index"
-        @click="viewPlayerCard(player)"
-      >
-        <p>{{ player.firstName }} {{ player.lastName }}</p>
-        <p>{{ player.number }}</p>
-        <p>{{ player.position }}</p>
-        <p>{{ player.bats }}/{{ player.throws }}</p>
-        <p>{{ player.teamName }}</p>
-      </div>
+      <ActionToolbar
+        :actions="actions"
+        @create-player="createPlayer = !createPlayer"
+      />
     </div>
     <CreatePlayer
       v-if="createPlayer"
@@ -92,23 +88,12 @@ export default {
 </script>
 
 <style scoped>
-.roster-div {
-  margin-bottom: 40px;
-}
-
-.roster {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr 2fr;
-  width: 50%;
-  padding-left: 20px;
-}
-
-.head {
+.header {
   border-bottom: 2px solid black;
 }
 
 .player {
-  border-bottom: 1px solid gray;
+  border-bottom: 1px solid lightgray
 }
 
 .player:hover {
