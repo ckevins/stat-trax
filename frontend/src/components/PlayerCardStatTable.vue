@@ -83,69 +83,72 @@ export default {
         TB: 0,
         SAC: 0,
       };
-      this.games.forEach((game) => {
-        game.atBats.forEach((atBat) => {
-          stats.PA += 1;
-          switch (atBat.result) {
-            case "1B":
-              stats.H += 1;
-              stats.singles += 1;
-              stats.AB += 1;
-              stats.TB += 1;
-              break;
-            case "2B":
-              stats.H += 1;
-              stats.doubles += 1;
-              stats.AB += 1;
-              stats.TB += 2;
-              break;
-            case "3B":
-              stats.H += 1;
-              stats.triples += 1;
-              stats.AB += 1;
-              stats.TB += 3;
-              break;
-            case "HR":
-              stats.H += 1;
-              stats.homeruns += 1;
-              stats.AB += 1;
-              stats.TB += 4;
-              break;
-            case "K":
-              stats.SO += 1;
-              stats.AB += 1;
-              break;
-            case "BB":
-              stats.BB += 1;
-              break;
-            case "HBP":
-              stats.HBP += 1;
-              break;
-            case "SAC":
-              stats.SAC += 1;
-              break;
-            default:
-              stats.AB += 1;
-          }
-          if (atBat.runnerProgress === 4) {
-            stats.R += 1;
-          }
-          stats.RBI += atBat.rbi;
-          stats.SB += atBat.sb;
+      if (this.games.length > 0) {
+        console.log('Calculating Player Stat Table...')
+        this.games.forEach((game) => {
+          game.atBats.forEach((atBat) => {
+            stats.PA += 1;
+            switch (atBat.result) {
+              case "1B":
+                stats.H += 1;
+                stats.singles += 1;
+                stats.AB += 1;
+                stats.TB += 1;
+                break;
+              case "2B":
+                stats.H += 1;
+                stats.doubles += 1;
+                stats.AB += 1;
+                stats.TB += 2;
+                break;
+              case "3B":
+                stats.H += 1;
+                stats.triples += 1;
+                stats.AB += 1;
+                stats.TB += 3;
+                break;
+              case "HR":
+                stats.H += 1;
+                stats.homeruns += 1;
+                stats.AB += 1;
+                stats.TB += 4;
+                break;
+              case "K":
+                stats.SO += 1;
+                stats.AB += 1;
+                break;
+              case "BB":
+                stats.BB += 1;
+                break;
+              case "HBP":
+                stats.HBP += 1;
+                break;
+              case "SAC":
+                stats.SAC += 1;
+                break;
+              default:
+                stats.AB += 1;
+            }
+            if (atBat.runnerProgress === 4) {
+              stats.R += 1;
+            }
+            stats.RBI += atBat.rbi;
+            stats.SB += atBat.sb;
+          });
         });
-      });
-      stats.BA = (stats.H / stats.AB).toFixed(3).slice(1);
-      stats.OBP = (
-        (stats.H + stats.BB + stats.HBP) /
-        (stats.AB + stats.BB + stats.HBP + stats.SAC)
-      )
-        .toFixed(3)
-        .slice(1);
-      stats.SLG = (stats.TB / stats.AB).toFixed(3);
-      if (stats.SLG[0] == "0") {
-        stats.SLG.toString.slice(1);
+        stats.BA = (stats.H / stats.AB).toFixed(3).slice(1);
+        stats.OBP = (
+          (stats.H + stats.BB + stats.HBP) /
+          (stats.AB + stats.BB + stats.HBP + stats.SAC)
+        )
+          .toFixed(3)
+          .slice(1);
+        stats.SLG = (stats.TB / stats.AB).toFixed(3);
+        if (stats.SLG[0] == "0") {
+          stats.SLG.slice(1);
+        }
+        stats.OPS = (parseFloat(stats.OBP) + parseFloat(stats.SLG)).toFixed(3);
       }
-      stats.OPS = (parseFloat(stats.OBP) + parseFloat(stats.SLG)).toFixed(3);
       return stats;
     },
   },
@@ -170,6 +173,6 @@ export default {
 }
 
 .data {
-  color: #001d00
+  color: #001d00;
 }
 </style>

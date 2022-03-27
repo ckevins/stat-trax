@@ -24,7 +24,6 @@ export default {
   methods: {
     emitAction(index) {
       this.$emit(this.actions[index].action);
-      console.log(this.actions[index].action);
     },
   },
 };

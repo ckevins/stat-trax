@@ -16,7 +16,7 @@
 
       <PlayerCardStatTable :games="gameData" />
 
-      <div class="game-log head">
+      <div v-if="gameData.length > 0" class="game-log head">
         <h2 id="date">Date</h2>
         <h2>Opponent</h2>
         <h2>Stats</h2>
