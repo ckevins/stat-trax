@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div>
+    <div v-if="!recordGame">
       <ActionToolbar
         :actions="actions"
         @record-game="recordGame = !recordGame"

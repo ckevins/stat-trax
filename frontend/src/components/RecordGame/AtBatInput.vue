@@ -3,59 +3,52 @@
     <div class="header">
       <label>Inning: </label>
       <select id="inning" v-model="atBat.inning" @change="update">
-        <option value=0>--</option>
+        <option value="0">--</option>
         <option v-for="index in 18" :key="index" :value="index">
           {{ index }}
         </option>
       </select>
-      <div class="sub-header">
-        <div class="balls-strikes">
-          <div class="balls">
-            <label>B</label>
-            <input
-              type="button"
-              :class="checkClass(1, 'balls')"
+      <div class="flex justify-between m-1">
+        <div>
+          <div class="flex items-center">
+            <p>B</p>
+            <FillDot
+              :fill="checkFill(1, 'balls')"
               @click="setCount(1, 'balls')"
             />
-            <input
-              type="button"
-              :class="checkClass(2, 'balls')"
+            <FillDot
+              :fill="checkFill(2, 'balls')"
               @click="setCount(2, 'balls')"
             />
-            <input
-              type="button"
-              :class="checkClass(3, 'balls')"
+            <FillDot
+              :fill="checkFill(3, 'balls')"
               @click="setCount(3, 'balls')"
             />
           </div>
-          <div class="strikes">
-            <label>S</label>
-            <input
-              type="button"
-              :class="checkClass(1, 'strikes')"
+          <div class="flex items-center">
+            <p>S</p>
+            <FillDot
+              :fill="checkFill(1, 'strikes')"
               @click="setCount(1, 'strikes')"
             />
-            <input
-              type="button"
-              :class="checkClass(2, 'strikes')"
+            <FillDot
+              :fill="checkFill(2, 'strikes')"
               @click="setCount(2, 'strikes')"
             />
           </div>
-          <div class="outs">
-            <label>O</label>
-            <input
-              type="button"
-              :class="checkClass(1, 'outs')"
+          <div class="flex items-center">
+            <p>O</p>
+            <FillDot
+              :fill="checkFill(1, 'outs')"
               @click="setCount(1, 'outs')"
             />
-            <input
-              type="button"
-              :class="checkClass(2, 'outs')"
+            <FillDot
+              :fill="checkFill(2, 'outs')"
               @click="setCount(2, 'outs')"
             />
           </div>
         </div>
-        <div class="rbi-sb-cs">
+        <div>
           <div>
             <select id="rbi" v-model="atBat.rbi" @change="update">
               <option value="0">0</option>
@@ -74,21 +67,26 @@
             </select>
             <label>SB</label>
           </div>
-          <div>
-            <input
-              type="button"
-              :class="checkClass(1, 'cs')"
+          <div class="flex items-center">
+            <FillDot
+              :fill="checkFill(1, 'cs')"
               @click="setCount(1, 'cs')"
             />
-            <label>CS</label>
+            <p>CS</p>
           </div>
         </div>
       </div>
       <div>
-        <label>Pitch:</label>
+        <p>Pitch:</p>
         <select v-model="atBat.pitchType">
           <option value="">-select-</option>
-          <option v-for="(pitch, index) in pitchTypes" :key="index" :value=pitch >{{ pitch }}</option>
+          <option
+            v-for="(pitch, index) in pitchTypes"
+            :key="index"
+            :value="pitch"
+          >
+            {{ pitch }}
+          </option>
         </select>
       </div>
     </div>
@@ -117,9 +115,13 @@
 // const second = require("../assets/diamond-rp2.jpg");
 // const third = require("../assets/diamond-rp3.jpg");
 // const home = require("../assets/diamond-rp4.jpg");
+import FillDot from "../FillDot.vue";
 
 export default {
-  name: "RecordGameDiamond",
+  name: "AtBatInput",
+  components: {
+    FillDot,
+  },
   data() {
     return {
       atBat: {
@@ -132,9 +134,9 @@ export default {
         balls: 0,
         strikes: 0,
         outs: 0,
-        pitchType: ""
+        pitchType: "",
       },
-      imageSrc: "../assets/diamond.jpg",
+      imageSrc: "../src/assets/diamond.jpg",
       pitchTypes: [
         "4seam Fastball",
         "2seam Fastball",
@@ -179,7 +181,7 @@ export default {
         "3-6-3",
         "1-6-3",
         "1-4-3",
-        "HBP"
+        "HBP",
       ],
     };
   },
@@ -204,6 +206,12 @@ export default {
         return "count-button active";
       }
       return "count-button";
+    },
+    checkFill(value, BallStrikeOutCS) {
+      if (this.atBat[BallStrikeOutCS] >= value) {
+        return "gold";
+      }
+      return "white";
     },
     update() {
       this.$emit("update", this.atBat);
@@ -251,43 +259,6 @@ export default {
 
 #inning {
   height: 50px;
-}
-
-.sub-header {
-  display: flex;
-  border: 1px solid darkblue;
-  justify-content: space-between;
-  padding: 0 2px;
-}
-
-.balls-strikes {
-  border: 2px solid red;
-  width: 50%;
-}
-
-.rbi-sb-cs {
-  text-align: right;
-  border: 2px solid blue;
-  width: 50%;
-}
-
-.balls,
-.strikes {
-  width: 100%;
-  display: flex;
-  align-items: center;
-}
-
-.count-button {
-  height: 30px;
-  width: 30px;
-  border-radius: 50%;
-  border: 2px solid black;
-  margin: 10px;
-}
-
-.active {
-  background-color: red;
 }
 
 .diamond {

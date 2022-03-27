@@ -1,47 +1,38 @@
 <template>
-  <div class="full-component record-game">
-    <div class="component-text">
-      <h1>Record Game</h1>
-      <div class="player-select">
-        <label>Player:</label>
-        <select v-model="activePlayer">
-          <option value="">--select--</option>
-          <option
-            v-for="(player, index) in players"
-            :key="index"
-            :value="player"
-          >
-            {{ player.firstName }} {{ player.lastName }}
-          </option>
-        </select>
-      </div>
-      <div class="atbat-input">
-        <div class="diamonds">
-          <div v-for="(atBat, index) in atBats" :key="index">
-            <RecordGameDiamond @update="updateAtBat(index, ...arguments)" />
-          </div>
+  <div class="record-game">
+    <ActionToolbar
+      :actions="actions"
+      @add-ab="addOne"
+      @subtract-ab="subtractOne"
+      @cancel="$emit('cancel')"
+      @submit="submitGame"
+    />
+    <div>
+      <h1 class="text-3xl text-slate-600">Record Game</h1>
+      <h1 class="text-5xl">
+        {{ player.firstName }} {{ player.lastName }}
+      </h1>
+      <GameLogStatTable
+        class="stat-table"
+        :atBats="atBats"
+        :updateKey="updateKey"
+      />
+      <div class="flex">
+        <div v-for="(atBat, index) in atBats" :key="index">
+          <AtBatInput @update="updateAtBat(index, ...arguments)" />
         </div>
-        <div class="adjust-abCount">
-          <button id="plus" @click="addOne">+</button>
-          <button id="minus" @click="subtractOne">-</button>
-        </div>
-        <GameLogStatTable class="stat-table" :atBats="atBats" :updateKey="updateKey" />
       </div>
-    </div>
-    <div class="actions">
-      <button @click="$emit('cancel')">Cancel</button>
-      <button @click="submitGame">Submit</button>
     </div>
   </div>
 </template>
 
 <script>
-import RecordGameDiamond from "./RecordGameDiamond.vue";
+import ActionToolbar from "../ActionToolbar.vue";
+import AtBatInput from "./AtBatInput.vue";
 import GameLogStatTable from "../GameLog/GameLogStatTable.vue";
 import { serviceFactory } from "../../services/factory";
 
 const gamesService = serviceFactory.get("games");
-
 
 class atBat {
   constructor() {
@@ -62,15 +53,22 @@ export default {
     player: Object,
   },
   components: {
-    RecordGameDiamond,
+    ActionToolbar,
+    AtBatInput,
     GameLogStatTable,
   },
   data() {
     return {
+      actions: [
+        { text: "Cancel", action: "cancel" },
+        { text: "- AB", action: "subtract-ab" },
+        { text: "+ AB", action: "add-ab" },
+        { text: "Submit", action: "submit" },
+      ],
       date: "",
       opponent: "",
       atBats: [new atBat(), new atBat(), new atBat()],
-      updateKey: 0
+      updateKey: 0,
     };
   },
   methods: {
@@ -84,65 +82,20 @@ export default {
     },
     updateAtBat(index, atBat) {
       this.atBats[index] = atBat;
-      this.updateKey += 1
+      this.updateKey += 1;
     },
     submitGame() {
       let game = {
         IndividualPlayer: this.player,
         Date: this.date,
         Opponent: this.opponent,
-        AtBats: this.atBats
+        AtBats: this.atBats,
       };
       gamesService.post(game);
-    }
+    },
   },
 };
 </script>
 
 <style scoped>
-.record-game {
-  background-color: white;
-  z-index: 10;
-}
-
-.player-select {
-  display: flex;
-  align-items: center;
-  font-size: 2em;
-  width: 25%;
-  justify-content: space-between;
-}
-
-select {
-  height: 100%;
-  font-size: 1em;
-}
-
-.atbat-input {
-  position: absolute;
-  left: 0px;
-  right: 0px;
-  top: 0;
-  bottom: 0;
-  width: 90%;
-  display: flex;
-  align-items: center;
-  margin: auto;
-}
-
-.diamonds {
-  width: 100%;
-  display: flex;
-  align-items: center;
-}
-
-.adjust-abCount {
-  display: flex;
-  flex-direction: column;
-  width: 20%;
-}
-
-.stat-table {
-  width: 25%;
-}
 </style>
