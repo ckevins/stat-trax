@@ -4,7 +4,7 @@
       <h1 id="title" class="text-8xl">StatTrax</h1>
       <img id="plate-logo" src="./assets/plate.png" />
     </div>
-    <div class="flex-auto">
+    <div class="flex-grow">
     <div id="nav">
       <router-link id="link" to="/">Home</router-link>
       <!-- <router-link id="link" to="/leagues">Leagues</router-link>
@@ -101,7 +101,7 @@ body {
   position: relative;
 }
 
-.full-component {
+/* .full-component {
   position: absolute;
   top: 0;
   left: 0;
@@ -111,9 +111,9 @@ body {
   background-color: white;
   color: black;
   border-radius: 10px;
-}
+} */
 
-.component-text {
+/* .component-text {
     padding: 5px 40px;
-}
+} */
 </style>

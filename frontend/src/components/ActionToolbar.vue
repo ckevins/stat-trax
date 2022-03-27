@@ -1,6 +1,11 @@
 <template>
-  <div class="actions basis-1/8 flex flex-col">
-    <button v-for="(action, index) in actions" :key="index" @click="emitAction(index)">
+  <div class="actions flex justify-end">
+    <button
+      v-for="(action, index) in actions"
+      :key="index"
+      :class="buttonStyle"
+      @click="emitAction(index)"
+    >
       {{ action.text }}
     </button>
   </div>
@@ -11,13 +16,17 @@ export default {
   name: "ActionToolbar",
   props: {
     actions: Array,
+    buttonStyle: {
+      type: String,
+      default: 'primary'
+    }
   },
   methods: {
     emitAction(index) {
       this.$emit(this.actions[index].action);
-      console.log(this.actions[index].action)
-    }
-  }
+      console.log(this.actions[index].action);
+    },
+  },
 };
 </script>
 
@@ -38,10 +47,14 @@ button {
   color: white;
   transition: 1.5s;
   border: none;
+  transition: 0.5s;
 }
 
 button:hover {
   background-position: 100% 0;
   cursor: pointer;
+  transform: scale(1.05);
+  transition: 0.5s;
+  color: rgb(255, 217, 0);
 }
 </style>

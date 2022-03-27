@@ -49,7 +49,7 @@ ul {
 }
 
 .card {
-  background-color: #573502;
+  background-color: #001d00;
   color: white;
 }
 </style>

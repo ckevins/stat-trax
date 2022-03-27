@@ -1,7 +1,7 @@
 <template>
   <div class="diamond">
-    <img v-if="!atBat" class="noAB" src="../assets/diamond.jpg" />
-    <img v-else :src="checkSource" />
+    <img v-if="!atBat" class="noAB" src="../../assets/diamond.jpg" />
+    <img v-else :src="'../src/assets/' + source" />
     <div class="result" v-if="atBat">
       <h1>{{ atBat.result }}</h1>
     </div>
@@ -15,23 +15,23 @@ export default {
     atBat: Object,
   },
   computed: {
-    checkSource() {
+    source() {
       let src;
       switch (this.atBat.runnerProgress) {
         case 0:
-          src = "../assets/diamond.jpg";
+          src = "diamond.jpg";
           break;
         case 1:
-          src = "../assets/diamond-rp1.jpg";
+          src = "diamond-rp1.jpg";
           break;
         case 2:
-          src = "../assets/diamond-rp2.jpg";
+          src = "diamond-rp2.jpg";
           break;
         case 3:
-          src = "../assets/diamond-rp3.jpg";
+          src = "diamond-rp3.jpg";
           break;
         case 4:
-          src = "../assets/diamond-rp4.jpg";
+          src = "diamond-rp4.jpg";
           break;
       }
       return src;

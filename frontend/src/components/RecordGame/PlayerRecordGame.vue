@@ -36,9 +36,9 @@
 </template>
 
 <script>
-import RecordGameDiamond from "../components/RecordGameDiamond.vue";
-import GameLogStatTable from "../components/GameLogStatTable.vue";
-import { serviceFactory } from "../services/factory";
+import RecordGameDiamond from "./RecordGameDiamond.vue";
+import GameLogStatTable from "../GameLog/GameLogStatTable.vue";
+import { serviceFactory } from "../../services/factory";
 
 const gamesService = serviceFactory.get("games");
 

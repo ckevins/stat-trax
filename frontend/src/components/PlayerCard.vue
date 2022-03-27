@@ -1,11 +1,17 @@
 <template>
-  <div class="full-component">
-    <div class="component-text">
-      <h3>Player Card</h3>
-      <div class="sub-title">
-        <h1>{{ player.firstName }} {{ player.lastName }}</h1>
-        <h2># {{ player.number }}</h2>
-        <h2>{{ player.position }}</h2>
+  <div>
+    <div>
+      <ActionToolbar
+        :actions="actions"
+        @record-game="recordGame = !recordGame"
+        @back="$emit('back')"
+      />
+      <div class="grid grid-cols-4 p-5 w-1/2 gap-2">
+        <h1 class="text-left text-5xl col-span-2">
+          {{ playerCard.firstName }} {{ playerCard.lastName }}
+        </h1>
+        <h1 class="text-4xl"># {{ playerCard.number }}</h1>
+        <h1 class="text-4xl">{{ playerCard.position }}</h1>
       </div>
 
       <PlayerCardStatTable :games="gameData" />
@@ -19,7 +25,7 @@
         </div>
       </div>
 
-      <div class="game-log" v-for="(game, index) in gameData" :key="index">
+      <div class="game-log m-2" v-for="(game, index) in gameData" :key="index">
         <h3 id="date">{{ getDate(game.date) }}</h3>
         <h2 id="opponent">{{ game.opponent }}</h2>
         <GameLogStatTable :atBats="game.atBats" />
@@ -34,14 +40,10 @@
         </div>
       </div>
     </div>
-    <ActionToolbar
-      :actions="actions"
-      @record-game="recordGame = !recordGame"
-      @back="$emit('cancel')"
-    />
+
     <RecordGame
       v-if="recordGame"
-      :player="player"
+      :player="playerCard"
       @cancel="recordGame = false"
     />
   </div>
@@ -50,17 +52,18 @@
 <script>
 import { serviceFactory } from "../services/factory";
 import ActionToolbar from "../components/ActionToolbar.vue";
-import RecordGame from "../components/PlayerRecordGame.vue";
+import RecordGame from "../components/RecordGame/PlayerRecordGame.vue";
 import PlayerCardStatTable from "../components/PlayerCardStatTable.vue";
-import GameLogDiamond from "../components/GameLogDiamond.vue";
-import GameLogStatTable from "../components/GameLogStatTable.vue";
+import GameLogDiamond from "../components/GameLog/GameLogDiamond.vue";
+import GameLogStatTable from "../components/GameLog/GameLogStatTable.vue";
 
 const gamesService = serviceFactory.get("games");
 
 export default {
   name: "PlayerCard",
   props: {
-    player: Object,
+    player: String,
+    playerCard: Object,
   },
   components: {
     ActionToolbar,
@@ -74,6 +77,7 @@ export default {
       actions: [
         { text: "Record Game", action: "record-game" },
         { text: "Edit Player", action: "edit-player" },
+        { text: "Delete Player", action: "delete-player" },
         { text: "Back", action: "back" },
       ],
       isLoading: false,
@@ -82,7 +86,7 @@ export default {
     };
   },
   created() {
-    this.fetchGameData(this.player.individualPlayerId);
+    this.fetchGameData(this.playerCard.individualPlayerId);
   },
   methods: {
     async fetchGameData(id) {
@@ -119,20 +123,6 @@ export default {
 </script>
 
 <style scoped>
-.sub-title {
-  display: flex;
-}
-
-h1,
-h2 {
-  margin-top: 0;
-  margin-bottom: 0;
-}
-
-h2 {
-  text-align: center;
-}
-
 #date {
   text-align: right;
 }
